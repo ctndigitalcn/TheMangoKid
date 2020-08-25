@@ -13,5 +13,21 @@ namespace WebApp.Controllers
         {
             return View();
         }
+        public ActionResult MusicDistribution()
+        {
+            return View();
+        }
+        public ActionResult Pricing()
+        {
+            return View();
+        }
+        public ActionResult Registration()
+        {
+            return RedirectToAction("SignUp", "Authentication");
+        }
+        public ActionResult Signin()
+        {
+            return RedirectToAction("Login", "Authentication");
+        }
     }
 }

@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<!--? Hero Start -->
+<div class="slider-area2 section-bg2 hero-overly" data-background=@Url.Content("~/Content/img/hero/hero2.png")>
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2">
+                        <h2>@ViewBag.Title</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!--? Services Area Start -->
+<section class="services-area pt-top border-bottom pb-20 mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+                <h3 class="mb-30 text-center">Create your free account</h3>
+                <form action="#">
+                    <div class="mt-10">
+                        <input type="text" name="first_name" pattern="^[A-Za-z]+$" placeholder="First Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="last_name" pattern="^[A-Za-z]+$" placeholder="Last Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="number" maxlength="10" minlength="10" name="mobile" placeholder="Mobile Number"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mobile Number'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="email" name="email" placeholder="Email address"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="address1" placeholder="Address Line 1" onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Address Line 1'" required class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="address2" placeholder="Address Line 2" onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Address Line 2'" required class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="number" maxlength="6" name="pincode" placeholder="Pincode"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pincode'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="password" name="password" placeholder="Password"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="password" name="con_password" placeholder="Confirm Password"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'"
+                               required class="single-input">
+                    </div>
+                    <div class="mt-10 text-center">
+                        <button type="submit" class="genric-btn primary circle arrow">Register Now<span class="lnr lnr-arrow-right"></span></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services End -->

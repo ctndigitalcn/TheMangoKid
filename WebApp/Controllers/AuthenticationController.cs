@@ -9,7 +9,11 @@ namespace WebApp.Controllers
     public class AuthenticationController : Controller
     {
         // GET: Authentication
-        public ActionResult Index()
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+        public ActionResult Login()
         {
             return View();
         }
