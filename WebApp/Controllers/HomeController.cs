@@ -29,5 +29,9 @@ namespace WebApp.Controllers
         {
             return RedirectToAction("Login", "Authentication");
         }
+        public ActionResult Logout()
+        {
+            return RedirectToAction("Logout", "Authentication");
+        }
     }
 }

@@ -57,7 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogics.cs" />
+    <Compile Include="AuthQueriesCommands.cs" />
+    <Compile Include="BusinessLogics1.cs" />
     <Compile Include="GeneralLogics.cs" />
     <Compile Include="PaymentLogics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

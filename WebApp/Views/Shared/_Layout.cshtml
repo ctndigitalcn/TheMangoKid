@@ -46,7 +46,14 @@
                                     <li>@Html.ActionLink("Pricing", "Pricing")</li>
                                     <li>@Html.ActionLink("Support", "Support")</li>
                                     <li>@Html.ActionLink("FAQ", "FAQ")</li>
-                                    <li>@Html.ActionLink("Register", "Registration")</li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li>@Html.ActionLink("Logout", "Logout")</li>
+                                    }
+                                    else
+                                    {
+                                        <li>@Html.ActionLink("Register", "Registration")</li>
+                                    }
                                 </ul>
                             </nav>
                         </div>

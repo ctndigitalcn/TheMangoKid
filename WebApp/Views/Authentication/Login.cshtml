@@ -27,7 +27,8 @@
             </div>
             <div class="col-md-4">
                 <h3 class="mb-30 text-center">Login to your account</h3>
-                <form action="#">
+                <form action="Login" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="mt-10">
                         <input type="email" name="email" placeholder="Email address"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required
@@ -42,6 +43,12 @@
                         <button type="submit" class="genric-btn primary circle arrow">Sign in<span class="lnr lnr-arrow-right"></span></button>
                     </div>
                 </form>
+                @if (ViewBag.ErrorMsg != null)
+                {
+                    <div class="mt-10 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
             </div>
             <div class="col-md-4">
 

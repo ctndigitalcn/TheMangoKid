@@ -27,7 +27,8 @@
             </div>
             <div class="col-md-8">
                 <h3 class="mb-30 text-center">Create your free account</h3>
-                <form action="#">
+                <form action="SignUp" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="mt-10">
                         <input type="text" name="first_name" pattern="^[A-Za-z]+$" placeholder="First Name"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'" required
@@ -39,7 +40,7 @@
                                class="single-input">
                     </div>
                     <div class="mt-10">
-                        <input type="number" maxlength="10" minlength="10" name="mobile" placeholder="Mobile Number"
+                        <input type="text" maxlength="10" minlength="10" name="mobile" placeholder="Mobile Number"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mobile Number'" required
                                class="single-input">
                     </div>
@@ -57,7 +58,7 @@
                                onblur="this.placeholder = 'Address Line 2'" required class="single-input">
                     </div>
                     <div class="mt-10">
-                        <input type="number" maxlength="6" name="pincode" placeholder="Pincode"
+                        <input type="text" maxlength="6" name="pincode" placeholder="Pincode"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pincode'" required
                                class="single-input">
                     </div>
@@ -75,6 +76,12 @@
                         <button type="submit" class="genric-btn primary circle arrow">Register Now<span class="lnr lnr-arrow-right"></span></button>
                     </div>
                 </form>
+                @if (ViewBag.ErrorMsg != null)
+                {
+                    <div class="mt-10 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
             </div>
             <div class="col-md-2">
 

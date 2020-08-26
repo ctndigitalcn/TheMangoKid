@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
-    public class ProfileController : Controller
+    public class AdminProfileController : Controller
     {
-        // GET: Profile
+        // GET: AdminProfile
         public ActionResult Index()
         {
             return View();
