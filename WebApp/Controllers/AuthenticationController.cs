@@ -12,17 +12,27 @@ namespace WebApp.Controllers
     {
         BusinessLogics businessLogics;
         GeneralLogics logics;
+
         // GET: Authentication
         [HttpGet]
         public ActionResult SignUp()
         {
             return View();
         }
+
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult PasswordReset()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SignUp(string first_name, string last_name, string mobile, string email, string address1, string address2, string pincode, string password, string con_password)
@@ -83,6 +93,7 @@ namespace WebApp.Controllers
             }
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string password)
@@ -90,7 +101,8 @@ namespace WebApp.Controllers
             logics = new GeneralLogics();
             businessLogics = new BusinessLogics();
 
-            if (logics.ValidEmail(email) && !String.IsNullOrWhiteSpace(email)){
+            if (logics.ValidEmail(email) && !String.IsNullOrWhiteSpace(email) && !String.IsNullOrWhiteSpace(password) && password.Length<6)
+            {
                 ViewBag.ErrorMsg = "Invalid Email input";
             }
             else
@@ -129,6 +141,46 @@ namespace WebApp.Controllers
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public ActionResult PasswordReset(string email, string oldPassword, string newPassword)
+        {
+            logics = new GeneralLogics();
+            businessLogics = new BusinessLogics();
+
+            var result = businessLogics.FindAccountByEmail(email);
+
+            if (result != null)
+            {
+                if (result.Password == oldPassword)
+                {
+                    if (oldPassword == newPassword)
+                    {
+                        ViewBag.ErrorMsg = "Old Password can't be your new password";
+                    }
+                    else
+                    {
+                        result.Password = newPassword;
+                        var newResult = businessLogics.ChangePassword(result);
+                        if (newResult != null)
+                        {
+                            return RedirectToAction("Logout", "Authentication");
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMsg = "Error occured while changing Password";
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Please enter your valid old Password";
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
         [HttpGet]
         public ActionResult Logout()
         {

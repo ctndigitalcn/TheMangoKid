@@ -26,6 +26,14 @@ namespace ServiceLayer
             }
         }
 
+        public Account GetAccountByEmail(string email)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.Accounts.Where(account => account.Email == email.ToLower().Trim()).FirstOrDefault();
+            }
+        }
+
         public int? GetNormalUserRoleId()
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -56,6 +64,17 @@ namespace ServiceLayer
             using (DatabaseContext db = new DatabaseContext())
             {
                 return db.Accounts.Where(account =>account.Email==email && account.Password == password).SingleOrDefault();
+            }
+        }
+
+        public Account ChangePassword(Account accountDetails)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                 var result = accountDetails;
+                 db.SaveChanges();
+                 return result;
+                
             }
         }
     }

@@ -333,6 +333,7 @@
     <Content Include="Views\Authentication\Login.cshtml" />
     <Content Include="Views\Home\MusicDistribution.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />
+    <Content Include="Views\Authentication\PasswordReset.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -68,5 +68,18 @@ namespace ServiceLayer
                 return null;
             }
         }
+
+        public Account FindAccountByEmail(string email)
+        {
+            AuthQueriesCommands auth = new AuthQueriesCommands();
+
+            return auth.GetAccountByEmail(email);
+        }
+
+        public Account ChangePassword(Account accountDetails)
+        {
+            AuthQueriesCommands auth = new AuthQueriesCommands();
+            return auth.ChangePassword(accountDetails);
+        }
     }
 }
