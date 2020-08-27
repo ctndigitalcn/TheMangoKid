@@ -48,11 +48,13 @@
                                     <li>@Html.ActionLink("FAQ", "FAQ")</li>
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                        <li>@Html.ActionLink("Logout", "Logout")</li>
+                                        <li>@Html.ActionLink("Logout", "Logout", "Authentication")</li>
+                                        <li>@Html.ActionLink("Reset Password", "PasswordReset", "Authentication")</li>
+                                        <li>@Html.ActionLink("Delete Account", "DeActivateAccount", "Authentication")</li>
                                     }
                                     else
                                     {
-                                        <li>@Html.ActionLink("Register", "Registration")</li>
+                                        <li>@Html.ActionLink("Register", "SignUp", "Authentication")</li>
                                     }
                                 </ul>
                             </nav>
@@ -60,8 +62,11 @@
                     </div>
                 </div>
                 <div class="header-right d-none d-lg-block">
-                    <a href="#" class="header-btn1"><img src="~/Content/img/icon/call.png" alt=""> (08) 728 256 266</a>
-                    @Html.ActionLink("Sign in", "Signin", null, new { @class = "header-btn2" })
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a href="#" class="header-btn1"><img src="~/Content/img/icon/call.png" alt=""> (08) 728 256 266</a>
+                        @Html.ActionLink("Sign in", "Signin", null, new { @class = "header-btn2" })
+                    }
                 </div>
                 <!-- Mobile Menu -->
                 <div class="col-12">

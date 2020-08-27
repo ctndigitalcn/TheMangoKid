@@ -5930,26 +5930,31 @@ del {
         .progress-table .table-head .serial,
         .progress-table .table-head .country,
         .progress-table .table-head .visit,
-        .progress-table .table-head .percentage {
+        .progress-table .table-head .percentage{
             color: #415094;
             line-height: 40px;
             text-transform: uppercase;
             font-weight: 500
         }
 
-    .progress-table .table-row {
-        padding: 15px 0;
-        border-top: 1px solid #edf3fd;
-        display: flex
-    }
-
-        .progress-table .table-row .serial,
-        .progress-table .table-row .country,
-        .progress-table .table-row .visit,
-        .progress-table .table-row .percentage {
-            display: flex;
-            align-items: center
+        .progress-table .table-row {
+            padding: 15px 0;
+            border-top: 1px solid #edf3fd;
+            display: flex
         }
+
+            .progress-table .table-row .serial,
+            .progress-table .table-row .country,
+            .progress-table .table-row .visit,
+            .progress-table .table-row .percentage{
+                display: flex;
+                align-items: center
+            }
+            .progress-table .table-row .firsthalf,
+            .progress-table .table-row .secondhalf {
+                display: flex;
+                align-items: center
+            }
 
             .progress-table .table-row .country img {
                 margin-right: 15px

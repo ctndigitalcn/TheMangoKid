@@ -13,14 +13,15 @@ namespace ServiceLayer
         GeneralLogics logic;
 
         //Sign Up process
-        public Account SignUp(string firstName,string lastName, string email, string mobile, string address, string password)
+        public int SignUp(string firstName,string lastName, string email, string mobile, string address, string password)
         {
             Account acc = new Account();
             AuthQueriesCommands auth = new AuthQueriesCommands();
 
             if (auth.IsAccountExist(email))
             {
-                return null;
+                //Duplicate record found
+                return 0;
             }
             else
             {
@@ -41,13 +42,15 @@ namespace ServiceLayer
                 acc.UserDetail.User_Last_Name = lastName;
 
                 var result = auth.Register(acc);
-                if (result == null)
+                if (result == 0)
                 {
-                    return null;
+                    //Exception has been thrown
+                    return 2;
                 }
                 else
                 {
-                    return result;
+                    //saved successfully
+                    return 1;
                 }
                 
             }
@@ -76,10 +79,69 @@ namespace ServiceLayer
             return auth.GetAccountByEmail(email);
         }
 
-        public Account ChangePassword(Account accountDetails)
+        public int ChangePassword(Account accountDetails)
         {
             AuthQueriesCommands auth = new AuthQueriesCommands();
+            //0 for failure 1, for success
             return auth.ChangePassword(accountDetails);
+        }
+
+        public List<Account> GetAllAccounts()
+        {
+            AuthQueriesCommands authCQ = new AuthQueriesCommands();
+
+            return authCQ.GetAllAccounts();
+        }
+
+        public int DeleteAccount(Guid id)
+        {
+            AuthQueriesCommands authCQ = new AuthQueriesCommands();
+
+            var result = authCQ.GetAccountById(id);
+            if (result != null)
+            {
+                var newResult = authCQ.DeleteAccount(result);
+                if (newResult == 1)
+                {
+                    //Account active status has been changed successfully
+                    return 1;
+                }
+                else
+                {
+                    //Exception has been thrown
+                    return 2;
+                }
+            }
+            else
+            {
+                //No account found with the account Id provided
+                return 0;
+            }
+        }
+        public int DeleteAccount(string email)
+        {
+            AuthQueriesCommands authCQ = new AuthQueriesCommands();
+
+            var result = authCQ.GetAccountByEmail(email);
+            if (result != null)
+            {
+                var newResult = authCQ.DeleteAccount(result);
+                if (newResult == 1)
+                {
+                    //Account active status has been changed successfully
+                    return 1;
+                }
+                else
+                {
+                    //Exception has been thrown
+                    return 2;
+                }
+            }
+            else
+            {
+                //No account found with the email provided
+                return 0;
+            }
         }
     }
 }

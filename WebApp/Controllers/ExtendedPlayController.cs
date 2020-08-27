@@ -6,10 +6,9 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "user")]
-    public class UserProfileController : Controller
+    public class ExtendedPlayController : Controller
     {
-        // GET: UserProfile
+        // GET: ExtendedPlay
         public ActionResult Index()
         {
             return View();

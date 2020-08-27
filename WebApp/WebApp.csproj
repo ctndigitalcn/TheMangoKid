@@ -312,9 +312,13 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminProfileController.cs" />
+    <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\ExtendedPlayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\SiteRoleManagementController.cs" />
+    <Compile Include="Controllers\SoloController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -334,6 +338,9 @@
     <Content Include="Views\Home\MusicDistribution.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\Authentication\PasswordReset.cshtml" />
+    <Content Include="Views\Album\AddAlbum.cshtml" />
+    <Content Include="Views\SiteRoleManagement\Index.cshtml" />
+    <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -344,7 +351,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminProfile\" />
+    <Folder Include="Views\ExtendedPlay\" />
     <Folder Include="Views\Payment\" />
+    <Folder Include="Views\Solo\" />
     <Folder Include="Views\SuperAdmin\" />
     <Folder Include="Views\UserProfile\" />
   </ItemGroup>

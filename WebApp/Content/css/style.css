@@ -5942,7 +5942,7 @@ del {
         .progress-table .table-head .serial,
         .progress-table .table-head .country,
         .progress-table .table-head .visit,
-        .progress-table .table-head .percentage {
+        .progress-table .table-head .percentage{
             color: #415094;
             line-height: 40px;
             text-transform: uppercase;
@@ -5958,7 +5958,7 @@ del {
         .progress-table .table-row .serial,
         .progress-table .table-row .country,
         .progress-table .table-row .visit,
-        .progress-table .table-row .percentage {
+        .progress-table .table-row .percentage{
             display: flex;
             align-items: center
         }

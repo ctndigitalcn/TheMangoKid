@@ -34,6 +34,14 @@ namespace ServiceLayer
             }
         }
 
+        public Account GetAccountById(Guid id)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.Accounts.Find(id);
+            }
+        }
+
         public int? GetNormalUserRoleId()
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -43,18 +51,19 @@ namespace ServiceLayer
             }
         }
 
-        public Account Register(Account account)
+        public int Register(Account account)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 try
                 {
                     db.Accounts.Add(account);
-                    return account;
+                    db.SaveChanges();
+                    return 1;
 
-                }catch(Exception ex)
+                }catch
                 {
-                    return null;
+                    return 0;
                 }
             }
         }
@@ -67,14 +76,45 @@ namespace ServiceLayer
             }
         }
 
-        public Account ChangePassword(Account accountDetails)
+        public int ChangePassword(Account accountDetails)
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                 var result = accountDetails;
-                 db.SaveChanges();
-                 return result;
-                
+                try
+                {
+                    var result = accountDetails;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public List<Account> GetAllAccounts()
+        {
+            using(DatabaseContext db=new DatabaseContext())
+            {
+                return db.Accounts.ToList();
+            }
+        }
+
+        public int DeleteAccount(Account account)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    account.Account_Status = 0;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
             }
         }
     }

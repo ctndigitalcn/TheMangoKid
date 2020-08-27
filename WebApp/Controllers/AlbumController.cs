@@ -6,18 +6,22 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
-    public class HomeController : Controller
+    public class AlbumController : Controller
     {
-        // GET: Home
+        // GET: Album
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult MusicDistribution()
+
+        [HttpGet]
+        public ActionResult AddAlbum()
         {
             return View();
         }
-        public ActionResult Pricing()
+
+        [HttpPost]
+        public ActionResult AddAlbum(string albumName, string totalTrack)
         {
             return View();
         }

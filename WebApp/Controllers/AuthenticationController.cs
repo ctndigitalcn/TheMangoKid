@@ -76,11 +76,15 @@ namespace WebApp.Controllers
                             }
                             else
                             {
-                                string Address = address1 + ", " + address2 + ", " + pincode;
+                                //Formatting Address
+                                string Address ="AddressLine1: "+ address1 + ", AddressLine2: " + address2 + ", Pin: " + pincode;
                                 var account = businessLogics.SignUp(first_name, last_name, email, mobile, Address, password);
-                                if (account == null)
+                                if (account == 0)
                                 {
-                                    ViewBag.ErrorMsg = "Error occoured while creating Account. This may be because of the provided email already exists or internal server error occured.";
+                                    ViewBag.ErrorMsg = "An account already exists with same email.";
+                                }else if (account == 2)
+                                {
+                                    ViewBag.ErrorMsg = "Internal server error occured.";
                                 }
                                 else
                                 {
@@ -162,9 +166,12 @@ namespace WebApp.Controllers
                     {
                         result.Password = newPassword;
                         var newResult = businessLogics.ChangePassword(result);
-                        if (newResult != null)
+                        if (newResult == 1)
                         {
                             return RedirectToAction("Logout", "Authentication");
+                        }else if (newResult == 0)
+                        {
+                            ViewBag.ErrorMsg = "Internal Error occured. Failed to change tha password";
                         }
                         else
                         {
@@ -178,6 +185,33 @@ namespace WebApp.Controllers
                 }
             }
             return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult DeActivateAccount()
+        {
+            businessLogics = new BusinessLogics();
+
+            string email = Session["LoginEmail"].ToString();
+
+            if (String.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Login");
+            }
+            var result = businessLogics.DeleteAccount(email);
+            if (result == 0)
+            {
+                ViewBag.ErrorMsg = "No account found with the email provided";
+            }else if (result == 2)
+            {
+                ViewBag.ErrorMsg = "Internal Error occured while deleting your account";
+            }
+            else
+            {
+                return RedirectToAction("SignUp", "Authentication");
+            }
+            return RedirectToAction("Index", "UserProfile");
         }
 
         [Authorize]

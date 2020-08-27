@@ -6,10 +6,9 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "user")]
-    public class UserProfileController : Controller
+    public class SoloController : Controller
     {
-        // GET: UserProfile
+        // GET: Solo
         public ActionResult Index()
         {
             return View();

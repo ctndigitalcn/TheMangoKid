@@ -57,11 +57,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlbumLogics.cs" />
+    <Compile Include="AlbumQueriesCommands.cs" />
     <Compile Include="AuthQueriesCommands.cs" />
-    <Compile Include="BusinessLogics1.cs" />
+    <Compile Include="AuthenticationLogics.cs" />
     <Compile Include="GeneralLogics.cs" />
     <Compile Include="PaymentLogics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleLogics.cs" />
+    <Compile Include="RoleQueriesCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
