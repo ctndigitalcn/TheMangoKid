@@ -64,6 +64,7 @@
     <Compile Include="GeneralLogics.cs" />
     <Compile Include="PaymentLogics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseRecordQueriesCommands.cs" />
     <Compile Include="RoleLogics.cs" />
     <Compile Include="RoleQueriesCommands.cs" />
   </ItemGroup>
