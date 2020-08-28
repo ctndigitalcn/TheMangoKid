@@ -2,6 +2,7 @@
 using DomainModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace ServiceLayer
             {
                 try
                 {
-                    PurchaseRecord purchaseRecord = purchaseRecordObject;
+                    db.Entry(purchaseRecordObject).State = EntityState.Modified;
                     db.SaveChanges();
                     //Changes Done Successfully
                     return 1;

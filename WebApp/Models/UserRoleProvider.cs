@@ -1,6 +1,8 @@
 ﻿using DataAccess;
 using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.Pkcs;
 using System.Web.Security;
 
 namespace WebApp.Models
@@ -36,12 +38,9 @@ namespace WebApp.Models
 
         public override string[] GetRolesForUser(string User_Email)
         {
-            using (var context = new DatabaseContext())
+            using (DatabaseContext db = new DatabaseContext())
             {
-                var res = (from Account in context.Accounts
-                           join Role in context.Roles on Account.Account_Role equals Role.Id
-                           where Account.Email == User_Email
-                           select Role.Role_Name).ToArray();
+                var res = db.Accounts.Where(account => account.Email == User_Email.ToLower()).Include(account => account.Role).Select(account => account.Role.Role_Name).ToArray();
                 return res;
             }
         }

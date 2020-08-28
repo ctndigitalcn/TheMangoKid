@@ -23,7 +23,14 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [Authorize]
@@ -78,17 +85,25 @@ namespace WebApp.Controllers
                             {
                                 //Formatting Address
                                 string Address ="AddressLine1: "+ address1 + ", AddressLine2: " + address2 + ", Pin: " + pincode;
+
                                 var account = businessLogics.SignUp(first_name, last_name, email, mobile, Address, password);
-                                if (account == 0)
-                                {
-                                    ViewBag.ErrorMsg = "An account already exists with same email.";
-                                }else if (account == 2)
-                                {
-                                    ViewBag.ErrorMsg = "Internal server error occured.";
-                                }
-                                else
+                                    /* 0 = duplicate record found
+                                     * 1 = Operation done successfully
+                                     * 2 = Account creation failed
+                                     * 3 = Account removal failed and user details could not be created
+                                     * 4 = Account deleted parmanantly
+                                    */
+                                if (account == 1)
                                 {
                                     return RedirectToAction("Login", "Authentication");
+                                }else if (account == 2 || account == 3 || account == 4)
+                                {
+                                    
+                                    ViewBag.ErrorMsg = "Internal server error occured. Couldn't create your account";
+                                }
+                                else if(account==0)
+                                {
+                                    ViewBag.ErrorMsg = "An account already exists with same email.";
                                 }
                             }
                         }
@@ -114,25 +129,26 @@ namespace WebApp.Controllers
                 var result = businessLogics.Login(email, password);
                 if (result != null)
                 {
-                    //FormsAuthentication.SetAuthCookie(result.Email.ToString(), false);
-                    FormsAuthenticationTicket Authticket = new FormsAuthenticationTicket(
-                                                                1,
-                                                                result.Email.ToString() + ",",
-                                                                DateTime.Now,
-                                                                DateTime.Now.AddMinutes(120),
-                                                                false,
-                                                                result.UserDetail.User_First_Name.ToString() + 
-                                                                ","+result.Role.Role_Name.ToString());
-                    string hash = FormsAuthentication.Encrypt(Authticket);
+                    FormsAuthentication.SetAuthCookie(result.Email.ToString(), false);
 
-                    HttpCookie Authcookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+                    //FormsAuthenticationTicket Authticket = new FormsAuthenticationTicket(
+                    //                                            1,
+                    //                                            result.Email.ToString() + ",",
+                    //                                            DateTime.Now,
+                    //                                            DateTime.Now.AddMinutes(120),
+                    //                                            false,
+                    //                                            null);
+                    //string hash = FormsAuthentication.Encrypt(Authticket);
 
-                    if (Authticket.IsPersistent)
-                        Authcookie.Expires = Authticket.Expiration;
+                    //HttpCookie Authcookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
 
-                    Response.Cookies.Add(Authcookie);
+                    //if (Authticket.IsPersistent)
+                    //    Authcookie.Expires = Authticket.Expiration;
+
+                    //Response.Cookies.Add(Authcookie);
 
                     Session["LoginEmail"] = result.Email;
+                    Session["UserName"] = result.UserDetail.User_First_Name.ToString();
 
                     return RedirectToAction("Index", "UserProfile");
                 }
@@ -140,7 +156,6 @@ namespace WebApp.Controllers
                 {
                     ViewBag.ErrorMsg = "No account found with the credential provided";
                 }
-                
             }
             return View();
         }
@@ -193,23 +208,25 @@ namespace WebApp.Controllers
         {
             businessLogics = new BusinessLogics();
 
-            string email = Session["LoginEmail"].ToString();
-
-            if (String.IsNullOrEmpty(email))
+            if (Session["LoginEmail"]==null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Logout","Authentication");
             }
+
+            string email = Session["LoginEmail"].ToString();
             var result = businessLogics.DeleteAccount(email);
+
             if (result == 0)
             {
                 ViewBag.ErrorMsg = "No account found with the email provided";
-            }else if (result == 2)
+            }else if (result == 1)
             {
-                ViewBag.ErrorMsg = "Internal Error occured while deleting your account";
+                //Successfully deactivated the account
+                return RedirectToAction("Logout", "Authentication");
             }
             else
             {
-                return RedirectToAction("SignUp", "Authentication");
+                ViewBag.ErrorMsg = "Internal Error occured while deleting your account";
             }
             return RedirectToAction("Index", "UserProfile");
         }

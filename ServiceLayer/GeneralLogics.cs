@@ -21,15 +21,15 @@ namespace ServiceLayer
         }
         public bool ContainsOnlyDigits(string testingString)
         {
-            return Regex.IsMatch(testingString, @"/^[0-9]+$/");
+            return Regex.IsMatch(testingString, @"^[0-9]+$");
         }
         public bool ContainsOnlyAlphabets(string testingString)
         {
-            return Regex.IsMatch(testingString, @"/^[A-Za-z]+$/");
+            return Regex.IsMatch(testingString, @"^[A-Za-z]+$");
         }
         public bool ValidEmail(string email)
         {
-            return Regex.IsMatch(email, @"/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/");
+            return Regex.IsMatch(email, @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
         }
         
         public bool ContainsAnyNullorWhiteSpace(List<string> list)

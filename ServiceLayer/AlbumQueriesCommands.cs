@@ -41,7 +41,7 @@ namespace ServiceLayer
             {
                 try
                 {
-                    Album album = albumObject;
+                    db.Entry(albumObject).State = EntityState.Modified;
                     db.SaveChanges();
                     //Album details changed Successfully
                     return 1;

@@ -2,6 +2,7 @@
 using DomainModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace ServiceLayer
             {
                 try
                 {
-                    Role role = roleObject;
+                    db.Entry(roleObject).State = EntityState.Modified;
                     db.SaveChanges();
                     return 1;
                 }catch

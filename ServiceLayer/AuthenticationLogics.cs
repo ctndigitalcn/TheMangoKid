@@ -16,6 +16,8 @@ namespace ServiceLayer
         public int SignUp(string firstName,string lastName, string email, string mobile, string address, string password)
         {
             Account acc = new Account();
+            UserDetail ud = new UserDetail();
+
             AuthQueriesCommands auth = new AuthQueriesCommands();
 
             if (auth.IsAccountExist(email))
@@ -35,22 +37,44 @@ namespace ServiceLayer
                 acc.Account_Status = 1;
                 acc.Account_Creation_Date = logic.CurrentIndianTime();
 
-                acc.UserDetail.User_Account_Id = NewAccountId;
-                acc.UserDetail.User_Address = address;
-                acc.UserDetail.User_Mobile_Number = mobile;
-                acc.UserDetail.User_First_Name = firstName;
-                acc.UserDetail.User_Last_Name = lastName;
+                ud.User_Account_Id = NewAccountId;
+                ud.User_Address = address;
+                ud.User_Mobile_Number = mobile;
+                ud.User_First_Name = firstName;
+                ud.User_Last_Name = lastName;
 
                 var result = auth.Register(acc);
+                
                 if (result == 0)
                 {
-                    //Exception has been thrown
+                    //Account creation failed
                     return 2;
                 }
                 else
                 {
-                    //saved successfully
-                    return 1;
+                    //Account successfully created
+                    result = auth.Register(ud);
+                    if (result == 1)
+                    {
+                        //User details and account creation successfull
+                        return 1;
+                    }
+                    else
+                    {
+                        //Remove recently created account as there is a problem while creating the user details for the same.
+                        result = auth.RemoveAccountPermanantly(acc);
+                        if (result == 1)
+                        {
+                            //Account deleted parmanantly
+                            return 4;
+                        }
+                        else
+                        {
+                            //Account removal failed and user details could not be created
+                            return 3;
+                        }
+                    }
+                    
                 }
                 
             }
@@ -143,5 +167,7 @@ namespace ServiceLayer
                 return 0;
             }
         }
+
+
     }
 }

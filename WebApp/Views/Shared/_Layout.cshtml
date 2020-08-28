@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - TheMangoKid</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/favicon.ico">
 
     <!-- CSS here -->
@@ -34,7 +33,14 @@
                 <!-- Logo -->
                 <div class="header-left">
                     <div class="logo">
-                        <a href="index.html"><img src="~/Content/img/logo/logo.png" alt=""></a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Index", "UserProfile")"><h1><b>@Session["UserName"]</b></h1></a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/logo/logo.png" alt=""></a>
+                        }
                     </div>
                     <div class="menu-wrapper  d-flex align-items-center">
                         <!-- Main-menu -->
@@ -42,18 +48,18 @@
                             <nav>
                                 <ul id="navigation">
                                     <!--<li class="active"><a href="index.html">Home</a></li>-->
-                                    <li>@Html.ActionLink("Music Distribution", "MusicDistribution")</li>
-                                    <li>@Html.ActionLink("Pricing", "Pricing")</li>
-                                    <li>@Html.ActionLink("Support", "Support")</li>
-                                    <li>@Html.ActionLink("FAQ", "FAQ")</li>
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                        <li>@Html.ActionLink("Logout", "Logout", "Authentication")</li>
                                         <li>@Html.ActionLink("Reset Password", "PasswordReset", "Authentication")</li>
                                         <li>@Html.ActionLink("Delete Account", "DeActivateAccount", "Authentication")</li>
+                                        <li>@Html.ActionLink("Logout", "Logout", "Authentication")</li>
                                     }
                                     else
                                     {
+                                        <li>@Html.ActionLink("Music Distribution", "MusicDistribution", "Home")</li>
+                                        <li>@Html.ActionLink("Pricing", "Pricing", "Home")</li>
+                                        <li>@Html.ActionLink("Support", "Support", "Home")</li>
+                                        <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
                                         <li>@Html.ActionLink("Register", "SignUp", "Authentication")</li>
                                     }
                                 </ul>
@@ -65,7 +71,7 @@
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <a href="#" class="header-btn1"><img src="~/Content/img/icon/call.png" alt=""> (08) 728 256 266</a>
-                        @Html.ActionLink("Sign in", "Signin", null, new { @class = "header-btn2" })
+                        @Html.ActionLink("Sign in", "Login", "Authentication", null, new { @class = "header-btn2" })
                     }
                 </div>
                 <!-- Mobile Menu -->

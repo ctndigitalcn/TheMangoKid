@@ -341,6 +341,7 @@
     <Content Include="Views\Album\AddAlbum.cshtml" />
     <Content Include="Views\SiteRoleManagement\Index.cshtml" />
     <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
+    <Content Include="Views\UserProfile\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -355,7 +356,6 @@
     <Folder Include="Views\Payment\" />
     <Folder Include="Views\Solo\" />
     <Folder Include="Views\SuperAdmin\" />
-    <Folder Include="Views\UserProfile\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
