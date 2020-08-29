@@ -37,6 +37,10 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult PasswordReset()
         {
+            if (Session["LoginEmail"] == null)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
             return View();
         }
 

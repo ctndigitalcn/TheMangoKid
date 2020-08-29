@@ -5,3 +5,45 @@
 
 <h2>This is User Profile</h2>
 
+@if (ViewBag.BankAccountSubmissionStatus == 0)
+{
+    @*@Html.ActionLink("Add Bank account", "AddBankDetails", "UserProfile")*@
+    <a href="@Url.Action("AddBankDetails","UserProfile")" style="color:blueviolet">Add Bank account</a><br />
+}
+else if (ViewBag.BankAccountSubmissionStatus == 1)
+{
+    <p>Bank account already exists</p>
+}
+else if (ViewBag.BankAccountSubmissionStatus == null)
+{
+    <p>Error occured</p>
+}
+
+@if (ViewBag.AlbumCount > 0)
+{
+    @*@Html.ActionLink("Create Album", "CreateOnlyAlbum", "UserProfile")*@
+    <a href="@Url.Action("CreateOnlyAlbum","UserProfile")" style="color:blueviolet">Create Album</a><br />
+}
+else
+{
+    @*@Html.ActionLink("You can't create an album. Please purchase.", "PurchaseAlbum", "UserProfile")*@
+<a href="@Url.Action("PurchaseAlbum","UserProfile")" style="color:blueviolet">You can't create an album. Please purchase.</a><br />
+}
+
+@if (ViewBag.Albums != null)
+{
+    foreach (var album in ViewBag.Albums)
+    {
+        <p> @album.Album_Name </p>
+    }
+}
+else
+{
+    <p> No albums to show</p>
+}
+
+@if (ViewBag.ErrorMsg != null)
+{
+    <h2> @ViewBag.ErrorMsg </h2>
+}
+

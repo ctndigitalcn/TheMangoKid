@@ -151,5 +151,53 @@ namespace ServiceLayer
                 return 0;
             }
         }
+
+        public int CountOfAlbumsCanBeCreatedBy(string email)
+        {
+            PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
+            AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
+
+            Account account = AuthCQ.GetAccountByEmail(email);
+            if (account != null)
+            {
+                var GetListOfUnUsedPurchase = purchaseCQ.GetUnUsedAlbumPurchaseRecordOf(account);
+
+                //Returning the count of the unused purchase of albums for the user
+                return GetListOfUnUsedPurchase.Count;
+            }
+            else
+            {
+                //No Account Found
+                return 0;
+            }
+        }
+
+        public int CountOfAlbumsAlreadyCreatedBy(string email)
+        {
+            PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
+            AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
+
+            Account account = AuthCQ.GetAccountByEmail(email);
+            if (account != null)
+            {
+                var GetListOfUnUsedPurchase = purchaseCQ.GetUsedAlbumPurchaseRecordOf(account);
+
+                //Returning the count of the unused purchase of albums for the user
+                return GetListOfUnUsedPurchase.Count;
+            }
+            else
+            {
+                //No Account Found
+                return 0;
+            }
+        }
+
+        public List<Album> GetAllTheAlbumsOf(string email)
+        {
+            AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+
+            return AlbumCQ.GetAllAlbumsOf(AuthCQ.GetAccountByEmail(email));
+        }
     }
 }

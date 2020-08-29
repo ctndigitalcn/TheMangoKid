@@ -61,9 +61,12 @@
     <Compile Include="AlbumQueriesCommands.cs" />
     <Compile Include="AuthQueriesCommands.cs" />
     <Compile Include="AuthenticationLogics.cs" />
+    <Compile Include="BankLogics.cs" />
+    <Compile Include="BankQueriesCommands.cs" />
     <Compile Include="GeneralLogics.cs" />
     <Compile Include="PaymentLogics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseLogics.cs" />
     <Compile Include="PurchaseRecordQueriesCommands.cs" />
     <Compile Include="RoleLogics.cs" />
     <Compile Include="RoleQueriesCommands.cs" />

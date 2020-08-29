@@ -342,6 +342,7 @@
     <Content Include="Views\SiteRoleManagement\Index.cshtml" />
     <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
+    <Content Include="Views\UserProfile\AddBankDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,79 @@
+﻿
+@{
+    @ViewBag.Title;
+}
+
+<!--? Hero Start -->
+<div class="slider-area2 section-bg2 hero-overly" data-background=@Url.Content("~/Content/img/hero/hero2.png")>
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2">
+                        <h2>Sign in</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!--? Services Area Start -->
+<section class="services-area pt-top border-bottom pb-20 mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <h3 class="mb-30 text-center">Login to your account</h3>
+                <form action="Login" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mt-10">
+                        <input type="text" name="payee_first_name" placeholder="Payee First Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Payee First Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="payee_last_name" placeholder="Payee Last Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Payee Last Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="payee_bank_name" placeholder="Bank Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Bank Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="payee_bank_account" placeholder="Account Number"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Account Number'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="payee_bank_ifsc" placeholder="Bank IFSC number"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Bank IFSC number'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="payee_bank_branch" placeholder="Bank branch name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Bank branch name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-20 text-center">
+                        <button type="submit" class="genric-btn primary circle arrow">Sign in<span class="lnr lnr-arrow-right"></span></button>
+                    </div>
+                </form>
+                @if (ViewBag.ErrorMsg != null)
+                {
+                    <div class="mt-10 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services End -->
