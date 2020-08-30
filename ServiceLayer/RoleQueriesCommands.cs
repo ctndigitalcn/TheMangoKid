@@ -52,8 +52,9 @@ namespace ServiceLayer
                     db.Entry(roleObject).State = EntityState.Modified;
                     db.SaveChanges();
                     return 1;
-                }catch
+                }catch(Exception ex)
                 {
+                    string error = ex.ToString();
                     return 0;
                 }
                 
@@ -66,9 +67,10 @@ namespace ServiceLayer
             {
                 try
                 {
-                    //Role are being removed
-                    db.Roles.Remove(roleObject);
+                    //Role is being removed
+                    db.Entry(roleObject).State = EntityState.Deleted;
                     db.SaveChanges();
+
                     try
                     {
                         //Accounts with the roles removed recently will be de activated
@@ -92,8 +94,10 @@ namespace ServiceLayer
                     }
                     
                 }
-                catch
+                catch(Exception ex)
                 {
+                    string error = ex.ToString();
+                    //Error occured while removing data from role table
                     return 0;
                 }
             }
@@ -104,6 +108,14 @@ namespace ServiceLayer
             using(DatabaseContext db = new DatabaseContext())
             {
                 return db.Roles.ToList();
+            }
+        }
+
+        public Role GetRoleById(int id)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.Roles.Find(id);
             }
         }
     }

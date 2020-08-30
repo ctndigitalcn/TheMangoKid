@@ -26,29 +26,37 @@
 
             </div>
             <div class="col-md-4">
-                <form action="AddRole" method="post">
-                    @Html.AntiForgeryToken()
-
-                    @if (ViewBag.RoleName != null)
-                    {
+                @if (ViewBag.RoleName != null)
+                {
+                    <form action="EditRole" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="roleId" value="@ViewBag.RoleId">
                         <div class="mt-10">
                             <input type="text" name="roleName" placeholder="Modified role Name"
                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified role Name'" required
                                    class="single-input" value="@ViewBag.RoleName">
                         </div>
-                    }
-                    else
-                    {
-                        <div class="mt-10">
-                            <input type="text" name="roleName" placeholder="Role Name"
-                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Role Name'" required
-                                   class="single-input">
+                        <div class="mt-20 text-center">
+                                <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
                         </div>
-                    }
-                    <div class="mt-20 text-center">
-                        <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
-                    </div>
-                </form>
+                    </form>
+                }
+                else
+                {
+                    <form action="AddRole" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mt-10">
+                                <input type="text" name="roleName" placeholder="Role Name"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Role Name'" required
+                                       class="single-input">
+                            </div> 
+                        <div class="mt-20 text-center">
+                                <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
+                        </div>
+                    </form>
+                }
+
                 @if (ViewBag.ErrorMsg != null)
                 {
                     <div class="mt-10 text-center">

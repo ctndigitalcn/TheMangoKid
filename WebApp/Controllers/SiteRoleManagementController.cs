@@ -16,8 +16,8 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             businessLogics = new BusinessLogics();
-            var result = businessLogics.GetAllRoles();
-            return View(result);
+            ViewBag.Roles = businessLogics.GetAllRoles();
+            return View();
         }
 
         [HttpGet]
@@ -52,13 +52,34 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Invalid Role name entered";
             }
-            return View();
+            return View("AddorEditRole");
         }
 
         [HttpGet]
         public ActionResult EditRole(int? id)
         {
-            ViewBag.Title = "Edit Role";
+            businessLogics = new BusinessLogics();
+            if (id != null)
+            {
+                ViewBag.Title = "Edit Role";
+                var result = businessLogics.GetRole((Int32)id);
+
+                if (result != null)
+                {
+                    ViewBag.RoleId = result.Id;
+                    ViewBag.RoleName = result.Role_Name;
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "No role found with the Id provided";
+                }
+            }
+            else
+            {
+                ViewBag.Title = "Url Error";
+            }
+            
+
             return View("AddorEditRole");
         }
         
@@ -78,6 +99,10 @@ namespace WebApp.Controllers
                 {
                     ViewBag.ErrorMsg = "No role found with the associated Id.";
                 }
+                else if (result == 3)
+                {
+                    ViewBag.ErrorMsg = "Role already exists";
+                }
                 else
                 {
                     ViewBag.ErrorMsg = "Internal Error occured while modifying role.";
@@ -87,7 +112,7 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Invalid Role name entered";
             }
-            return View();
+            return RedirectToAction("Index", "SiteRoleManagement");
         }
 
         [HttpGet]
@@ -100,6 +125,7 @@ namespace WebApp.Controllers
             if (result == 1)
             {
                 return RedirectToAction("Index", "SiteRoleManagement");
+
             } else if (result == 0)
             {
                 ViewBag.ErrorMsg = "Role Doesn't Exists";
@@ -112,7 +138,7 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Internal Error occured while deleting the role";
             }
-                return View();
+            return RedirectToAction("Index", "SiteRoleManagement");
         }
     }
 }

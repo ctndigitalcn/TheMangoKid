@@ -27,19 +27,38 @@
                     <div class="serial">Id</div>
                     <div class="percentage">Role name</div>
                     <div class="percentage">Actions</div>
+                    <div class="percentage"></div>
                 </div>
-                <div class="table-row">
+                @foreach (var role in ViewBag.Roles)
+                {
+                    <div class="table-row">
+                        <div class="serial">@role.Id</div>
+                        <div class="percentage">@role.Role_Name</div>
+                        <div class="percentage">
+                            <a href="@Url.Action("EditRole", "SiteRoleManagement",new { id = role.Id})" style="padding-right: 20px;"><i class="far fa-edit fa-2x" style="color: black;"></i></a>&nbsp;
+                            <a href="@Url.Action("DeleteRole", "SiteRoleManagement",new { roleId = role.Id})" style="padding-right: 20px;"><i class="far fa-trash-alt fa-2x" style="color: black;"></i></a>
+                        </div>
+                        <div class="percentage"></div>
+                    </div>
+                }
+                @*<div class="table-row">
                     <div class="serial">01</div>
                     <div class="percentage">User</div>
                     <div class="percentage">
                         <a href="@Url.Action("EditRole", "SiteRoleManagement",new { id = 1})" style="padding-right: 20px;"><i class="far fa-edit fa-2x" style="color: black;"></i></a>&nbsp;
                         <a href="#" style="padding-right: 20px;"><i class="far fa-trash-alt fa-2x" style="color: black;"></i></a>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div><br>
         <div class="mt-20 text-center">
             @Html.ActionLink("Add a new Role", "AddRole", null, new { @class = "genric-btn primary circle arrow" })
         </div>
+        @if (ViewBag.ErrorMsg != null)
+        {
+            <div class="mt-10 text-center">
+                <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+            </div>
+        }
 </section>
 <!-- Services End -->

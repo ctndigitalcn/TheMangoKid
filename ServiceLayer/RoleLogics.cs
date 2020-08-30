@@ -42,12 +42,18 @@ namespace ServiceLayer
             RoleQueriesCommands roleCQ = new RoleQueriesCommands();
             if (roleCQ.IsRoleExists(id))
             {
+                if (roleCQ.IsRoleExists(roleName.ToLower().Trim()))
+                {
+                    //same role exists in the database
+                    return 3;
+                }
                 Role role = new Role();
-                role.Role_Name = roleName.ToLower();
+                role.Id = id;
+                role.Role_Name = roleName.ToLower().Trim();
                 var result = roleCQ.EditRole(role);
                 if (result == 0)
                 {
-                    //Exception Occured
+                    //Exception Occured while changing database record
                     return 2;
                 }
                 else
@@ -69,8 +75,8 @@ namespace ServiceLayer
 
             if (roleCQ.IsRoleExists(id))
             {
-                Role role = new Role();
-                role.Id = id;
+                Role role = roleCQ.GetRoleById(id);
+
                 var result = roleCQ.DeleteRole(role);
                 if (result == 1)
                 {
@@ -99,6 +105,13 @@ namespace ServiceLayer
         {
             RoleQueriesCommands RoleCQ = new RoleQueriesCommands();
             var result = RoleCQ.getRoles();
+            return result;
+        }
+
+        public Role GetRole(int id)
+        {
+            RoleQueriesCommands RoleCQ = new RoleQueriesCommands();
+            var result = RoleCQ.GetRoleById(id);
             return result;
         }
     }
