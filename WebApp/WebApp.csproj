@@ -314,6 +314,7 @@
     <Compile Include="Controllers\AdminProfileController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\ExtendedPlayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -342,7 +343,7 @@
     <Content Include="Views\SiteRoleManagement\Index.cshtml" />
     <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
-    <Content Include="Views\UserProfile\AddBankDetails.cshtml" />
+    <Content Include="Views\Bank\AddorEditBankDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

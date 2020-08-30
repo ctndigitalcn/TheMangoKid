@@ -1,6 +1,6 @@
 ﻿
 @{
-    @ViewBag.Title;
+
 }
 
 <!--? Hero Start -->
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="hero-cap hero-cap2">
-                        <h2>Sign in</h2>
+                        <h2>@ViewBag.Title</h2>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-4">
                 <h3 class="mb-30 text-center">Login to your account</h3>
-                <form action="Login" method="post">
+                <form action="AddBankDetails" method="post">
                     @Html.AntiForgeryToken()
                     <div class="mt-10">
                         <input type="text" name="payee_first_name" placeholder="Payee First Name"
@@ -60,7 +60,7 @@
                                class="single-input">
                     </div>
                     <div class="mt-20 text-center">
-                        <button type="submit" class="genric-btn primary circle arrow">Sign in<span class="lnr lnr-arrow-right"></span></button>
+                        <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
                     </div>
                 </form>
                 @if (ViewBag.ErrorMsg != null)

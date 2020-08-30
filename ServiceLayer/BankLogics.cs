@@ -12,6 +12,7 @@ namespace ServiceLayer
     {
         public int AddBankDetails(Guid accountId, string payee_first_name, string payee_last_name, string payee_bank_name, string payee_bank_account, string payee_bank_ifsc, string payee_bank_branch)
         {
+            logic = new GeneralLogics();
             BankQueriesCommands BankCQ = new BankQueriesCommands();
             BankDetail bd = new BankDetail();
 

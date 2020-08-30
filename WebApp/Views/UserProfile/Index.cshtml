@@ -3,12 +3,10 @@
     ViewBag.Title = "User Profile";
 }
 
-<h2>This is User Profile</h2>
-
 @if (ViewBag.BankAccountSubmissionStatus == 0)
 {
     @*@Html.ActionLink("Add Bank account", "AddBankDetails", "UserProfile")*@
-    <a href="@Url.Action("AddBankDetails","UserProfile")" style="color:blueviolet">Add Bank account</a><br />
+    <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a><br />
 }
 else if (ViewBag.BankAccountSubmissionStatus == 1)
 {
