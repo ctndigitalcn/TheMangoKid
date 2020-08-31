@@ -65,10 +65,28 @@ namespace ServiceLayer
             {
                 try
                 {
-                    db.Albums.Remove(albumObject);
+                    if(db.AlbumTrackMasters.Any(rec=>rec.Album_Id==albumObject.Id && rec.StoreSubmissionStatus == 1))
+                    {
+                        //A song of the store is already published. can't delete the album
+                        return 7;
+                    }
+
+                    db.Entry(albumObject).State = EntityState.Deleted;
                     db.SaveChanges();
                     try
                     {
+                        var purchaseRecord = db.PurchaseRecords.Find(albumObject.PurchaseTrack_RefNo);
+                        if (purchaseRecord != null)
+                        {
+                            purchaseRecord.Usage_Date = null;
+                            db.Entry(purchaseRecord).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            //Error while updating the associated purchase record. User can't create an album with the valid purchase
+                            return 8;
+                        }
                         var result = db.AlbumTrackMasters.Where(res => res.Album_Id == albumObject.Id).ToList();
                         if (result.Count == 0)
                         {
@@ -82,7 +100,7 @@ namespace ServiceLayer
                                 //Remove that record having the same album name 
                                 try
                                 {
-                                    db.AlbumTrackMasters.Remove(item);
+                                    db.Entry(item).State = EntityState.Deleted;
                                     db.SaveChanges();
                                     //If a track belongs to only that album not in Extended play category and Solo category then delete that track
                                     try
@@ -94,7 +112,7 @@ namespace ServiceLayer
                                             {
                                                 try
                                                 {
-                                                    db.SingleTrackDetails.Remove(Track);
+                                                    db.Entry(Track).State = EntityState.Deleted;
                                                     db.SaveChanges();
                                                 }
                                                 catch
@@ -226,11 +244,11 @@ namespace ServiceLayer
             }
         }
 
-        public List<SingleTrackDetail> GetAllTracksOfAlbum(Album albumObject)
+        public List<SingleTrackDetail> GetAllTracksOfAlbum(Guid albumId)
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                return db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumObject.Id).Select(rec=>rec.SingleTrackDetail).Distinct().ToList();
+                return db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumId).Select(rec=>rec.SingleTrackDetail).ToList();
             }
         }
 

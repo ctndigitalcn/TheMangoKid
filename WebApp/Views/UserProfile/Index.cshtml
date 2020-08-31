@@ -6,13 +6,14 @@
 @if (ViewBag.BankAccountSubmissionStatus == 0)
 {
     @*@Html.ActionLink("Add Bank account", "AddBankDetails", "UserProfile")*@
-    <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a><br />
+    <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
+    <br />
 }
 else if (ViewBag.BankAccountSubmissionStatus == 1)
 {
     <p>Bank account already exists</p>
 }
-else if (ViewBag.BankAccountSubmissionStatus == null)
+else
 {
     <p>Error occured</p>
 }
@@ -20,19 +21,24 @@ else if (ViewBag.BankAccountSubmissionStatus == null)
 @if (ViewBag.AlbumCount > 0)
 {
     @*@Html.ActionLink("Create Album", "CreateOnlyAlbum", "UserProfile")*@
-    <a href="@Url.Action("CreateOnlyAlbum","UserProfile")" style="color:blueviolet">Create Album</a><br />
+    <a href="@Url.Action("CreateOnlyAlbum","Album")" style="color:blueviolet">Create Album</a>
+    <br />
 }
 else
 {
     @*@Html.ActionLink("You can't create an album. Please purchase.", "PurchaseAlbum", "UserProfile")*@
-<a href="@Url.Action("PurchaseAlbum","UserProfile")" style="color:blueviolet">You can't create an album. Please purchase.</a><br />
+    <a href="@Url.Action("PurchaseAlbum","UserProfile")" style="color:blueviolet">You can't create an album. Please purchase.</a>
+    <br />
 }
 
 @if (ViewBag.Albums != null)
 {
     foreach (var album in ViewBag.Albums)
     {
-        <p> @album.Album_Name </p>
+        <p> @album.Album_Name &nbsp; @album.Submitted_Track submitted of @album.Total_Track  tracks&nbsp;</p>
+        <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { id = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
+        <a href="@Url.Action("EditOnlyAlbum","Album",new { id = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
+        <a href="@Url.Action("DeleteAlbum","Album",new { id = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
     }
 }
 else

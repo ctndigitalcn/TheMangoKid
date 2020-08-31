@@ -344,6 +344,7 @@
     <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
     <Content Include="Views\Bank\AddorEditBankDetails.cshtml" />
+    <Content Include="Views\Album\AddorEditAlbum.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,84 @@
+﻿
+@{
+
+}
+
+<!--? Hero Start -->
+<div class="slider-area2 section-bg2 hero-overly" data-background=@Url.Content("~/Content/img/hero/hero2.png")>
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2">
+                        <h2>@ViewBag.Title</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!--? Services Area Start -->
+<section class="services-area pt-top border-bottom pb-20 mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                @if (ViewBag.AlbumDetail != null)
+                {
+                    <form action="EditOnlyAlbum" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="albumId" value="@ViewBag.AlbumDetail.Id">
+                        <div class="mt-10">
+                            <input type="text" name="albumName" placeholder="Modified Album Name"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified Album Name'" required
+                                   class="single-input" value="@ViewBag.AlbumDetail.Album_Name">
+                        </div>
+                        <div class="mt-10">
+                            <input type="text" name="totalTrack" placeholder="Modified Total Track Number"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified Total Track Number'" required
+                                   class="single-input" value="@ViewBag.AlbumDetail.Album_Name">
+                        </div>
+                        <div class="mt-20 text-center">
+                            <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <form action="CreateOnlyAlbum" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mt-10">
+                            <input type="text" name="albumName" placeholder="Album Name"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Album Name'" required
+                                   class="single-input">
+                        </div>
+                        <div class="mt-10">
+                            <input type="text" name="totalTrack" placeholder="Total Track Number"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Track Number'" required
+                                   class="single-input">
+                        </div>
+                        <div class="mt-20 text-center">
+                            <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
+                        </div>
+
+                    </form>
+                }
+
+                @if (ViewBag.ErrorMsg != null)
+                {
+                    <div class="mt-30 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services End -->

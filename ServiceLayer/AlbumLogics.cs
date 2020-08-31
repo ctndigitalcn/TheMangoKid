@@ -11,6 +11,7 @@ namespace ServiceLayer
     {
         public int CreateNewAlbum(string email, string albumName, int totalTrack)
         {
+            logic = new GeneralLogics();
             PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
             AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
@@ -103,6 +104,14 @@ namespace ServiceLayer
                 {
                     //Track fetching failed.
                     return 6;
+                }else if (result == 7)
+                {
+                    //A track from the album is already submitted to the store. can't delete album
+                    return 8;
+                }else if (result == 8)
+                {
+                    //Error while updating the associated purchase record. User can't create an album with the valid purchase
+                    return 9;
                 }
                 else
                 {
@@ -198,6 +207,22 @@ namespace ServiceLayer
             AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
 
             return AlbumCQ.GetAllAlbumsOf(AuthCQ.GetAccountByEmail(email));
+        }
+
+        public Album GetAlbumById(Guid albumId)
+        {
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            return AlbumCQ.GetAlbumById(albumId);
+        }
+
+        public List<SingleTrackDetail> GetTrackDetailsOf(Guid albumId)
+        {
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+
+            var result = AlbumCQ.GetAllTracksOfAlbum(albumId);
+
+            //Result could be null or a list consists of Tracks
+            return result;
         }
     }
 }

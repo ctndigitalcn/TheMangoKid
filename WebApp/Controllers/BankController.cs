@@ -16,10 +16,10 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult AddBankDetails()
         {
-            //if (Session["LoginEmail"] == null)
-            //{
-            //    return RedirectToAction("Logout", "Authentication");
-            //}
+            if (Session["LoginEmail"] == null)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
             ViewBag.Title = "Add Bank Detail";
             return View("AddorEditBankDetails");
         }
@@ -37,8 +37,8 @@ namespace WebApp.Controllers
             logics = new GeneralLogics();
             businessLogics = new BusinessLogics();
 
-            //string email = Session["LoginEmail"].ToString();
-            string email = "koushik.official1999@gmail.com";
+            string email = Session["LoginEmail"].ToString();
+            //string email = "koushik.official1999@gmail.com";
             var result = businessLogics.FindAccountByEmail(email);
 
             if (result != null)

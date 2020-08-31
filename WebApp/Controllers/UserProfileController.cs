@@ -53,62 +53,6 @@ namespace WebApp.Controllers
 
             return View();
         }
-        [HttpGet]
-        public ActionResult CreateOnlyAlbum()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateOnlyAlbum(string albumName, string totalTrack)
-        {
-            logics = new GeneralLogics();
-            businessLogics = new BusinessLogics();
-            List<string> inputStrings = new List<string> { albumName, totalTrack };
-
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
-            if (userEmail != null)
-            {
-                if (logics.ContainsAnyNullorWhiteSpace(inputStrings))
-                {
-                    if (logics.ContainsOnlyDigits(totalTrack))
-                    {
-                        var result = businessLogics.CreateNewAlbum(userEmail, albumName, Convert.ToInt32(totalTrack));
-
-                        if (result == 0)
-                        {
-                            ViewBag.ErrorMsg = "No Account is associated with the email address from which user is trying to create the album.";
-                        }
-                        if (result == 1)
-                        {
-                            return RedirectToAction("Index", "UserProfile");
-                        }
-                        if (result == 2)
-                        {
-                            ViewBag.ErrorMsg = "No purchase left to create an music album";
-                        }
-                        if (result == 3 || result == 4)
-                        {
-                            ViewBag.ErrorMsg = "Internal error occured while creating the album";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.ErrorMsg = "Track number field must contains only number. Invalid input given";
-                    }
-                }
-                else
-                {
-                    ViewBag.ErrorMsg = "No fields should be left empty";
-                }
-            }
-            else
-            {
-                return RedirectToAction("Logout", "Authentication");
-            }
-            return View();
-        }
 
         [HttpGet]
         public ActionResult PurchaseAlbum()
