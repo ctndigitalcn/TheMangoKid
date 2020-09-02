@@ -36,7 +36,6 @@ namespace ServiceLayer
         {
             for(int i = 0; i < list.Count; i++)
             {
-                list[i].Trim();
                 if (String.IsNullOrWhiteSpace(list[i]) || String.IsNullOrEmpty(list[i]))
                 {
                     return true;

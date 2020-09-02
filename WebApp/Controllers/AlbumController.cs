@@ -22,20 +22,38 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult EditOnlyAlbum(Guid albumId)
         {
-            ViewBag.Title = "Edit Album";
-            var albumObject = businessLogics.GetAlbumById(albumId);
+            //string userEmail = Session["LoginEmail"].ToString();
+            string userEmail = "koushik.official199@gmail.com";
 
-            if (albumObject != null)
+            businessLogics = new BusinessLogics();
+
+            if (userEmail != null)
             {
-                //Check if the album can be edited
+                if (businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
+                {
+                    ViewBag.Title = "Edit Album";
 
-                ViewBag.AlbumDetail = albumObject;
+                    var albumObject = businessLogics.GetAlbumById(albumId);
+                    if (albumObject != null)
+                    {
+                        ViewBag.AlbumDetail = albumObject;
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMsg = "No album found with the Id provided";
+                    }
+                    return View("AddorEditAlbum");
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "You are trying to modify an Album that does not belongs to you";
+                    return RedirectToAction("Index", "UserProfile");
+                }
             }
             else
             {
-                ViewBag.ErrorMsg = "No album found with the Id provided";
-            }
-            return View("AddorEditAlbum");
+                return RedirectToAction("Index", "UserProfile");
+            }        
         }
 
         [HttpPost]
@@ -102,7 +120,7 @@ namespace WebApp.Controllers
             string userEmail = "koushik.official1999@gmail.com";
             if (userEmail != null)
             {
-                if (logics.ContainsAnyNullorWhiteSpace(inputStrings))
+                if (!logics.ContainsAnyNullorWhiteSpace(inputStrings))
                 {
                     if (logics.ContainsOnlyDigits(totalTrack))
                     {
@@ -144,12 +162,22 @@ namespace WebApp.Controllers
 
         //For individual user use
         [HttpGet]
-        public ActionResult DeleteAlbum(Guid id)
+        public ActionResult DeleteAlbum(Guid albumId)
         {
+            //string userEmail = Session["LoginEmail"].ToString();
+            string userEmail = "koushik.official1999@gmail.com";
+
+            if (userEmail == null)
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+
             businessLogics = new BusinessLogics();
 
-            var result = businessLogics.DeleteAlbum(id);
-            /*
+            if(businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
+            {
+                var result = businessLogics.DeleteAlbum(albumId);
+                /*
             0 = No Album found. Operation failed.
             1 = Operation done successfully.
             2 = Operation Faild while deleting album. Internal error occured.
@@ -161,20 +189,26 @@ namespace WebApp.Controllers
             8 = A track from the album is already submitted to the store. can't delete album
             9 = Error while updating the associated purchase record. User can't create an album with the valid purchase.
              */
-            if (result != 1)
-            {
-                ViewBag.ErrorMsg = "Error occured while deleting album";
+                if (result != 1)
+                {
+                    TempData["ErrorMsg"] = "Error occured while deleting album";
+                }
+                return RedirectToAction("Index", "UserProfile");
             }
-            return RedirectToAction("Index", "UserProfile");
+            else
+            {
+                TempData["ErrorMsg"] = "You are trying to remove an Album that doesn't belongs to you";
+                return RedirectToAction("Index", "UserProfile");
+            }
         }
 
-        //For individual user use
+        //For individual user and admin use
         [HttpGet]
-        public ActionResult ShowIndividualAlbumSongs(Guid id)
+        public ActionResult ShowIndividualAlbumSongs(Guid albumid)
         {
             businessLogics = new BusinessLogics();
 
-            ViewBag.Tracks = businessLogics.GetTrackDetailsOf(id);
+            ViewBag.Tracks = businessLogics.GetTrackDetailsOfAlbum(albumid);
 
             return View();
         }

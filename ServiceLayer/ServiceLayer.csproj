@@ -63,6 +63,8 @@
     <Compile Include="AuthenticationLogics.cs" />
     <Compile Include="BankLogics.cs" />
     <Compile Include="BankQueriesCommands.cs" />
+    <Compile Include="EPLogics.cs" />
+    <Compile Include="EPQueriesCommands.cs" />
     <Compile Include="GeneralLogics.cs" />
     <Compile Include="PaymentLogics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

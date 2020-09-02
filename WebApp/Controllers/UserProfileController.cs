@@ -13,7 +13,6 @@ namespace WebApp.Controllers
     public class UserProfileController : Controller
     {
         BusinessLogics businessLogics;
-        GeneralLogics logics;
 
         [HttpGet]
         public ActionResult Index()
@@ -40,7 +39,7 @@ namespace WebApp.Controllers
 
             //to help view to find out how many Albums can be created by user
             int AlbumsAlreadyCreated = businessLogics.CountOfAlbumsAlreadyCreatedBy(userEmail);
-            int AlbumCountLeftToCreate = businessLogics.CountOfAlbumsCanBeCreatedBy(userEmail) - AlbumsAlreadyCreated;
+            int AlbumCountLeftToCreate = businessLogics.CountOfAlbumsCanBeCreatedBy(userEmail);
             ViewBag.AlbumCount = AlbumCountLeftToCreate;
 
             //pass the album details
@@ -49,7 +48,20 @@ namespace WebApp.Controllers
                 ViewBag.Albums = businessLogics.GetAllTheAlbumsOf(userEmail);
             }
 
-            //Code space for ep and singles
+            //Code space for ep
+
+            //to help view to find out how many Eps can be created by user
+            int EpsAlreadyCreated = businessLogics.CountOfEpsAlreadyCreatedBy(userEmail);
+            int EpCountLeftToCreate = businessLogics.CountOfEpsCanBeCreatedBy(userEmail) - EpsAlreadyCreated;
+            ViewBag.EpCount = EpCountLeftToCreate;
+
+            //pass the Ep details
+            if (EpsAlreadyCreated > 0)
+            {
+                ViewBag.Eps = businessLogics.GetAllTheEpsOf(userEmail);
+            }
+
+            //Code space for Solo
 
             return View();
         }
@@ -59,6 +71,17 @@ namespace WebApp.Controllers
         {
             businessLogics = new BusinessLogics();
             var result = businessLogics.PurchaseAlbumFor("koushik.official1999@gmail.com");
+            if (result != 1)
+            {
+                ViewBag.ErrorMsg = "Purchase was not successfull";
+            }
+            return RedirectToAction("Index", "UserProfile");
+        }
+        [HttpGet]
+        public ActionResult PurchaseEp()
+        {
+            businessLogics = new BusinessLogics();
+            var result = businessLogics.PurchaseEpFor("koushik.official1999@gmail.com");
             if (result != 1)
             {
                 ViewBag.ErrorMsg = "Purchase was not successfull";

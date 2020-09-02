@@ -5,7 +5,6 @@
 
 @if (ViewBag.BankAccountSubmissionStatus == 0)
 {
-    @*@Html.ActionLink("Add Bank account", "AddBankDetails", "UserProfile")*@
     <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
     <br />
 }
@@ -20,14 +19,23 @@ else
 
 @if (ViewBag.AlbumCount > 0)
 {
-    @*@Html.ActionLink("Create Album", "CreateOnlyAlbum", "UserProfile")*@
     <a href="@Url.Action("CreateOnlyAlbum","Album")" style="color:blueviolet">Create Album</a>
     <br />
 }
 else
 {
-    @*@Html.ActionLink("You can't create an album. Please purchase.", "PurchaseAlbum", "UserProfile")*@
     <a href="@Url.Action("PurchaseAlbum","UserProfile")" style="color:blueviolet">You can't create an album. Please purchase.</a>
+    <br />
+}
+
+@if (ViewBag.EpCount > 0)
+{
+    <a href="@Url.Action("CreateOnlyEp","ExtendedPlay")" style="color:blueviolet">Create Ep</a>
+    <br />
+}
+else
+{
+    <a href="@Url.Action("PurchaseEp","UserProfile")" style="color:blueviolet">You can't create an Ep. Please purchase.</a>
     <br />
 }
 
@@ -36,18 +44,30 @@ else
     foreach (var album in ViewBag.Albums)
     {
         <p> @album.Album_Name &nbsp; @album.Submitted_Track submitted of @album.Total_Track  tracks&nbsp;</p>
-        <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { id = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
-        <a href="@Url.Action("EditOnlyAlbum","Album",new { id = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
-        <a href="@Url.Action("DeleteAlbum","Album",new { id = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
+        <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { albumId = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
+        <a href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
+        <a href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
     }
 }
-else
+
+@if (ViewBag.Eps != null)
 {
-    <p> No albums to show</p>
+    foreach (var ep in ViewBag.Eps)
+    {
+        <p> @ep.Ep_Name &nbsp; @ep.Submitted_Track submitted of @ep.Total_Track  tracks&nbsp;</p>
+        <a href="@Url.Action("ShowIndividualEpSongs","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Show Ep details &nbsp;</a>
+        <a href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Edit Ep &nbsp;</a>
+        <a href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Delete Ep &nbsp;</a>
+    }
 }
 
 @if (ViewBag.ErrorMsg != null)
 {
     <h2> @ViewBag.ErrorMsg </h2>
+}
+
+@if (TempData["ErrorMsg"] != null)
+{
+    <h2> @TempData["ErrorMsg"] </h2>
 }
 

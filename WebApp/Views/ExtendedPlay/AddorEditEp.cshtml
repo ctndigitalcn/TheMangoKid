@@ -26,20 +26,20 @@
 
             </div>
             <div class="col-md-4">
-                @if (ViewBag.AlbumDetail != null)
+                @if (ViewBag.EpDetail != null)
                 {
-                    <form action="EditOnlyAlbum" method="post">
+                    <form action="EditOnlyEp" method="post">
                         @Html.AntiForgeryToken()
-                        <input type="hidden" name="albumId" value="@ViewBag.AlbumDetail.Id">
+                        <input type="hidden" name="epId" value="@ViewBag.EpDetail.Id">
                         <div class="mt-10">
-                            <input type="text" name="albumName" placeholder="Modified Album Name"
-                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified Album Name'" required
-                                   class="single-input" value="@ViewBag.AlbumDetail.Album_Name">
+                            <input type="text" name="epName" placeholder="Modified Ep Name"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified Ep Name'" required
+                                   class="single-input" value="@ViewBag.EpDetail.Ep_Name">
                         </div>
                         <div class="mt-10">
                             <input type="text" name="totalTrack" placeholder="Modified Total Track Number"
                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Modified Total Track Number'" required
-                                   class="single-input" value="@ViewBag.AlbumDetail.Total_Track">
+                                   class="single-input" value="@ViewBag.EpDetail.Total_Track">
                         </div>
                         <div class="mt-20 text-center">
                             <button type="submit" class="genric-btn primary circle arrow">@ViewBag.Title<span class="lnr lnr-arrow-right"></span></button>
@@ -48,12 +48,12 @@
                 }
                 else
                 {
-                    <form action="CreateOnlyAlbum" method="post">
+                    <form action="CreateOnlyEp" method="post">
                         @Html.AntiForgeryToken()
 
                         <div class="mt-10">
-                            <input type="text" name="albumName" placeholder="Album Name"
-                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Album Name'" required
+                            <input type="text" name="epName" placeholder="Ep Name"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ep Name'" required
                                    class="single-input">
                         </div>
                         <div class="mt-10">
@@ -72,6 +72,13 @@
                 {
                     <div class="mt-30 text-center">
                         <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
+
+                @if (TempData["ErrorMsg"] != null)
+                {
+                    <div class="mt-30 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@TempData["ErrorMsg"]</h4>
                     </div>
                 }
             </div>

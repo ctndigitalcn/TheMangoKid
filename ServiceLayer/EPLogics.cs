@@ -9,40 +9,40 @@ namespace ServiceLayer
 {
     public partial class BusinessLogics
     {
-        public int CreateNewAlbum(string email, string albumName, int totalTrack)
+        public int CreateNewEp(string email, string epName, int totalTrack)
         {
             logic = new GeneralLogics();
             PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
 
             Account account = AuthCQ.GetAccountByEmail(email);
 
             if (account != null)
             {
-                var GetListOfUnUsedPurchase = purchaseCQ.GetUnUsedAlbumPurchaseRecordOf(account);
+                var GetListOfUnUsedPurchase = purchaseCQ.GetUnUsedEpPurchaseRecordOf(account);
                 if (GetListOfUnUsedPurchase.Count > 0)
                 {
-                    Album album = new Album();
+                    ExtendedPlay ep = new ExtendedPlay();
 
-                    album.Id = logic.CreateUniqueId();
-                    album.Album_Name = albumName;
-                    album.Total_Track = totalTrack;
-                    album.Album_Creation_Date = logic.CurrentIndianTime();
-                    album.Submitted_Track = 0;
-                    album.PurchaseTrack_RefNo = GetListOfUnUsedPurchase.First().Id;
+                    ep.Id = logic.CreateUniqueId();
+                    ep.Ep_Name = epName;
+                    ep.Total_Track = totalTrack;
+                    ep.Ep_Creation_Date = logic.CurrentIndianTime();
+                    ep.Submitted_Track = 0;
+                    ep.PurchaseTrack_RefNo = GetListOfUnUsedPurchase.First().Id;
 
-                    var resultCreateAlbum = AlbumCQ.CreateAlbum(album);
-                    if (resultCreateAlbum == 1)
+                    var resultCreateEp = EpCQ.CreateEP(ep);
+                    if (resultCreateEp == 1)
                     {
-                        var purchaseRecord = purchaseCQ.GetPurchaseRecordById(album.PurchaseTrack_RefNo);
+                        var purchaseRecord = purchaseCQ.GetPurchaseRecordById(ep.PurchaseTrack_RefNo);
 
                         purchaseRecord.Usage_Date = logic.CurrentIndianTime();
                         int resultPurchaseRecordUpdate = purchaseCQ.UpdatePurchaseRecord(purchaseRecord);
 
                         if (resultPurchaseRecordUpdate == 1)
                         {
-                            //Album created, PurchaseRecord is modified with UsageDate. Operation Completed successfully
+                            //Ep created, PurchaseRecord is modified with UsageDate. Operation Completed successfully
                             return 1;
                         }
                         else
@@ -53,13 +53,13 @@ namespace ServiceLayer
                     }
                     else
                     {
-                        //Album creation failed
+                        //Ep creation failed
                         return 3;
                     }
                 }
                 else
                 {
-                    //No purchase left to create an music album.
+                    //No purchase left to create an music Ep.
                     return 2;
                 }
             }
@@ -70,47 +70,51 @@ namespace ServiceLayer
             }
         }
 
-        public int DeleteAlbum(Guid albumId)
+        public int DeleteEp(Guid epId)
         {
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
-            var albumObject = AlbumCQ.GetAlbumById(albumId);
-            if (albumObject != null)
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
+            var epObject = EpCQ.GetEpById(epId);
+            if (epObject != null)
             {
-                var result = AlbumCQ.DeleteAlbum(albumObject);
+                var result = EpCQ.DeleteEp(epObject);
                 if (result == 0)
                 {
-                    //Operation Faild while deleting album. Internal error occured;
+                    //Operation Faild while deleting Ep. Internal error occured;
                     return 2;
-                }else if (result == 1)
+                }
+                else if (result == 1)
                 {
                     //Operation completed Successfully
                     return 1;
-                }else if (result == 2)
+                }
+                else if (result == 2)
                 {
-                    //A Record Couldn't deleted from AlbumTrackMaster Table due to internal error.
+                    //A Record Couldn't deleted from EpTrackMaster Table due to internal error.
                     return 3;
                 }
                 else if (result == 3)
                 {
-                    //Operation Failed in the level of AlbumTrackMaster Label.
+                    //Operation Failed in the level of EpTrackMaster Label.
                     return 4;
                 }
                 else if (result == 4)
                 {
-                    //Error while deleting a solo track that belongs to only the album
+                    //Error while deleting a solo track that belongs to only the Ep
                     return 5;
                 }
                 else if (result == 5)
                 {
                     //Track fetching failed.
                     return 6;
-                }else if (result == 7)
+                }
+                else if (result == 7)
                 {
-                    //A track from the album is already submitted to the store. can't delete album
+                    //A track from the Ep is already submitted to the store. can't delete Ep
                     return 8;
-                }else if (result == 8)
+                }
+                else if (result == 8)
                 {
-                    //Error while updating the associated purchase record. User can't create an album with the valid purchase
+                    //Error while updating the associated purchase record. User can't create an Ep with the valid purchase
                     return 9;
                 }
                 else
@@ -121,47 +125,48 @@ namespace ServiceLayer
             }
             else
             {
-                //No Album found. Operation failed.
+                //No Ep found. Operation failed.
                 return 0;
             }
         }
 
-        public int EditAlbum(Guid albumId, string albumName, int totalTrack)
+        public int EditEp(Guid epId, string epName, int totalTrack)
         {
-            AlbumQueriesCommands albumCQ = new AlbumQueriesCommands();
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
 
-            Album album = albumCQ.GetAlbumById(albumId);
+            ExtendedPlay ep = EpCQ.GetEpById(epId);
 
-            if (album != null)
+            if (ep != null)
             {
-                album.Album_Name = albumName;
-                album.Total_Track = totalTrack;
+                ep.Ep_Name = epName;
+                ep.Total_Track = totalTrack;
 
-                var result = albumCQ.EditAlbumDetails(album);
+                var result = EpCQ.EditEpDetails(ep);
 
                 if (result == 0)
                 {
-                    //Internal Error occured while changing data for the album
+                    //Internal Error occured while changing data for the Ep
                     return 2;
-                }else if (result == 1)
+                }
+                else if (result == 1)
                 {
-                    //Album details changed Successfully
+                    //Ep details changed Successfully
                     return 1;
                 }
                 else
                 {
-                    //Can't edit album as one song alredy registered under the album
+                    //Can't edit Ep as one song alredy registered under the Ep
                     return 3;
                 }
             }
             else
             {
-                //No album found with the Id provided
+                //No Ep found with the Id provided
                 return 0;
             }
         }
 
-        public int CountOfAlbumsCanBeCreatedBy(string email)
+        public int CountOfEpsCanBeCreatedBy(string email)
         {
             PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
@@ -169,9 +174,9 @@ namespace ServiceLayer
             Account account = AuthCQ.GetAccountByEmail(email);
             if (account != null)
             {
-                var GetListOfUnUsedPurchase = purchaseCQ.GetUnUsedAlbumPurchaseRecordOf(account);
+                var GetListOfUnUsedPurchase = purchaseCQ.GetUnUsedEpPurchaseRecordOf(account);
 
-                //Returning the count of the unused purchase of albums for the user
+                //Returning the count of the unused purchase of Eps for the user
                 return GetListOfUnUsedPurchase.Count;
             }
             else
@@ -181,7 +186,7 @@ namespace ServiceLayer
             }
         }
 
-        public int CountOfAlbumsAlreadyCreatedBy(string email)
+        public int CountOfEpsAlreadyCreatedBy(string email)
         {
             PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
@@ -189,9 +194,9 @@ namespace ServiceLayer
             Account account = AuthCQ.GetAccountByEmail(email);
             if (account != null)
             {
-                var GetListOfUnUsedPurchase = purchaseCQ.GetUsedAlbumPurchaseRecordOf(account);
+                var GetListOfUnUsedPurchase = purchaseCQ.GetUsedEpPurchaseRecordOf(account);
 
-                //Returning the count of the unused purchase of albums for the user
+                //Returning the count of the unused purchase of Eps for the user
                 return GetListOfUnUsedPurchase.Count;
             }
             else
@@ -201,33 +206,33 @@ namespace ServiceLayer
             }
         }
 
-        public List<Album> GetAllTheAlbumsOf(string email)
+        public List<ExtendedPlay> GetAllTheEpsOf(string email)
         {
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            EPQueriesCommands epCQ = new EPQueriesCommands();
 
-            return AlbumCQ.GetAllAlbumsOf(AuthCQ.GetAccountByEmail(email));
+            return epCQ.GetAllEpsOf(AuthCQ.GetAccountByEmail(email));
         }
 
-        public Album GetAlbumById(Guid albumId)
+        public ExtendedPlay GetEpById(Guid epId)
         {
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
-            return AlbumCQ.GetAlbumById(albumId);
+            EPQueriesCommands epCQ = new EPQueriesCommands();
+            return epCQ.GetEpById(epId);
         }
 
-        public List<SingleTrackDetail> GetTrackDetailsOfAlbum(Guid albumId)
+        public List<SingleTrackDetail> GetTrackDetailsOfEp(Guid epId)
         {
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            EPQueriesCommands epCQ = new EPQueriesCommands();
 
-            var result = AlbumCQ.GetAllTracksOfAlbum(albumId);
+            var result = epCQ.GetAllTracksOfEp(epId);
 
             //Result could be null or a list consists of Tracks
             return result;
         }
 
-        public bool IsAccountContainsThisAlbum(string email, Guid albumId)
+        public bool IsAccountContainsThisEp(string email, Guid epId)
         {
-            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
 
             var account = AuthCQ.GetAccountByEmail(email.ToLower());
@@ -236,10 +241,10 @@ namespace ServiceLayer
                 return false;
             }
 
-            var albums = AlbumCQ.GetAllAlbumsOf(account);
-            if (albums.Count > 0)
+            var Eps = EpCQ.GetAllEpsOf(account);
+            if (Eps != null)
             {
-                if (albums.Any(rec=>rec.Id == albumId))
+                if (Eps.Any(rec=>rec.Id==epId))
                 {
                     return true;
                 }

@@ -113,11 +113,27 @@ namespace ServiceLayer
             }
         }
 
+        public List<PurchaseRecord> GetUnUsedEpPurchaseRecordOf(Account account)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.PurchaseRecords.Where(rec => rec.Account_Id == account.Id && rec.Purchased_Category.Equals("Ep", StringComparison.CurrentCultureIgnoreCase) && rec.Usage_Date == null).ToList();
+            }
+        }
+
         public List<PurchaseRecord> GetUsedAlbumPurchaseRecordOf(Account account)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 return db.PurchaseRecords.Where(rec => rec.Account_Id == account.Id && rec.Purchased_Category.Equals("Album", StringComparison.CurrentCultureIgnoreCase) && rec.Usage_Date != null).ToList();
+            }
+        }
+
+        public List<PurchaseRecord> GetUsedEpPurchaseRecordOf(Account account)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.PurchaseRecords.Where(rec => rec.Account_Id == account.Id && rec.Purchased_Category.Equals("Ep", StringComparison.CurrentCultureIgnoreCase) && rec.Usage_Date != null).ToList();
             }
         }
 

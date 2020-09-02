@@ -339,12 +339,12 @@
     <Content Include="Views\Home\MusicDistribution.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\Authentication\PasswordReset.cshtml" />
-    <Content Include="Views\Album\AddAlbum.cshtml" />
     <Content Include="Views\SiteRoleManagement\Index.cshtml" />
     <Content Include="Views\SiteRoleManagement\AddorEditRole.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
     <Content Include="Views\Bank\AddorEditBankDetails.cshtml" />
     <Content Include="Views\Album\AddorEditAlbum.cshtml" />
+    <Content Include="Views\ExtendedPlay\AddorEditEp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -355,7 +355,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminProfile\" />
-    <Folder Include="Views\ExtendedPlay\" />
     <Folder Include="Views\Payment\" />
     <Folder Include="Views\Solo\" />
     <Folder Include="Views\SuperAdmin\" />
