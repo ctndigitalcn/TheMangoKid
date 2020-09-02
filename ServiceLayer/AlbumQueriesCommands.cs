@@ -171,7 +171,7 @@ namespace ServiceLayer
                     {
                         //Album is totally empty
                         return 1;
-                    }else if(result.Submitted_Track>=0 && result.Submitted_Track != result.Total_Track)
+                    }else if(result.Submitted_Track>0 && result.Submitted_Track != result.Total_Track)
                     {
                         //Album is partially empty
                         return 2;
@@ -249,6 +249,14 @@ namespace ServiceLayer
             using(DatabaseContext db = new DatabaseContext())
             {
                 return db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumId).Select(rec=>rec.SingleTrackDetail).ToList();
+            }
+        }
+
+        public List<AlbumTrackMaster> GetAllTracksWithAlbumDetails(Guid albumId)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumId).Include(rec => rec.SingleTrackDetail).ToList();
             }
         }
 

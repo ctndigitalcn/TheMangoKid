@@ -23,6 +23,19 @@ namespace ServiceLayer
         {
             return Regex.IsMatch(testingString, @"^[0-9]+$");
         }
+
+        public bool ContainsOnlyAlphabets(List<string> listOfString)
+        {
+            for(int i = 0; i < listOfString.Count; i++)
+            {
+                if (!Regex.IsMatch(listOfString[i], @"^[A-Za-z]+$"))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool ContainsOnlyAlphabets(string testingString)
         {
             return Regex.IsMatch(testingString, @"^[A-Za-z]+$");

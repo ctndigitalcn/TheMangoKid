@@ -11,14 +11,29 @@ namespace WebApp.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+            else
+            {
+                return View();
+            }
         }
         public ActionResult MusicDistribution()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
             return View();
         }
         public ActionResult Pricing()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
             return View();
         }
     }

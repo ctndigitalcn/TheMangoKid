@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.Album.Album_Name;
+}
+
+<!--? Hero Start -->
+<div class="slider-area2 section-bg2 hero-overly" data-background=@Url.Content("~/Content/img/hero/hero2.png")>
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2">
+                        <h2>@ViewBag.Title</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!--? Services Area Start -->
+<section class="services-area pt-top border-bottom pb-20 mb-60">
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.details.Count > 0)
+            {
+                foreach (var item in ViewBag.details)
+                {
+                    <p> @item.SingleTrackDetail.TrackTitle &nbsp; status is @item.StoreSubmissionStatus </p>
+
+                    if (item.StoreSubmissionStatus == 0)
+                    {
+                        <a href="@Url.Action("EditTrackDetails","Solo",new { trackId = item.SingleTrackDetail.Id })" style="color:blueviolet">Edit Track &nbsp;</a>
+                        <a href="@Url.Action("DeleteTrack","Solo",new { trackId = item.SingleTrackDetail.Id })" style="color:blueviolet">Delete Track &nbsp;</a>
+                    }
+                }
+            }
+            @if (!ViewBag.IsAlbumFull)
+            {
+                <a href="@Url.Action("AddTrackToAlbum","Solo",new { albumId =  ViewBag.Album.Id})" style="color:blueviolet">Add a Track &nbsp;</a>
+            }
+        </div>
+    </div>
+</section>
+<!-- Services End -->

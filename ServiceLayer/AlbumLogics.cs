@@ -225,6 +225,16 @@ namespace ServiceLayer
             return result;
         }
 
+        public List<AlbumTrackMaster> GetAllTracksWithAlbumDetails(Guid albumId)
+        {
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+
+            var result = AlbumCQ.GetAllTracksWithAlbumDetails(albumId);
+
+            //Result could be null or a list consists of Tracks with store submission report and all.
+            return result;
+        }
+
         public bool IsAccountContainsThisAlbum(string email, Guid albumId)
         {
             AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
@@ -239,6 +249,14 @@ namespace ServiceLayer
             var albums = AlbumCQ.GetAllAlbumsOf(account);
             if (albums.Count > 0)
             {
+                //if (albums.Contains(AlbumCQ.GetAlbumById(albumId)))
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    return false;
+                //}
                 if (albums.Any(rec=>rec.Id == albumId))
                 {
                     return true;
@@ -247,6 +265,19 @@ namespace ServiceLayer
                 {
                     return false;
                 }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsAlbumFull(Guid albumId)
+        {
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            if (AlbumCQ.AlbumEmptiness(AlbumCQ.GetAlbumById(albumId))==3)
+            {
+                return true;
             }
             else
             {

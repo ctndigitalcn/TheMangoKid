@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class InitialMigration : DbMigration
     {
         public override void Up()
         {
@@ -121,7 +121,7 @@
                         AuthorName = c.String(maxLength: 50, unicode: false),
                         ComposerName = c.String(maxLength: 50, unicode: false),
                         ArrangerName = c.String(maxLength: 50, unicode: false),
-                        ProducerName = c.Binary(maxLength: 50),
+                        ProducerName = c.String(maxLength: 50),
                         AlreadyHaveAnISRC = c.Byte(),
                         ISRC_Number = c.String(maxLength: 50, unicode: false),
                         PriceTier = c.Int(),

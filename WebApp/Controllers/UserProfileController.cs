@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
-    //[Authorize(Roles = "user")]
+    [Authorize(Roles = "user")]
     public class UserProfileController : Controller
     {
         BusinessLogics businessLogics;
@@ -17,15 +17,15 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //if (Session["LoginEmail"] == null)
-            //{
-            //    return RedirectToAction("Logout", "Authentication");
-            //}
+            if (Session["LoginEmail"] == null)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
 
             businessLogics = new BusinessLogics();
 
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
 
             // to help view to find out if it will allow user to add bank details
             if (businessLogics.IsBankDetailsExistsOf(userEmail))
@@ -70,7 +70,9 @@ namespace WebApp.Controllers
         public ActionResult PurchaseAlbum()
         {
             businessLogics = new BusinessLogics();
-            var result = businessLogics.PurchaseAlbumFor("koushik.official1999@gmail.com");
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
+            var result = businessLogics.PurchaseAlbumFor(userEmail);
             if (result != 1)
             {
                 ViewBag.ErrorMsg = "Purchase was not successfull";
@@ -81,7 +83,9 @@ namespace WebApp.Controllers
         public ActionResult PurchaseEp()
         {
             businessLogics = new BusinessLogics();
-            var result = businessLogics.PurchaseEpFor("koushik.official1999@gmail.com");
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
+            var result = businessLogics.PurchaseEpFor(userEmail);
             if (result != 1)
             {
                 ViewBag.ErrorMsg = "Purchase was not successfull";

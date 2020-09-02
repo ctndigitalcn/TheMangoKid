@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class AlbumController : Controller
     {
         BusinessLogics businessLogics;
@@ -22,8 +23,8 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult EditOnlyAlbum(Guid albumId)
         {
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official199@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official199@gmail.com";
 
             businessLogics = new BusinessLogics();
 
@@ -64,8 +65,8 @@ namespace WebApp.Controllers
 
             List<string> inputStrings = new List<string> { albumName, totalTrack };
 
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
             if (userEmail != null)
             {
                 if (!logics.ContainsAnyNullorWhiteSpace(inputStrings))
@@ -116,8 +117,8 @@ namespace WebApp.Controllers
 
             List<string> inputStrings = new List<string> { albumName, totalTrack };
 
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
             if (userEmail != null)
             {
                 if (!logics.ContainsAnyNullorWhiteSpace(inputStrings))
@@ -164,8 +165,8 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult DeleteAlbum(Guid albumId)
         {
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
 
             if (userEmail == null)
             {
@@ -178,17 +179,17 @@ namespace WebApp.Controllers
             {
                 var result = businessLogics.DeleteAlbum(albumId);
                 /*
-            0 = No Album found. Operation failed.
-            1 = Operation done successfully.
-            2 = Operation Faild while deleting album. Internal error occured.
-            3 = An Record Couldn't deleted from AlbumTrackMaster Table due to internal error.
-            4 = Operation Failed in the level of AlbumTrackMaster Label.
-            5 = Error while deleting a solo track that belongs to only the album
-            6 = Track fetching failed.
-            7 = Error occured while deleting a valid track
-            8 = A track from the album is already submitted to the store. can't delete album
-            9 = Error while updating the associated purchase record. User can't create an album with the valid purchase.
-             */
+                0 = No Album found. Operation failed.
+                1 = Operation done successfully.
+                2 = Operation Faild while deleting album. Internal error occured.
+                3 = An Record Couldn't deleted from AlbumTrackMaster Table due to internal error.
+                4 = Operation Failed in the level of AlbumTrackMaster Label.
+                5 = Error while deleting a solo track that belongs to only the album
+                6 = Track fetching failed.
+                7 = Error occured while deleting a valid track
+                8 = A track from the album is already submitted to the store. can't delete album
+                9 = Error while updating the associated purchase record. User can't create an album with the valid purchase.
+                 */
                 if (result != 1)
                 {
                     TempData["ErrorMsg"] = "Error occured while deleting album";
@@ -204,13 +205,19 @@ namespace WebApp.Controllers
 
         //For individual user and admin use
         [HttpGet]
-        public ActionResult ShowIndividualAlbumSongs(Guid albumid)
+        public ActionResult ShowIndividualAlbumSongs(Guid albumId)
         {
             businessLogics = new BusinessLogics();
 
-            ViewBag.Tracks = businessLogics.GetTrackDetailsOfAlbum(albumid);
+            var album = businessLogics.GetAlbumById(albumId);
+            ViewBag.Album = album;
 
-            return View();
+            //get the list of all tracks of the same album
+            ViewBag.details = businessLogics.GetAllTracksWithAlbumDetails(albumId);
+
+            ViewBag.IsAlbumFull = businessLogics.IsAlbumFull(albumId);
+
+            return View("DisplayAlbum");
         }
 
         //For Admin use only

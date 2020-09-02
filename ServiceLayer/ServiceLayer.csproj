@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AlbumLogics.cs" />
     <Compile Include="AlbumQueriesCommands.cs" />
+    <Compile Include="ArtworkQueriesCommands.cs" />
     <Compile Include="AuthQueriesCommands.cs" />
     <Compile Include="AuthenticationLogics.cs" />
     <Compile Include="BankLogics.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="PurchaseRecordQueriesCommands.cs" />
     <Compile Include="RoleLogics.cs" />
     <Compile Include="RoleQueriesCommands.cs" />
+    <Compile Include="SoloLogics.cs" />
+    <Compile Include="TrackQueriesCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

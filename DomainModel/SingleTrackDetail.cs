@@ -46,8 +46,8 @@ namespace DomainModel
         [StringLength(50)]
         public string ArrangerName { get; set; }
 
-        [MaxLength(50)]
-        public byte[] ProducerName { get; set; }
+        [StringLength(50)]
+        public string ProducerName { get; set; }
 
         public byte? AlreadyHaveAnISRC { get; set; }
 

@@ -345,6 +345,7 @@
     <Content Include="Views\Bank\AddorEditBankDetails.cshtml" />
     <Content Include="Views\Album\AddorEditAlbum.cshtml" />
     <Content Include="Views\ExtendedPlay\AddorEditEp.cshtml" />
+    <Content Include="Views\Album\DisplayAlbum.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
