@@ -2,72 +2,113 @@
 @{
     ViewBag.Title = "User Profile";
 }
+<div class="container" id="profile_container">
+    <!--Notice from super admin-->
+    <div class="row">
+        <div class="col-lg-12">
+            <blockquote class="generic-blockquote">
+                “Website maintainance notice”
+            </blockquote>
+        </div>
+    </div>
 
-@if (ViewBag.BankAccountSubmissionStatus == 0)
-{
-    <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
-    <br />
-}
-else if (ViewBag.BankAccountSubmissionStatus == 1)
-{
-    <p>Bank account already exists</p>
-}
-else
-{
-    <p>Error occured</p>
-}
+    <!--Buying option-->
+    <div id="card_section">
+        <div class="row">
+            @if (ViewBag.SoloCount == 0)
+            {
+                <div class="col-md my-5">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body py-5 text-center">
+                            <h2 class="buy">Buy for single track</h2><br />
+                            <a href="#" class="btn">Price</a>
+                        </div>
+                    </div>
+                </div>
+            }
 
-@if (ViewBag.AlbumCount > 0)
-{
-    <a href="@Url.Action("CreateOnlyAlbum","Album")" style="color:blueviolet">Create Album</a>
-    <br />
-}
-else
-{
-    <a href="@Url.Action("PurchaseAlbum","UserProfile")" style="color:blueviolet">You can't create an album. Please purchase.</a>
-    <br />
-}
+            @if (ViewBag.EpCount == 0)
+            {
+                <div class="col-md my-5">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body py-5 text-center">
+                            <h2 class="buy">Buy EP</h2><br />
+                            <a href="@Url.Action("PurchaseEp","UserProfile")" class="btn">Rs-1100</a>
+                        </div>
+                    </div>
+                </div>
+            }
 
-@if (ViewBag.EpCount > 0)
-{
-    <a href="@Url.Action("CreateOnlyEp","ExtendedPlay")" style="color:blueviolet">Create Ep</a>
-    <br />
-}
-else
-{
-    <a href="@Url.Action("PurchaseEp","UserProfile")" style="color:blueviolet">You can't create an Ep. Please purchase.</a>
-    <br />
-}
+            @if (ViewBag.AlbumCount == 0)
+            {
+                <div class="col-md my-5">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body py-5 text-center">
+                            <h2 class="buy">Buy Album</h2><br />
+                            <a href="@Url.Action("PurchaseAlbum","UserProfile")" class="btn">Rs-1749</a>
+                        </div>
+                    </div>
+                </div>
 
-@if (ViewBag.Albums != null)
-{
-    foreach (var album in ViewBag.Albums)
+            }
+        </div>
+    </div>
+
+    <!--Album show table-->
+    <div class="section-top-border">
+    </div>
+
+    <!--Ep show table-->
+    <div class="section-top-border">
+    </div>
+
+    <!--Single show table-->
+    <div class="section-top-border">
+    </div>
+</div>
+    @if (ViewBag.BankAccountSubmissionStatus == 0)
     {
-        <p> @album.Album_Name &nbsp; @album.Submitted_Track submitted of @album.Total_Track  tracks&nbsp;</p>
-        <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { albumId = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
-        <a href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
-        <a href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
+        <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
+        <br />
     }
-}
-
-@if (ViewBag.Eps != null)
-{
-    foreach (var ep in ViewBag.Eps)
+    else if (ViewBag.BankAccountSubmissionStatus == 1)
     {
-        <p> @ep.Ep_Name &nbsp; @ep.Submitted_Track submitted of @ep.Total_Track  tracks&nbsp;</p>
-        <a href="@Url.Action("ShowIndividualEpSongs","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Show Ep details &nbsp;</a>
-        <a href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Edit Ep &nbsp;</a>
-        <a href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Delete Ep &nbsp;</a>
+        <p>Bank account already exists</p>
     }
-}
+    else
+    {
+        <p>Error occured</p>
+    }
 
-@if (ViewBag.ErrorMsg != null)
-{
-    <h2> @ViewBag.ErrorMsg </h2>
-}
+    @if (ViewBag.Albums != null)
+    {
+        foreach (var album in ViewBag.Albums)
+        {
+            <p> @album.Album_Name &nbsp; @album.Submitted_Track submitted of @album.Total_Track  tracks&nbsp;</p>
+            <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { albumId = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
+            <a href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
+            <a href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
+        }
+    }
 
-@if (TempData["ErrorMsg"] != null)
-{
-    <h2> @TempData["ErrorMsg"] </h2>
-}
+    @if (ViewBag.Eps != null)
+    {
+        foreach (var ep in ViewBag.Eps)
+        {
+            <p> @ep.Ep_Name &nbsp; @ep.Submitted_Track submitted of @ep.Total_Track  tracks&nbsp;</p>
+            <a href="@Url.Action("ShowIndividualEpSongs","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Show Ep details &nbsp;</a>
+            <a href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Edit Ep &nbsp;</a>
+            <a href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Delete Ep &nbsp;</a>
+        }
+    }
+
+    @if (ViewBag.ErrorMsg != null)
+    {
+        <h2> @ViewBag.ErrorMsg </h2>
+    }
+
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <h2> @TempData["ErrorMsg"] </h2>
+    }
 

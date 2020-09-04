@@ -52,7 +52,7 @@ namespace WebApp.Controllers
 
             //to help view to find out how many Eps can be created by user
             int EpsAlreadyCreated = businessLogics.CountOfEpsAlreadyCreatedBy(userEmail);
-            int EpCountLeftToCreate = businessLogics.CountOfEpsCanBeCreatedBy(userEmail) - EpsAlreadyCreated;
+            int EpCountLeftToCreate = businessLogics.CountOfEpsCanBeCreatedBy(userEmail);
             ViewBag.EpCount = EpCountLeftToCreate;
 
             //pass the Ep details

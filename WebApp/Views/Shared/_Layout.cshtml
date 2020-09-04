@@ -47,9 +47,52 @@
                         <div class="main-menu d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                    <!--<li class="active"><a href="index.html">Home</a></li>-->
                                     @if (User.Identity.IsAuthenticated)
                                     {
+                                        if (ViewBag.BankAccountSubmissionStatus == 0)
+                                        {
+                                            <li>@Html.ActionLink("Add Bank account", "AddBankDetails", "Bank")</li>
+                                        }
+
+                                        if (ViewBag.Albums != null)
+                                        {
+                                            <li>
+                                                <a href="#">Albums</a>
+                                                <ul class="submenu">
+
+                                                    @if (ViewBag.AlbumCount > 0)
+                                                    {
+                                                        <li>@Html.ActionLink("Create Album", "CreateOnlyAlbum", "Album")</li>
+                                                    }
+                                                    @foreach (var album in ViewBag.Albums)
+                                                    {
+                                                        <li>
+                                                            <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { albumId = album.Id })">@album.Album_Name</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+
+                                        if (ViewBag.Eps != null)
+                                        {
+                                            <li>
+                                                <a href="#">Extended Play</a>
+                                                <ul class="submenu">
+
+                                                    @if (ViewBag.EpCount > 0)
+                                                    {
+                                                        <li>@Html.ActionLink("Create EP", "CreateOnlyEp", "ExtendedPlay")</li>
+                                                    }
+                                                    @foreach (var ep in ViewBag.Eps)
+                                                    {
+                                                        <li>
+                                                            <a href="@Url.Action("ShowIndividualEpSongs","ExtendedPlay",new { epId = ep.Id })">@ep.Ep_Name</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
                                         <li>@Html.ActionLink("Reset Password", "PasswordReset", "Authentication")</li>
                                         <li>@Html.ActionLink("Delete Account", "DeActivateAccount", "Authentication")</li>
                                         <li>@Html.ActionLink("Logout", "Logout", "Authentication")</li>
