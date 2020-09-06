@@ -18,8 +18,10 @@ namespace WebApp.Controllers
         {
             ViewBag.AlbumId = albumId;
             ViewBag.Title = "Add Track";
-            return View("AddorEditTrack");
+            return View("AddTrack");
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddTrackToAlbum(Guid albumId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
@@ -111,7 +113,66 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Mandetory Fields can't be left empty";
             }
-            return View("AddorEditTrack");
+            return View("AddTrack");
+        }
+
+
+        [HttpGet]
+        public ActionResult EditTrackDetailsForAlbum(Guid albumId, Guid trackId)
+        {
+            businessLogics = new BusinessLogics();
+            logic = new GeneralLogics();
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail!=null && businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
+            {
+                var albumDetails = businessLogics.GetAlbumDetail(albumId,trackId);
+                if (albumDetails != null)
+                {
+                    if (albumDetails.StoreSubmissionStatus == 0)
+                    {
+                        var albumPurchase = businessLogics.GetAlbumById(albumDetails.Album_Id);
+                        if (albumPurchase.PurchaseRecord.Usage_Exp_Date > logic.CurrentIndianTime())
+                        {
+                            var trackDetail = businessLogics.GetTrackById(trackId);
+                            if (trackDetail != null)
+                            {
+                                ViewBag.Title = "Edit Track";
+                                ViewBag.TrackDetail = trackDetail;
+                                return View("EditTrack");
+                            }
+                            else
+                            {
+                                ViewBag.ErrorMsg = "Error while fetching track details";
+                            }
+                            
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMsg = "Your purchase has expired. you can't modify the track";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMsg = "The track is already submitted to store. You can't edit this track";
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Track is not valid";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "You are trying to modify a track details that doesn't belongs to you";
+            }
+            return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTrackDetails(Guid trackId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        {
+            return View();
         }
     }
 }

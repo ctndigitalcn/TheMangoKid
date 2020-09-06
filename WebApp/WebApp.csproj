@@ -346,7 +346,8 @@
     <Content Include="Views\Album\AddorEditAlbum.cshtml" />
     <Content Include="Views\ExtendedPlay\AddorEditEp.cshtml" />
     <Content Include="Views\Album\DisplayAlbum.cshtml" />
-    <Content Include="Views\Solo\AddorEditTrack.cshtml" />
+    <Content Include="Views\Solo\AddTrack.cshtml" />
+    <Content Include="Views\Solo\EditTrack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

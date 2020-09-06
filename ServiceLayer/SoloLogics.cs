@@ -189,5 +189,39 @@ namespace ServiceLayer
                 return 0;
             }
         }
+
+        public SingleTrackDetail GetTrackById(Guid trackId)
+        {
+            TrackQueriesCommands TrackCQ = new TrackQueriesCommands();
+
+            return TrackCQ.FindTrackById(trackId);
+        }
+
+        public int EditTrackForAlbum(Guid trackId, string TrackTitle, string ArtistName, bool ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, bool AlreadyHaveAnISRC, string ISRC_Number, int PriceTier, bool ExplicitContent, bool IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        {
+            byte ArtistSpotifyAppearance = 1;
+            byte PresenceOfISRCnumber = 1;
+            byte PresenceOfExplicitContent = 1;
+            byte InstrumentalTrackPresence = 1;
+
+            if (ArtistAlreadyInSpotify == false)
+            {
+                ArtistSpotifyAppearance = 0;
+            }
+            if (AlreadyHaveAnISRC == false)
+            {
+                PresenceOfISRCnumber = 0;
+            }
+            if (IsTrackInstrumental == false)
+            {
+                InstrumentalTrackPresence = 0;
+            }
+            if (ExplicitContent == false)
+            {
+                PresenceOfExplicitContent = 0;
+            }
+
+            return 1;
+        }
     }
 }

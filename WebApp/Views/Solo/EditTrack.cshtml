@@ -1,24 +1,20 @@
-﻿
-@{
-}
-
-<div class="container">
+﻿<div class="container">
     <div class="row">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-8 col-md-8">
             <h3 class="mb-30">@ViewBag.Title</h3>
-            <form action="AddTrackToAlbum" method="post">
+            <form action="EditTrackDetails" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="albumId" value="@ViewBag.AlbumId" required>
+                <input type="hidden" name="trackId" value="@ViewBag.TrackDetail.Id" required>
                 <div class="mt-10">
                     <input type="text" name="TrackTitle" placeholder="Track Title"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Track Title'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.TrackTitle">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="ArtistName" placeholder="Artist Name"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artist Name'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ArtistName">
                 </div>
                 <div class="input-group-icon mt-10">
                     <div class="icon"></div>
@@ -33,42 +29,42 @@
                 <div class="mt-10">
                     <input type="text" name="ArtistSpotifyUrl" placeholder="Spotify url of the artist"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Spotify url of the artist'"
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ArtistSpotifyUrl">
                 </div>
                 <div class="mt-10">
                     <input type="date" name="ReleaseDate" placeholder="Release Date"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Release Date'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ReleaseDate">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="Genre" placeholder="Genre of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Genre of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.Genre">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="CopyrightClaimerName" placeholder="Copyright claimer name"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Copyright claimer name'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.CopyrightClaimerName">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="AuthorName" placeholder="Author name  of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Author name  of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.AuthorName">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="ComposerName" placeholder="Composer name  of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Composer name  of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ComposerName">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="ArrangerName" placeholder="Arranger name  of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Arranger name  of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ArrangerName">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="ProducerName" placeholder="Producer name  of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Producer name  of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ProducerName">
                 </div>
                 <div class="input-group-icon mt-10">
                     <div class="icon"></div>
@@ -83,7 +79,7 @@
                 <div class="mt-10">
                     <input type="text" name="ISRC_Number" placeholder="ISRC number"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'ISRC number'"
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ISRC_Number">
                 </div>
                 <div class="input-group-icon mt-10">
                     <div class="icon"><i class="fa fa-rupee" aria-hidden="true"></i></div>
@@ -109,7 +105,7 @@
                 <div class="mt-10">
                     <input type="text" name="LyricsLanguage" placeholder="Lyrics Language"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lyrics Language'"
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.LyricsLanguage">
                 </div>
                 <div class="input-group-icon mt-10">
                     <div class="icon"></div>
@@ -124,12 +120,12 @@
                 <div class="mt-10">
                     <input type="text" name="TrackZipFileLink" placeholder="Google drive sharable link for the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Google drive sharable link for the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.TrackZipFileLink">
                 </div>
                 <div class="mt-10">
                     <input type="text" name="ArtWork_Link" placeholder="Google drive sharable link for the thumbnail of the track"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Google drive sharable link for the thumbnail of the track'" required
-                           class="single-input">
+                           class="single-input" value="@ViewBag.TrackDetail.ArtworkDetail.Artwork_Link">
                 </div>
                 <div class="mt-10 text-center">
                     <button type="submit" class="genric-btn primary circle arrow">Submit<span class="lnr lnr-arrow-right"></span></button>

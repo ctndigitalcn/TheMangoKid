@@ -56,17 +56,123 @@
 
     <!--Album show table-->
     <div class="section-top-border">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial"></div>
+                            <div class="country">Album Names</div>
+                            <div class="serial">Total</div>
+                            <div class="serial">Submitted</div>
+                            <div class="serial">Add Track</div>
+                            <div class="serial">Edit</div>
+                            <div class="serial">Delete</div>
+                        </div>
+                        @if (ViewBag.Albums != null)
+                        {
+                            foreach (var album in ViewBag.Albums)
+                            {
+                    <div class="table-row">
+                        <div class="serial"></div>
+                        <div class="country">@album.Album_Name</div>
+                        <div class="serial">@album.Total_Track</div>
+                        <div class="serial">@album.Submitted_Track</div>
+                        @if (album.Total_Track > album.Submitted_Track)
+                        {
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToAlbum","Solo",new { albumId = album.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
+                        }
+                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                    </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!--Ep show table-->
     <div class="section-top-border">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial"></div>
+                            <div class="country">EP Names</div>
+                            <div class="country">Total Tracks</div>
+                            <div class="country">Submitted Tracks</div>
+                            <div class="serial">Edit</div>
+                            <div class="serial">Delete</div>
+                        </div>
+                        @if (ViewBag.Eps != null)
+                        {
+                            foreach (var ep in ViewBag.Eps)
+                            {
+                                <div class="table-row">
+                                    <div class="serial"></div>
+                                    <div class="country">@ep.Ep_Name</div>
+                                    <div class="country">@ep.Total_Track</div>
+                                    <div class="country">@ep.Submitted_Track</div>
+                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!--Single show table-->
     <div class="section-top-border">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial"></div>
+                            <div class="country">Albums</div>
+                            <div class="serial">Edit</div>
+                            <div class="serial">Delete</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="serial"></div>
+                            <div class="country">Album Name</div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="#"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="#"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!--Error Display section from another action/controller-->
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <div class="section-top-border">
+            <div class="row">
+                <h2> @TempData["ErrorMsg"] </h2>
+            </div>
+        </div>
+    }
+
+    <!--Error Display section from same controller-->
+    @if (ViewBag.ErrorMsg != null)
+    {
+        <div class="section-top-border">
+            <div class="row">
+                <h2> @ViewBag.ErrorMsg </h2>
+            </div>
+        </div>
+    }
 </div>
-    @if (ViewBag.BankAccountSubmissionStatus == 0)
+
+    @*@if (ViewBag.BankAccountSubmissionStatus == 0)
     {
         <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
         <br />
@@ -78,37 +184,5 @@
     else
     {
         <p>Error occured</p>
-    }
-
-    @if (ViewBag.Albums != null)
-    {
-        foreach (var album in ViewBag.Albums)
-        {
-            <p> @album.Album_Name &nbsp; @album.Submitted_Track submitted of @album.Total_Track  tracks&nbsp;</p>
-            <a href="@Url.Action("ShowIndividualAlbumSongs","Album",new { albumId = album.Id })" style="color:blueviolet">Show Album details &nbsp;</a>
-            <a href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Edit Album &nbsp;</a>
-            <a href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })" style="color:blueviolet">Delete Album &nbsp;</a>
-        }
-    }
-
-    @if (ViewBag.Eps != null)
-    {
-        foreach (var ep in ViewBag.Eps)
-        {
-            <p> @ep.Ep_Name &nbsp; @ep.Submitted_Track submitted of @ep.Total_Track  tracks&nbsp;</p>
-            <a href="@Url.Action("ShowIndividualEpSongs","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Show Ep details &nbsp;</a>
-            <a href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Edit Ep &nbsp;</a>
-            <a href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })" style="color:blueviolet">Delete Ep &nbsp;</a>
-        }
-    }
-
-    @if (ViewBag.ErrorMsg != null)
-    {
-        <h2> @ViewBag.ErrorMsg </h2>
-    }
-
-    @if (TempData["ErrorMsg"] != null)
-    {
-        <h2> @TempData["ErrorMsg"] </h2>
-    }
+    }*@
 

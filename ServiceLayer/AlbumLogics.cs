@@ -284,5 +284,11 @@ namespace ServiceLayer
                 return false;
             }
         }
+
+        public AlbumTrackMaster GetAlbumDetail(Guid albumId, Guid trackId)
+        {
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            return AlbumCQ.GetAlbumTrackObject(albumId, trackId);
+        }
     }
 }

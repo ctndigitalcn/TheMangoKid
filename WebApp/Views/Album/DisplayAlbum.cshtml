@@ -22,22 +22,54 @@
 <section class="services-area pt-top border-bottom pb-20 mb-60">
     <div class="container">
         <div class="row">
-            @if (ViewBag.details.Count > 0)
-            {
-                foreach (var item in ViewBag.details)
-                {
-                    <p> @item.SingleTrackDetail.TrackTitle &nbsp; status is @item.StoreSubmissionStatus </p>
+            <div class="col-lg-12 col-md-12">
+                <div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial"></div>
+                            <div class="country">Track Name</div>
+                            <div class="serial">Release Date</div>
+                            <div class="serial">Status</div>
+                            <div class="serial">Edit</div>
+                            <div class="serial">Delete</div>
+                        </div>
+                        @if (ViewBag.details.Count > 0)
+                        {
+                            foreach (var item in ViewBag.details)
+                            {
+                                <div class="table-row">
+                                    <div class="serial"></div>
+                                    <div class="country">@item.SingleTrackDetail.TrackTitle</div>
+                                    <div class="serial">@item.SingleTrackDetail.ReleaseDate</div>
+                                    @if (item.StoreSubmissionStatus == 0)
+                                    {
+                                        <div class="serial">Pending</div>
+                                    }
+                                    @if (item.StoreSubmissionStatus == 1)
+                                    {
+                                        <div class="serial">Submitted</div>
+                                    }
 
-                    if (item.StoreSubmissionStatus == 0)
-                    {
-                        <a href="@Url.Action("EditTrackDetails","Solo",new { trackId = item.SingleTrackDetail.Id })" style="color:blueviolet">Edit Track &nbsp;</a>
-                        <a href="@Url.Action("DeleteTrack","Solo",new { trackId = item.SingleTrackDetail.Id })" style="color:blueviolet">Delete Track &nbsp;</a>
-                    }
-                }
-            }
-            @if (!ViewBag.IsAlbumFull)
+                                    @if (item.StoreSubmissionStatus == 0)
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForAlbum","Solo",new { albumId = ViewBag.Album.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackForAlbum","Solo",new { albumId = ViewBag.Album.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                    }
+                                </div>
+                            }
+                         }
+                    </div>
+                </div>
+            </div>
+            
+            @*@if (!ViewBag.IsAlbumFull)
             {
                 <a href="@Url.Action("AddTrackToAlbum","Solo",new { albumId =  ViewBag.Album.Id})" style="color:blueviolet">Add a Track &nbsp;</a>
+            }*@
+
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <p>@ViewBag.ErrorMsg</p>
             }
         </div>
     </div>

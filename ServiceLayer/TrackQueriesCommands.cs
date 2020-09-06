@@ -64,5 +64,13 @@ namespace ServiceLayer
                 }
             }
         }
+
+        public SingleTrackDetail FindTrackById(Guid trackId)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                return db.SingleTrackDetails.Where(rec=>rec.Id==trackId).Include(rec=>rec.ArtworkDetail).SingleOrDefault();
+            }
+        }
     }
 }

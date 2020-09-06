@@ -260,11 +260,11 @@ namespace ServiceLayer
             }
         }
 
-        public Album GetAlbumById(Guid id)
+        public Album GetAlbumById(Guid albumId)
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                return db.Albums.Find(id);
+                return db.Albums.Where(rec=>rec.Id==albumId).Include(rec=>rec.PurchaseRecord).SingleOrDefault();
             }
         }
         public Album GetAlbumByPurchaseRecord(PurchaseRecord purchaseRecordObject)
@@ -280,6 +280,14 @@ namespace ServiceLayer
             using (DatabaseContext db = new DatabaseContext())
             {
                 return db.Albums.Any(rec=>rec.PurchaseRecord==purchaseRecordObject);
+            }
+        }
+
+        public AlbumTrackMaster GetAlbumTrackObject(Guid albumId, Guid trackId)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                return db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumId && rec.Track_Id == trackId).Include(rec=>rec.Album).Include(rec=>rec.SingleTrackDetail).SingleOrDefault();
             }
         }
     }
