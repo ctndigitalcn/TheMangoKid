@@ -16,17 +16,16 @@ namespace DomainModel
 
         public int Id { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Coupon_Code { get; set; }
 
-        public DateTime Generated_At { get; set; }
+        public DateTime? Generated_At { get; set; }
 
-        public DateTime Expire_At { get; set; }
+        public DateTime? Expire_At { get; set; }
 
-        public int Discount_Percentage { get; set; }
+        public int? Discount_Percentage { get; set; }
 
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         public Guid? Created_By { get; set; }
 

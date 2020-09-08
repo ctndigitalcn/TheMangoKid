@@ -13,7 +13,7 @@ namespace WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "UserProfile");
+                return RedirectToAction("Logout", "Authentication");
             }
             else
             {

@@ -235,12 +235,19 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "UserProfile");
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
+            if (User.Identity.IsAuthenticated)
+            {
+                FormsAuthentication.SignOut();
+                Session.Abandon();
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
     }
 }

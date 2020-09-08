@@ -76,56 +76,46 @@ namespace ServiceLayer
             var epObject = EpCQ.GetEpById(epId);
             if (epObject != null)
             {
-                var result = EpCQ.DeleteEp(epObject);
-                if (result == 0)
+                var trackListOftheEp = EpCQ.GetAllTracksOfEp(epId);
+                if (trackListOftheEp.Count == 0)
                 {
-                    //Operation Faild while deleting Ep. Internal error occured;
-                    return 2;
+                    var resultOfDeletingEp = EpCQ.DeleteEp(epObject);
+                    if (resultOfDeletingEp == 1)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 5;
+                    }
                 }
-                else if (result == 1)
+                else if (trackListOftheEp.Count > 0)
                 {
-                    //Operation completed Successfully
-                    return 1;
-                }
-                else if (result == 2)
-                {
-                    //A Record Couldn't deleted from EpTrackMaster Table due to internal error.
-                    return 3;
-                }
-                else if (result == 3)
-                {
-                    //Operation Failed in the level of EpTrackMaster Label.
-                    return 4;
-                }
-                else if (result == 4)
-                {
-                    //Error while deleting a solo track that belongs to only the Ep
-                    return 5;
-                }
-                else if (result == 5)
-                {
-                    //Track fetching failed.
-                    return 6;
-                }
-                else if (result == 7)
-                {
-                    //A track from the Ep is already submitted to the store. can't delete Ep
-                    return 8;
-                }
-                else if (result == 8)
-                {
-                    //Error while updating the associated purchase record. User can't create an Ep with the valid purchase
-                    return 9;
+                    var resultOfRemovingSolos = EpCQ.RemoveSingleTracksFromEp(trackListOftheEp);
+                    if (resultOfRemovingSolos == 1)
+                    {
+                        var resultOfDeletingAlbum = EpCQ.DeleteEp(epObject);
+                        if (resultOfDeletingAlbum == 1)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 4;
+                        }
+                    }
+                    else
+                    {
+                        return 3;
+                    }
                 }
                 else
                 {
-                    //Error occured while deleting a valid track
-                    return 7;
+                    return 2;
                 }
             }
             else
             {
-                //No Ep found. Operation failed.
                 return 0;
             }
         }
@@ -138,25 +128,25 @@ namespace ServiceLayer
 
             if (ep != null)
             {
+                if (EpCQ.EPEmptiness(ep) != 1)
+                {
+                    //Can't edit Ep as one song alredy registered under the album
+                    return 2;
+                }
                 ep.Ep_Name = epName;
                 ep.Total_Track = totalTrack;
 
                 var result = EpCQ.EditEpDetails(ep);
 
-                if (result == 0)
+                if (result != 1)
                 {
                     //Internal Error occured while changing data for the Ep
-                    return 2;
-                }
-                else if (result == 1)
-                {
-                    //Ep details changed Successfully
-                    return 1;
+                    return 3;
                 }
                 else
                 {
-                    //Can't edit Ep as one song alredy registered under the Ep
-                    return 3;
+                    //Ep details changed Successfully
+                    return 1;
                 }
             }
             else
@@ -252,6 +242,28 @@ namespace ServiceLayer
                 {
                     return false;
                 }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public List<EpTrackMaster> GetAllTracksWithEpDetails(Guid epId)
+        {
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
+
+            var result = EpCQ.GetAllTracksWithEpDetails(epId);
+
+            //Result could be null or a list consists of Tracks with store submission report and all.
+            return result;
+        }
+
+        public bool IsEpFull(Guid epId)
+        {
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
+            if (EpCQ.EPEmptiness(EpCQ.GetEpById(epId)) == 3)
+            {
+                return true;
             }
             else
             {

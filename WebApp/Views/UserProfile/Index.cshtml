@@ -82,7 +82,18 @@
                         {
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToAlbum","Solo",new { albumId = album.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
                         }
-                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                        else
+                        {
+                            <div class="serial"><p>Album is full</p></div>
+                        }
+                        @if (album.Submitted_Track > 0)
+                        {
+                            <div class="serial"><p>Album properties can't be edited</p></div>
+                        }
+                        else
+                        {
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                        }
                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
                     </div>
                             }
@@ -102,8 +113,9 @@
                         <div class="table-head">
                             <div class="serial"></div>
                             <div class="country">EP Names</div>
-                            <div class="country">Total Tracks</div>
-                            <div class="country">Submitted Tracks</div>
+                            <div class="country">Total </div>
+                            <div class="country">Submitted</div>
+                            <div class="serial">Add Track</div>
                             <div class="serial">Edit</div>
                             <div class="serial">Delete</div>
                         </div>
@@ -116,7 +128,22 @@
                                     <div class="country">@ep.Ep_Name</div>
                                     <div class="country">@ep.Total_Track</div>
                                     <div class="country">@ep.Submitted_Track</div>
-                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                    @if (ep.Total_Track > ep.Submitted_Track)
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToEp","Solo",new { epId = ep.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><p>Ep is full</p></div>
+                                    }
+                                    @if (ep.Submitted_Track > 0)
+                                    {
+                                        <div class="serial"><p>Ep properties can't be edited</p></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                    }
                                     <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
                                 </div>
                             }

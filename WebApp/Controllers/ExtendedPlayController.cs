@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         public ActionResult EditOnlyEp(Guid epId)
         {
             //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official199@gmail.com";
+            string userEmail = "koushik.official1999@gmail.com";
 
             businessLogics = new BusinessLogics();
 
@@ -57,6 +57,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateOnlyEp(string epName, string totalTrack)
         {
             logics = new GeneralLogics();
@@ -119,6 +120,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditOnlyEp(Guid epId, string epName, string totalTrack)
         {
             ViewBag.Title = "Edit Ep";
@@ -230,9 +232,15 @@ namespace WebApp.Controllers
         {
             businessLogics = new BusinessLogics();
 
-            ViewBag.Tracks = businessLogics.GetTrackDetailsOfEp(epId);
+            var ep = businessLogics.GetEpById(epId);
+            ViewBag.Ep = ep;
 
-            return View();
+            //get the list of all tracks of the same Ep
+            ViewBag.details = businessLogics.GetAllTracksWithEpDetails(epId);
+
+            ViewBag.IsEpFull = businessLogics.IsEpFull(epId);
+
+            return View("DisplayEp");
         }
 
         //For Admin use only

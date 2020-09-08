@@ -5,7 +5,7 @@
             <h3 class="mb-30">@ViewBag.Title</h3>
             <form action="EditTrackDetails" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="trackId" value="@ViewBag.TrackDetail.Id" required>
+                <input type="hidden" name="trackId" value="@ViewBag.TrackId" required>
                 <div class="mt-10">
                     <input type="text" name="TrackTitle" placeholder="Track Title"
                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Track Title'" required
@@ -17,7 +17,7 @@
                            class="single-input" value="@ViewBag.TrackDetail.ArtistName">
                 </div>
                 <div class="input-group-icon mt-10">
-                    <div class="icon"></div>
+                    <div class="icon"><i class="fa fa-spotify" aria-hidden="true"></i></div>
                     <div class="form-select" id="default-select" ">
                         <select name="ArtistAlreadyInSpotify" required>
                             <option value=" ">Is Artist already in Spotify?</option>
@@ -67,7 +67,7 @@
                            class="single-input" value="@ViewBag.TrackDetail.ProducerName">
                 </div>
                 <div class="input-group-icon mt-10">
-                    <div class="icon"></div>
+                    <div class="icon"><i class="fa fa-id-card-alt" aria-hidden="true"></i></div>
                     <div class="form-select" id="default-select" ">
                         <select name="AlreadyHaveAnISRC" required>
                             <option value=" ">Do you have an ISRC number for the track?</option>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="input-group-icon mt-10">
-                    <div class="icon"></div>
+                    <div class="icon"><i class="fa fa-music" aria-hidden="true"></i></div>
                     <div class="form-select" id="default-select" ">
                         <select name="IsTrackInstrumental" required>
                             <option value=" ">Is this track instrumental?</option>
@@ -108,7 +108,7 @@
                            class="single-input" value="@ViewBag.TrackDetail.LyricsLanguage">
                 </div>
                 <div class="input-group-icon mt-10">
-                    <div class="icon"></div>
+                    <div class="icon"><i class="fa fa-hand-middle-finger" aria-hidden="true"></i></div>
                     <div class="form-select" id="default-select" ">
                         <select name="ExplicitContent" required>
                             <option value=" ">Is this track contains any explicit content?</option>

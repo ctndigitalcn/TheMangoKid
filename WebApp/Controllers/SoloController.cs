@@ -16,9 +16,39 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult AddTrackToAlbum(Guid albumId)
         {
-            ViewBag.AlbumId = albumId;
-            ViewBag.Title = "Add Track";
-            return View("AddTrack");
+            businessLogics = new BusinessLogics();
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail != null && businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
+            {
+                ViewBag.AlbumId = albumId;
+                ViewBag.Title = "Add Track";
+                return View("AddTrackAlbum");
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "You are trying to add an track to an album that doesn't belongs to you.";
+                return RedirectToAction("Index", "UserProfile");
+            }
+            
+        }
+
+        [HttpGet]
+        public ActionResult AddTrackToEp(Guid epId)
+        {
+            businessLogics = new BusinessLogics();
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail != null && businessLogics.IsAccountContainsThisEp(userEmail, epId))
+            {
+                ViewBag.EpId = epId;
+                ViewBag.Title = "Add Track";
+                return View("AddTrackEp");
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "You are trying to add an track to an Ep that doesn't belongs to you.";
+                return RedirectToAction("Index", "UserProfile");
+            }
+
         }
 
 
@@ -26,7 +56,6 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddTrackToAlbum(Guid albumId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
         {
-            ViewBag.AlbumId = albumId;
             List<string> mandetoryFieldsInput = new List<string> { TrackTitle, ArtistName, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, PriceTier, TrackZipFileLink, ArtWork_Link };
             List<string> mandetoryBoolFields = new List<string> { ArtistAlreadyInSpotify, AlreadyHaveAnISRC, ExplicitContent, IsTrackInstrumental };
 
@@ -36,7 +65,7 @@ namespace WebApp.Controllers
             {
                 if (!logic.ContainsAnyNullorWhiteSpace(mandetoryBoolFields))
                 {
-                    bool isArtistOnSpotify=false, isTrackHasISRC=false, isTrackHasExplicitContent=false, isTrackInstrumental=false;
+                    bool isArtistOnSpotify = false, isTrackHasISRC = false, isTrackHasExplicitContent = false, isTrackInstrumental = false;
                     if (ArtistAlreadyInSpotify == "yes")
                     {
                         isArtistOnSpotify = true;
@@ -54,13 +83,13 @@ namespace WebApp.Controllers
                         isTrackInstrumental = true;
                     }
 
-                    if(!isArtistOnSpotify && !logic.ContainsOnlyAlphabets(ArtistSpotifyUrl))
+                    if ((isArtistOnSpotify && !String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())) || (isArtistOnSpotify==false && String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())))
                     {
-                        if (!isTrackHasISRC && String.IsNullOrWhiteSpace(ISRC_Number.Trim()))
+                        if ((isTrackHasISRC && !String.IsNullOrWhiteSpace(ISRC_Number.Trim())) || (isTrackHasISRC==false && String.IsNullOrWhiteSpace(ISRC_Number.Trim())))
                         {
-                            if (isTrackInstrumental && String.IsNullOrWhiteSpace(LyricsLanguage.Trim()))
+                            if ((isTrackInstrumental && String.IsNullOrWhiteSpace(LyricsLanguage.Trim()))||(isTrackInstrumental==false && !String.IsNullOrWhiteSpace(LyricsLanguage.Trim())))
                             {
-                                if (ReleaseDate!=null && ReleaseDate > logic.CurrentIndianTime())
+                                if (ReleaseDate != null && ReleaseDate > logic.CurrentIndianTime())
                                 {
                                     //Code to add the song to the album
                                     businessLogics = new BusinessLogics();
@@ -69,7 +98,246 @@ namespace WebApp.Controllers
                                     {
                                         return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
                                     }
-                                    else if (result==7) 
+                                    else if (result == 7)
+                                    {
+                                        TempData["ErrorMsg"] = "Your purchase has expired. you can't add the track to the album.";
+                                    }
+                                    else if (result == 8)
+                                    {
+                                        TempData["ErrorMsg"] = "You can't add the track as the album is full.";
+                                    }
+                                    else
+                                    {
+                                        TempData["ErrorMsg"] = "Internal Error occured";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["ErrorMsg"] = "Provide a valid Date to release your track";
+                                }
+                            }
+                            else
+                            {
+                                TempData["ErrorMsg"] = "If it's an instrumental track then leave the Lyrics Language field empty";
+                            }
+                        }
+                        else
+                        {
+                            TempData["ErrorMsg"] = "If you have ISRC number for the track then select yes and provide the number. Otherwise select no and leave the field empty.";
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "If artist is already on spotify then select yes and provide the link of the artist. Otherwise select no and leave the field empty.";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Select proper options from dropdowns";
+                }
+
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "Mandetory Fields can't be left empty";
+            }
+            return RedirectToAction("AddTrackToAlbum","Solo",new { albumId =albumId});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTrackToEp(Guid epId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        {
+            List<string> mandetoryFieldsInput = new List<string> { TrackTitle, ArtistName, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, PriceTier, TrackZipFileLink, ArtWork_Link };
+            List<string> mandetoryBoolFields = new List<string> { ArtistAlreadyInSpotify, AlreadyHaveAnISRC, ExplicitContent, IsTrackInstrumental };
+
+            logic = new GeneralLogics();
+
+            if (!logic.ContainsAnyNullorWhiteSpace(mandetoryFieldsInput))
+            {
+                if (!logic.ContainsAnyNullorWhiteSpace(mandetoryBoolFields))
+                {
+                    bool isArtistOnSpotify = false, isTrackHasISRC = false, isTrackHasExplicitContent = false, isTrackInstrumental = false;
+                    if (ArtistAlreadyInSpotify == "yes")
+                    {
+                        isArtistOnSpotify = true;
+                    }
+                    if (AlreadyHaveAnISRC == "yes")
+                    {
+                        isTrackHasISRC = true;
+                    }
+                    if (ExplicitContent == "yes")
+                    {
+                        isTrackHasExplicitContent = true;
+                    }
+                    if (IsTrackInstrumental == "yes")
+                    {
+                        isTrackInstrumental = true;
+                    }
+
+                    if ((isArtistOnSpotify && !String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())) || (isArtistOnSpotify == false && String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())))
+                    {
+                        if ((isTrackHasISRC && !String.IsNullOrWhiteSpace(ISRC_Number.Trim())) || (isTrackHasISRC == false && String.IsNullOrWhiteSpace(ISRC_Number.Trim())))
+                        {
+                            if ((isTrackInstrumental && String.IsNullOrWhiteSpace(LyricsLanguage.Trim())) || (isTrackInstrumental == false && !String.IsNullOrWhiteSpace(LyricsLanguage.Trim())))
+                            {
+                                if (ReleaseDate != null && ReleaseDate > logic.CurrentIndianTime())
+                                {
+                                    //Code to add the song to the Ep
+                                    businessLogics = new BusinessLogics();
+                                    //var result = businessLogics.CreateNewTrackForEp(epId, TrackTitle, ArtistName, isArtistOnSpotify, ArtistSpotifyUrl, ReleaseDate, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, isTrackHasISRC, ISRC_Number, Convert.ToInt32(PriceTier), isTrackHasExplicitContent, isTrackInstrumental, LyricsLanguage, TrackZipFileLink, ArtWork_Link);
+                                    //if (result == 1)
+                                    //{
+                                    //    return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
+                                    //}
+                                    //else if (result == 7)
+                                    //{
+                                    //    TempData["ErrorMsg"] = "Your purchase has expired. you can't add the track to the album.";
+                                    //}
+                                    //else if (result == 8)
+                                    //{
+                                    //    TempData["ErrorMsg"] = "You can't add the track as the album is full.";
+                                    //}
+                                    //else
+                                    //{
+                                    //    TempData["ErrorMsg"] = "Internal Error occured";
+                                    //}
+                                    return View();
+                                }
+                                else
+                                {
+                                    TempData["ErrorMsg"] = "Provide a valid Date to release your track";
+                                }
+                            }
+                            else
+                            {
+                                TempData["ErrorMsg"] = "If it's an instrumental track then leave the Lyrics Language field empty";
+                            }
+                        }
+                        else
+                        {
+                            TempData["ErrorMsg"] = "If you have ISRC number for the track then select yes and provide the number. Otherwise select no and leave the field empty.";
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "If artist is already on spotify then select yes and provide the link of the artist. Otherwise select no and leave the field empty.";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Select proper options from dropdowns";
+                }
+
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "Mandetory Fields can't be left empty";
+            }
+            return RedirectToAction("AddTrackToEp", "Solo", new { epId = epId });
+        }
+
+
+        [HttpGet]
+        public ActionResult EditTrackDetailsForAlbum(Guid albumId, Guid trackId)
+        {
+            businessLogics = new BusinessLogics();
+            logic = new GeneralLogics();
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail != null && businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
+            {
+                var albumDetails = businessLogics.GetAlbumDetail(albumId, trackId);
+                if (albumDetails != null)
+                {
+                    if (albumDetails.StoreSubmissionStatus == 0)
+                    {
+                        var albumPurchase = businessLogics.GetAlbumById(albumDetails.Album_Id);
+                        if (albumPurchase.PurchaseRecord.Usage_Exp_Date > logic.CurrentIndianTime())
+                        {
+                            var trackDetail = businessLogics.GetTrackById(trackId);
+                            if (trackDetail != null)
+                            {
+                                ViewBag.Title = "Edit Track";
+                                ViewBag.TrackDetail = trackDetail;
+                                ViewBag.TrackId = trackDetail.Id;
+                                return View("EditTrack");
+                            }
+                            else
+                            {
+                                TempData["ErrorMsg"] = "Error while fetching track details";
+                            }
+
+                        }
+                        else
+                        {
+                            TempData["ErrorMsg"] = "Your purchase has expired. you can't modify the track";
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "The track is already submitted to store. You can't edit this track";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Track is not valid";
+                }
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "You are trying to modify a track details that doesn't belongs to you";
+            }
+            return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTrackDetails(Guid trackId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        {
+            ViewBag.TrackId = trackId;
+            List<string> mandetoryFieldsInput = new List<string> { TrackTitle, ArtistName, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, PriceTier, TrackZipFileLink, ArtWork_Link };
+            List<string> mandetoryBoolFields = new List<string> { ArtistAlreadyInSpotify, AlreadyHaveAnISRC, ExplicitContent, IsTrackInstrumental };
+
+            logic = new GeneralLogics();
+
+            if (!logic.ContainsAnyNullorWhiteSpace(mandetoryFieldsInput))
+            {
+                if (!logic.ContainsAnyNullorWhiteSpace(mandetoryBoolFields))
+                {
+                    bool isArtistOnSpotify = false, isTrackHasISRC = false, isTrackHasExplicitContent = false, isTrackInstrumental = false;
+                    if (ArtistAlreadyInSpotify == "yes")
+                    {
+                        isArtistOnSpotify = true;
+                    }
+                    if (AlreadyHaveAnISRC == "yes")
+                    {
+                        isTrackHasISRC = true;
+                    }
+                    if (ExplicitContent == "yes")
+                    {
+                        isTrackHasExplicitContent = true;
+                    }
+                    if (IsTrackInstrumental == "yes")
+                    {
+                        isTrackInstrumental = true;
+                    }
+
+                    if ((isArtistOnSpotify && !String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())) || (isArtistOnSpotify == false && String.IsNullOrWhiteSpace(ArtistSpotifyUrl.Trim())))
+                    {
+                        if ((isTrackHasISRC && !String.IsNullOrWhiteSpace(ISRC_Number.Trim())) || (isTrackHasISRC == false && String.IsNullOrWhiteSpace(ISRC_Number.Trim())))
+                        {
+                            if ((isTrackInstrumental && String.IsNullOrWhiteSpace(LyricsLanguage.Trim())) || (isTrackInstrumental == false && !String.IsNullOrWhiteSpace(LyricsLanguage.Trim())))
+                            {
+                                if (ReleaseDate != null && ReleaseDate > logic.CurrentIndianTime())
+                                {
+                                    //Code to add the song to the album
+                                    businessLogics = new BusinessLogics();
+                                    var result = businessLogics.EditTrack(trackId, TrackTitle, ArtistName, isArtistOnSpotify, ArtistSpotifyUrl, ReleaseDate, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, isTrackHasISRC, ISRC_Number, Convert.ToInt32(PriceTier), isTrackHasExplicitContent, isTrackInstrumental, LyricsLanguage, TrackZipFileLink, ArtWork_Link);
+                                    if (result == 1)
+                                    {
+                                        return RedirectToAction("Index", "UserProfile");
+                                    }
+                                    else if (result == 7)
                                     {
                                         ViewBag.ErrorMsg = "Your purchase has expired. you can't add the track to the album.";
                                     }
@@ -79,7 +347,6 @@ namespace WebApp.Controllers
                                     }
                                     else
                                     {
-                                        Console.Write(result);
                                         ViewBag.ErrorMsg = "Internal Error occured";
                                     }
                                 }
@@ -113,64 +380,11 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Mandetory Fields can't be left empty";
             }
-            return View("AddTrack");
+            return View("EditTrack");
         }
-
 
         [HttpGet]
-        public ActionResult EditTrackDetailsForAlbum(Guid albumId, Guid trackId)
-        {
-            businessLogics = new BusinessLogics();
-            logic = new GeneralLogics();
-            string userEmail = Session["LoginEmail"].ToString();
-            if (userEmail!=null && businessLogics.IsAccountContainsThisAlbum(userEmail, albumId))
-            {
-                var albumDetails = businessLogics.GetAlbumDetail(albumId,trackId);
-                if (albumDetails != null)
-                {
-                    if (albumDetails.StoreSubmissionStatus == 0)
-                    {
-                        var albumPurchase = businessLogics.GetAlbumById(albumDetails.Album_Id);
-                        if (albumPurchase.PurchaseRecord.Usage_Exp_Date > logic.CurrentIndianTime())
-                        {
-                            var trackDetail = businessLogics.GetTrackById(trackId);
-                            if (trackDetail != null)
-                            {
-                                ViewBag.Title = "Edit Track";
-                                ViewBag.TrackDetail = trackDetail;
-                                return View("EditTrack");
-                            }
-                            else
-                            {
-                                ViewBag.ErrorMsg = "Error while fetching track details";
-                            }
-                            
-                        }
-                        else
-                        {
-                            ViewBag.ErrorMsg = "Your purchase has expired. you can't modify the track";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.ErrorMsg = "The track is already submitted to store. You can't edit this track";
-                    }
-                }
-                else
-                {
-                    ViewBag.ErrorMsg = "Track is not valid";
-                }
-            }
-            else
-            {
-                ViewBag.ErrorMsg = "You are trying to modify a track details that doesn't belongs to you";
-            }
-            return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditTrackDetails(Guid trackId, string TrackTitle, string ArtistName, string ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, string AlreadyHaveAnISRC, string ISRC_Number, string PriceTier, string ExplicitContent, string IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        public ActionResult RemoveTrackFromAlbum(Guid albumId, Guid trackId)
         {
             return View();
         }

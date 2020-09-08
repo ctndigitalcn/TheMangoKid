@@ -110,6 +110,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditOnlyAlbum(string albumId, string albumName, string totalTrack)
         {
             logics = new GeneralLogics();
@@ -129,7 +130,7 @@ namespace WebApp.Controllers
 
                         if (result == 0)
                         {
-                            ViewBag.ErrorMsg = "No Account is associated with the email address from which user is trying to modify the album.";
+                            ViewBag.ErrorMsg = "No album found with the Id provided";
                         }
                         if (result == 1)
                         {
@@ -137,9 +138,9 @@ namespace WebApp.Controllers
                         }
                         if (result == 2)
                         {
-                            ViewBag.ErrorMsg = "No purchase left to create an music album";
+                            ViewBag.ErrorMsg = "Can't edit album as one song alredy registered under the album";
                         }
-                        if (result == 3 || result == 4)
+                        if (result == 3)
                         {
                             ViewBag.ErrorMsg = "Internal error occured while creating the album";
                         }
@@ -158,7 +159,7 @@ namespace WebApp.Controllers
             {
                 return RedirectToAction("Logout", "Authentication");
             }
-            return View();
+            return View("AddorEditAlbum");
         }
 
         //For individual user use

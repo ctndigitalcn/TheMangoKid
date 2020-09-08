@@ -13,7 +13,7 @@ namespace DataAccess.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202009022123098_InitialMigration"; }
+            get { return "202009080749170_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

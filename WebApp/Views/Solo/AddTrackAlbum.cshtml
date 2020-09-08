@@ -5,6 +5,7 @@
                 <h3 class="mb-30">@ViewBag.Title</h3>
                 <form action="AddTrackToAlbum" method="post">
                     @Html.AntiForgeryToken()
+
                     <input type="hidden" name="albumId" value="@ViewBag.AlbumId" required>
                     <div class="mt-10">
                         <input type="text" name="TrackTitle" placeholder="Track Title"
@@ -17,7 +18,7 @@
                                class="single-input">
                     </div>
                     <div class="input-group-icon mt-10">
-                        <div class="icon"></div>
+                        <div class="icon"><i class="fa fa-spotify" aria-hidden="true"></i></div>
                         <div class="form-select" id="default-select" ">
                             <select name="ArtistAlreadyInSpotify" required>
                                 <option value=" ">Is Artist already in Spotify?</option>
@@ -67,7 +68,7 @@
                                class="single-input">
                     </div>
                     <div class="input-group-icon mt-10">
-                        <div class="icon"></div>
+                        <div class="icon"><i class="fa fa-id-card-alt" aria-hidden="true"></i></div>
                         <div class="form-select" id="default-select" ">
                             <select name="AlreadyHaveAnISRC" required>
                                 <option value=" ">Do you have an ISRC number for the track?</option>
@@ -93,7 +94,7 @@
                         </div>
                     </div>
                     <div class="input-group-icon mt-10">
-                        <div class="icon"></div>
+                        <div class="icon"><i class="fa fa-music" aria-hidden="true"></i></div>
                         <div class="form-select" id="default-select" ">
                             <select name="IsTrackInstrumental" required>
                                 <option value=" ">Is this track instrumental?</option>
@@ -108,7 +109,7 @@
                                class="single-input">
                     </div>
                     <div class="input-group-icon mt-10">
-                        <div class="icon"></div>
+                        <div class="icon"><i class="fa fa-hand-middle-finger" aria-hidden="true"></i></div>
                         <div class="form-select" id="default-select" ">
                             <select name="ExplicitContent" required>
                                 <option value=" ">Is this track contains any explicit content?</option>
@@ -131,7 +132,7 @@
                         <button type="submit" class="genric-btn primary circle arrow">Submit<span class="lnr lnr-arrow-right"></span></button>
                     </div>
                 </form>
-                @if (ViewBag.ErrorMsg != null)
+                @if (TempData["ErrorMsg"] != null)
                 {
                     <div class="mt-10 text-center">
                         <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>

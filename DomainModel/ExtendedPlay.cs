@@ -16,17 +16,16 @@ namespace DomainModel
 
         public Guid Id { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Ep_Name { get; set; }
 
-        public DateTime Ep_Creation_Date { get; set; }
+        public DateTime? Ep_Creation_Date { get; set; }
 
-        public int Total_Track { get; set; }
+        public int? Total_Track { get; set; }
 
-        public int Submitted_Track { get; set; }
+        public int? Submitted_Track { get; set; }
 
-        public Guid PurchaseTrack_RefNo { get; set; }
+        public Guid? PurchaseTrack_RefNo { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EpTrackMaster> EpTrackMasters { get; set; }

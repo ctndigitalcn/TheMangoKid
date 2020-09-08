@@ -32,11 +32,6 @@ namespace ServiceLayer
 
         public int EditEpDetails(ExtendedPlay epObject)
         {
-            if (EPEmptiness(epObject) != 1)
-            {
-                //Can't edit Ep as one song alredy registered under the Ep
-                return 2;
-            }
             using (DatabaseContext db = new DatabaseContext())
             {
                 try
@@ -54,108 +49,72 @@ namespace ServiceLayer
             }
         }
 
-        public int DeleteEp(ExtendedPlay epObject)
+        public int EditAlbumDetailsByUser(ExtendedPlay epObject)
         {
-            if (IsAnyTrackOfTheEpSubmitted(epObject))
+            if (EPEmptiness(epObject) != 1)
             {
-                //Can't delete Ep as one of the song from the Ep already submitted to the store.
-                return 7;
+                //Can't edit Ep as one song alredy registered under the Ep
+                return 2;
             }
             using (DatabaseContext db = new DatabaseContext())
             {
                 try
                 {
-                    if (db.EpTrackMasters.Any(rec => rec.Ep_Id == epObject.Id && rec.StoreSubmissionStatus == 1))
-                    {
-                        //A song of the store is already published. can't delete the Ep
-                        return 7;
-                    }
+                    db.Entry(epObject).State = EntityState.Modified;
+                    db.SaveChanges();
+                    //Ep details changed Successfully
+                    return 1;
+                }
+                catch
+                {
+                    //Internal Error occured while changing data for the album
+                    return 0;
+                }
+            }
+        }
+
+        public int DeleteEp(ExtendedPlay epObject)
+        {
+            if (IsAnyTrackOfTheEpSubmitted(epObject))
+            {
+                //Can't delete Ep as one of the song from the album already submitted to the store.
+                return 0;
+            }
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    Guid? purchaseId = epObject.PurchaseTrack_RefNo;
 
                     db.Entry(epObject).State = EntityState.Deleted;
                     db.SaveChanges();
                     try
                     {
-                        var purchaseRecord = db.PurchaseRecords.Find(epObject.PurchaseTrack_RefNo);
+                        var purchaseRecord = db.PurchaseRecords.Find(purchaseId);
                         if (purchaseRecord != null)
                         {
                             purchaseRecord.Usage_Date = null;
                             db.Entry(purchaseRecord).State = EntityState.Modified;
                             db.SaveChanges();
-                        }
-                        else
-                        {
-                            //Error while updating the associated purchase record. User can't create an ep with the valid purchase
-                            return 8;
-                        }
-                        var result = db.EpTrackMasters.Where(res => res.Ep_Id == epObject.Id).ToList();
-                        if (result.Count == 0)
-                        {
-                            //If ep has no track then operation successfull
                             return 1;
                         }
                         else
                         {
-                            foreach (var item in result)
-                            {
-                                //Remove that record having the same ep name 
-                                try
-                                {
-                                    db.Entry(item).State = EntityState.Deleted;
-                                    db.SaveChanges();
-                                    //If a track belongs to only that ep not in Extended play category and Solo category then delete that track
-                                    try
-                                    {
-                                        if (!db.EpTrackMasters.Any(track => track.Track_Id == item.Track_Id) && !db.SoloTrackMasters.Any(track => track.Track_Id == item.Track_Id))
-                                        {
-                                            var Track = db.SingleTrackDetails.Find(item.Track_Id);
-                                            if (Track != null)
-                                            {
-                                                try
-                                                {
-                                                    db.Entry(Track).State = EntityState.Deleted;
-                                                    db.SaveChanges();
-                                                }
-                                                catch
-                                                {
-                                                    //Error occured while deleting a valid track
-                                                    return 6;
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                //Track fetching failed.
-                                                return 5;
-                                            }
-                                        }
-                                    }
-                                    catch
-                                    {
-                                        //Error while deleting a solo track that belongs to only the ep
-                                        return 4;
-                                    }
-                                }
-                                catch
-                                {
-                                    //A Record Couldn't deleted from EPTrackMaster Table due to internal error.
-                                    return 2;
-                                }
-
-                            }
-                            //Operation completed Successfully
-                            return 1;
+                            //Error while updating the associated purchase record. User can't create an Ep with the valid purchase
+                            return 4;
                         }
                     }
                     catch
                     {
-                        //Operation Failed in the level of EPTrackMaster Label.
                         return 3;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //Operation Faild while deleting ep. Internal error occured;
-                    return 0;
+                    string msg = ex.ToString();
+
+                    //Operation Faild while deleting album. Internal error occured;
+                    return 2;
                 }
             }
         }
@@ -172,7 +131,7 @@ namespace ServiceLayer
                         //EP is totally empty
                         return 1;
                     }
-                    else if (result.Submitted_Track >= 0 && result.Submitted_Track != result.Total_Track)
+                    else if (result.Submitted_Track > 0 && result.Submitted_Track != result.Total_Track)
                     {
                         //EP is partially empty
                         return 2;
@@ -273,6 +232,34 @@ namespace ServiceLayer
             using (DatabaseContext db = new DatabaseContext())
             {
                 return db.ExtendedPlays.Any(rec => rec.PurchaseRecord == purchaseRecordObject);
+            }
+        }
+
+        public int RemoveSingleTracksFromEp(List<SingleTrackDetail> soloTrackList)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    foreach (var item in soloTrackList)
+                    {
+                        db.Entry(item).State = EntityState.Deleted;
+                    }
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public List<EpTrackMaster> GetAllTracksWithEpDetails(Guid epId)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.EpTrackMasters.Where(rec => rec.Ep_Id == epId).Include(rec => rec.SingleTrackDetail).ToList();
             }
         }
     }

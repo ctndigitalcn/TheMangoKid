@@ -65,11 +65,28 @@ namespace ServiceLayer
             }
         }
 
+        public int DeleteTrack(SingleTrackDetail trackObject)
+        {
+            using(DatabaseContext db=new DatabaseContext())
+            {
+                try
+                {
+                    db.Entry(trackObject).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+        }
+
         public SingleTrackDetail FindTrackById(Guid trackId)
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                return db.SingleTrackDetails.Where(rec=>rec.Id==trackId).Include(rec=>rec.ArtworkDetail).SingleOrDefault();
+                return db.SingleTrackDetails.Where(rec=>rec.Id==trackId).SingleOrDefault();
             }
         }
     }

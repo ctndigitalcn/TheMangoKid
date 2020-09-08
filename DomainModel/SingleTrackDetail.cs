@@ -66,12 +66,11 @@ namespace DomainModel
         [Column(TypeName = "text")]
         public string TrackZipFileLink { get; set; }
 
-        public int? Artwork_Id { get; set; }
+        [Column(TypeName = "text")]
+        public string ArtworkFileLink { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlbumTrackMaster> AlbumTrackMasters { get; set; }
-
-        public virtual ArtworkDetail ArtworkDetail { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EpTrackMaster> EpTrackMasters { get; set; }

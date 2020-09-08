@@ -49,6 +49,25 @@ namespace ServiceLayer
             }
         }
 
+        public int DeletePurchaseRecord(PurchaseRecord purchaseRecordObject)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    db.Entry(purchaseRecordObject).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    //operation done successfully
+                    return 1;
+                }
+                catch
+                {
+                    //Internal error occured
+                    return 0;
+                }
+            }
+        }
+
         public List<PurchaseRecord> GetAllPurchaseRecords()
         {
             using(DatabaseContext db = new DatabaseContext())
@@ -121,6 +140,14 @@ namespace ServiceLayer
             }
         }
 
+        public List<PurchaseRecord> GetUnUsedSoloPurchaseRecordOf(Account account)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.PurchaseRecords.Where(rec => rec.Account_Id == account.Id && rec.Purchased_Category.Equals("Solo", StringComparison.CurrentCultureIgnoreCase) && rec.Usage_Date == null).ToList();
+            }
+        }
+
         public List<PurchaseRecord> GetUsedAlbumPurchaseRecordOf(Account account)
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -137,7 +164,15 @@ namespace ServiceLayer
             }
         }
 
-        public PurchaseRecord GetPurchaseRecordById(Guid id)
+        public List<PurchaseRecord> GetUsedSoloPurchaseRecordOf(Account account)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.PurchaseRecords.Where(rec => rec.Account_Id == account.Id && rec.Purchased_Category.Equals("Solo", StringComparison.CurrentCultureIgnoreCase) && rec.Usage_Date != null).ToList();
+            }
+        }
+
+        public PurchaseRecord GetPurchaseRecordById(Guid? id)
         {
             using(DatabaseContext db = new DatabaseContext())
             {

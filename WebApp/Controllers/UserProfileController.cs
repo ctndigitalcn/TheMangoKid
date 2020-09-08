@@ -41,7 +41,6 @@ namespace WebApp.Controllers
             int AlbumsAlreadyCreated = businessLogics.CountOfAlbumsAlreadyCreatedBy(userEmail);
             int AlbumCountLeftToCreate = businessLogics.CountOfAlbumsCanBeCreatedBy(userEmail);
             ViewBag.AlbumCount = AlbumCountLeftToCreate;
-
             //pass the album details
             if (AlbumsAlreadyCreated > 0)
             {
@@ -54,7 +53,6 @@ namespace WebApp.Controllers
             int EpsAlreadyCreated = businessLogics.CountOfEpsAlreadyCreatedBy(userEmail);
             int EpCountLeftToCreate = businessLogics.CountOfEpsCanBeCreatedBy(userEmail);
             ViewBag.EpCount = EpCountLeftToCreate;
-
             //pass the Ep details
             if (EpsAlreadyCreated > 0)
             {
@@ -62,7 +60,6 @@ namespace WebApp.Controllers
             }
 
             //Code space for Solo
-
             return View();
         }
 
@@ -90,6 +87,14 @@ namespace WebApp.Controllers
             {
                 ViewBag.ErrorMsg = "Purchase was not successfull";
             }
+            return RedirectToAction("Index", "UserProfile");
+        }
+        [HttpGet]
+        public ActionResult PurchaseSolo()
+        {
+            businessLogics = new BusinessLogics();
+            string userEmail = Session["LoginEmail"].ToString();
+            var result = businessLogics.PurchaseSoloFor(userEmail);
             return RedirectToAction("Index", "UserProfile");
         }
 

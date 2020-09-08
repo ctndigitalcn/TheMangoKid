@@ -1,0 +1,144 @@
+﻿    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2"></div>
+            <div class="col-lg-8 col-md-8">
+                <h3 class="mb-30">@ViewBag.Title</h3>
+                <form action="AddTrackToEp" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="epId" value="@ViewBag.EpId" required>
+                    <div class="mt-10">
+                        <input type="text" name="TrackTitle" placeholder="Track Title"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Track Title'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ArtistName" placeholder="Artist Name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artist Name'" required
+                               class="single-input">
+                    </div>
+                    <div class="input-group-icon mt-10">
+                        <div class="icon"><i class="fa fa-spotify" aria-hidden="true"></i></div>
+                        <div class="form-select" id="default-select" ">
+                            <select name="ArtistAlreadyInSpotify" required>
+                                <option value=" ">Is Artist already in Spotify?</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ArtistSpotifyUrl" placeholder="Spotify url of the artist"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Spotify url of the artist'"
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="date" name="ReleaseDate" placeholder="Release Date"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Release Date'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="Genre" placeholder="Genre of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Genre of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="CopyrightClaimerName" placeholder="Copyright claimer name"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Copyright claimer name'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="AuthorName" placeholder="Author name  of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Author name  of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ComposerName" placeholder="Composer name  of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Composer name  of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ArrangerName" placeholder="Arranger name  of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Arranger name  of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ProducerName" placeholder="Producer name  of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Producer name  of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="input-group-icon mt-10">
+                        <div class="icon"><i class="fa fa-id-card-alt" aria-hidden="true"></i></div>
+                        <div class="form-select" id="default-select" ">
+                            <select name="AlreadyHaveAnISRC" required>
+                                <option value=" ">Do you have an ISRC number for the track?</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ISRC_Number" placeholder="ISRC number"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'ISRC number'"
+                               class="single-input">
+                    </div>
+                    <div class="input-group-icon mt-10">
+                        <div class="icon"><i class="fa fa-rupee" aria-hidden="true"></i></div>
+                        <div class="form-select" id="default-select" ">
+                            <select name="PriceTier" required>
+                                <option value=" ">Price of the track</option>
+                                <option value="9">9</option>
+                                <option value="12">12</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group-icon mt-10">
+                        <div class="icon"><i class="fa fa-music" aria-hidden="true"></i></div>
+                        <div class="form-select" id="default-select" ">
+                            <select name="IsTrackInstrumental" required>
+                                <option value=" ">Is this track instrumental?</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="LyricsLanguage" placeholder="Lyrics Language"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lyrics Language'"
+                               class="single-input">
+                    </div>
+                    <div class="input-group-icon mt-10">
+                        <div class="icon"><i class="fa fa-hand-middle-finger" aria-hidden="true"></i></div>
+                        <div class="form-select" id="default-select" ">
+                            <select name="ExplicitContent" required>
+                                <option value=" ">Is this track contains any explicit content?</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="TrackZipFileLink" placeholder="Google drive sharable link for the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Google drive sharable link for the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="text" name="ArtWork_Link" placeholder="Google drive sharable link for the thumbnail of the track"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Google drive sharable link for the thumbnail of the track'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10 text-center">
+                        <button type="submit" class="genric-btn primary circle arrow">Submit<span class="lnr lnr-arrow-right"></span></button>
+                    </div>
+                </form>
+                @if (TempData["ErrorMsg"] != null)
+                {
+                    <div class="mt-10 text-center">
+                        <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-2 col-md-2"></div>
+        </div>
+    </div>

@@ -16,17 +16,16 @@ namespace DomainModel
 
         public Guid Id { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Album_Name { get; set; }
 
-        public DateTime Album_Creation_Date { get; set; }
+        public DateTime? Album_Creation_Date { get; set; }
 
-        public int Total_Track { get; set; }
+        public int? Total_Track { get; set; }
 
-        public int Submitted_Track { get; set; }
+        public int? Submitted_Track { get; set; }
 
-        public Guid PurchaseTrack_RefNo { get; set; }
+        public Guid? PurchaseTrack_RefNo { get; set; }
 
         public virtual PurchaseRecord PurchaseRecord { get; set; }
 
