@@ -73,6 +73,7 @@
     <Compile Include="RoleLogics.cs" />
     <Compile Include="RoleQueriesCommands.cs" />
     <Compile Include="SoloLogics.cs" />
+    <Compile Include="SoloQueriesCommands.cs" />
     <Compile Include="TrackQueriesCommands.cs" />
   </ItemGroup>
   <ItemGroup>

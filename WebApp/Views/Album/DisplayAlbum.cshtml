@@ -40,7 +40,7 @@
                                 <div class="table-row">
                                     <div class="serial"></div>
                                     <div class="country">@item.SingleTrackDetail.TrackTitle</div>
-                                    <div class="serial">@item.SingleTrackDetail.ReleaseDate</div>
+                                    <div class="serial">@item.SingleTrackDetail.ReleaseDate.ToString().Substring(0, 10)</div>
                                     @if (item.StoreSubmissionStatus == 0)
                                     {
                                         <div class="serial">Pending</div>

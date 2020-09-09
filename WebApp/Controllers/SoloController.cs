@@ -185,24 +185,23 @@ namespace WebApp.Controllers
                                 {
                                     //Code to add the song to the Ep
                                     businessLogics = new BusinessLogics();
-                                    //var result = businessLogics.CreateNewTrackForEp(epId, TrackTitle, ArtistName, isArtistOnSpotify, ArtistSpotifyUrl, ReleaseDate, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, isTrackHasISRC, ISRC_Number, Convert.ToInt32(PriceTier), isTrackHasExplicitContent, isTrackInstrumental, LyricsLanguage, TrackZipFileLink, ArtWork_Link);
-                                    //if (result == 1)
-                                    //{
-                                    //    return RedirectToAction("ShowIndividualAlbumSongs", "Album", new { albumId = albumId });
-                                    //}
-                                    //else if (result == 7)
-                                    //{
-                                    //    TempData["ErrorMsg"] = "Your purchase has expired. you can't add the track to the album.";
-                                    //}
-                                    //else if (result == 8)
-                                    //{
-                                    //    TempData["ErrorMsg"] = "You can't add the track as the album is full.";
-                                    //}
-                                    //else
-                                    //{
-                                    //    TempData["ErrorMsg"] = "Internal Error occured";
-                                    //}
-                                    return View();
+                                    var result = businessLogics.CreateNewTrackForEp(epId, TrackTitle, ArtistName, isArtistOnSpotify, ArtistSpotifyUrl, ReleaseDate, Genre, CopyrightClaimerName, AuthorName, ComposerName, ArrangerName, ProducerName, isTrackHasISRC, ISRC_Number, Convert.ToInt32(PriceTier), isTrackHasExplicitContent, isTrackInstrumental, LyricsLanguage, TrackZipFileLink, ArtWork_Link);
+                                    if (result == 1)
+                                    {
+                                        return RedirectToAction("ShowIndividualEpSongs", "ExtendedPlay", new { epId = epId });
+                                    }
+                                    else if (result == 7)
+                                    {
+                                        TempData["ErrorMsg"] = "Your purchase has expired. you can't add the track to the Ep.";
+                                    }
+                                    else if (result == 8)
+                                    {
+                                        TempData["ErrorMsg"] = "You can't add the track as the Ep is full.";
+                                    }
+                                    else
+                                    {
+                                        TempData["ErrorMsg"] = "Internal Error occured";
+                                    }
                                 }
                                 else
                                 {

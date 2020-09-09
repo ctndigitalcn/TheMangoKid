@@ -47,6 +47,24 @@ namespace ServiceLayer
             }
         }
 
+        public int AddtoEpTrackMaster(EpTrackMaster etmObject)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    db.EpTrackMasters.Add(etmObject);
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    //internal error occured while adding track to album track master table
+                    return 0;
+                }
+            }
+        }
+
         public int UpdateTrack(SingleTrackDetail trackObject)
         {
             using(DatabaseContext db = new DatabaseContext())
@@ -89,5 +107,6 @@ namespace ServiceLayer
                 return db.SingleTrackDetails.Where(rec=>rec.Id==trackId).SingleOrDefault();
             }
         }
+
     }
 }

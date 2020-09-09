@@ -21,7 +21,7 @@
                     <div class="card h-100 shadow-lg">
                         <div class="card-body py-5 text-center">
                             <h2 class="buy">Buy for single track</h2><br />
-                            <a href="#" class="btn">Price</a>
+                            <a href="@Url.Action("PurchaseSolo","UserProfile")" class="btn">Price</a>
                         </div>
                     </div>
                 </div>
@@ -162,16 +162,42 @@
                     <div class="progress-table">
                         <div class="table-head">
                             <div class="serial"></div>
-                            <div class="country">Albums</div>
+                            <div class="country">Single's Name</div>
+                            <div class="serial">Release</div>
+                            <div class="serial">Status</div>
                             <div class="serial">Edit</div>
                             <div class="serial">Delete</div>
                         </div>
-                        <div class="table-row">
-                            <div class="serial"></div>
-                            <div class="country">Album Name</div>
-                            <div class="serial"><a class="genric-btn default circle arrow" href="#"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
-                            <div class="serial"><a class="genric-btn default circle arrow" href="#"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
-                        </div>
+                        @if (ViewBag.Solos != null)
+                        {
+                            foreach (var solo in ViewBag.Solos)
+                            {
+                                <div class="table-row">
+                                    <div class="serial"></div>
+                                    <div class="country">@solo.SingleTrackDetail.TrackTitle</div>
+                                    <div class="serial">@solo.SingleTrackDetail.ReleaseDate</div>
+                                    @if (solo.StoreSubmissionStatus == 0)
+                                    {
+                                        <div class="serial"><p>Pending</p></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><p>Released</p></div>
+                                    }
+
+                                    @if (solo.StoreSubmissionStatus == 0)
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackDetailsFromSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><p>Submitted to the stores</p></div>
+                                        <div class="serial"><p>Submitted to the stores</p></div>
+                                    }
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             </div>

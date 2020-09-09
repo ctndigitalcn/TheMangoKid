@@ -60,6 +60,13 @@ namespace WebApp.Controllers
             }
 
             //Code space for Solo
+            int SolosAlreadyCreated = businessLogics.CountOfSolosAlreadyCreatedBy(userEmail);
+            int SoloCountLeftToCreate = businessLogics.CountOfSolosCanBeCreatedBy(userEmail);
+            ViewBag.SoloCount = SoloCountLeftToCreate;
+            if (SolosAlreadyCreated > 0)
+            {
+                ViewBag.Solos = businessLogics.GetAllTheSolosOf(userEmail);
+            }
             return View();
         }
 
@@ -95,6 +102,10 @@ namespace WebApp.Controllers
             businessLogics = new BusinessLogics();
             string userEmail = Session["LoginEmail"].ToString();
             var result = businessLogics.PurchaseSoloFor(userEmail);
+            if (result != 1)
+            {
+                ViewBag.ErrorMsg = "Purchase was not successfull";
+            }
             return RedirectToAction("Index", "UserProfile");
         }
 
