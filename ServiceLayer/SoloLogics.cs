@@ -411,7 +411,7 @@ namespace ServiceLayer
             }
         }
 
-        //For solo music logics
+        //For solo music logic
         public int CountOfSolosAlreadyCreatedBy(string userEmail)
         {
             PurchaseRecordQueriesCommands purchaseCQ = new PurchaseRecordQueriesCommands();
