@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -114,5 +115,29 @@ namespace ServiceLayer
                 return 2;
             }
         }
+
+        public bool IsAccountContainsThisPurchase(string email, Guid purchaseId)
+        {
+            AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
+            var accountObject = AuthCQ.GetAccountByEmail(email);
+            if (accountObject != null)
+            {
+                PurchaseRecordQueriesCommands prCQ = new PurchaseRecordQueriesCommands();
+                return prCQ.GetAllPurchaseRecordsOf(accountObject).Any(rec=>rec.Id== purchaseId);
+            }
+            else
+            {
+                //No account found with this email
+                return false;
+            }
+        }
+
+        public bool IsPurchaseExpired(Guid purchaseId)
+        {
+            logic = new GeneralLogics();
+            PurchaseRecordQueriesCommands prCQ = new PurchaseRecordQueriesCommands();
+            return prCQ.IsPurchaseExpired(purchaseId, logic.CurrentIndianTime());
+        }
+
     }
 }

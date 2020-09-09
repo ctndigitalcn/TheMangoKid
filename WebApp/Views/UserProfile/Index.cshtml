@@ -12,6 +12,26 @@
         </div>
     </div>
 
+    <!--Error Display section from another action/controller-->
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <div class="section-top-border">
+            <div class="row" style="justify-content:center">
+                <h2 style="color:red"> @TempData["ErrorMsg"] </h2>
+            </div>
+        </div>
+    }
+
+    <!--Error Display section from same controller-->
+    @if (ViewBag.ErrorMsg != null)
+    {
+        <div class="section-top-border">
+            <div class="row" style="justify-content:center">
+                <h2 style="color:red"> @ViewBag.ErrorMsg </h2>
+            </div>
+        </div>
+    }
+
     <!--Buying option-->
     <div id="card_section">
         <div class="row">
@@ -73,29 +93,29 @@
                         {
                             foreach (var album in ViewBag.Albums)
                             {
-                    <div class="table-row">
-                        <div class="serial"></div>
-                        <div class="country">@album.Album_Name</div>
-                        <div class="serial">@album.Total_Track</div>
-                        <div class="serial">@album.Submitted_Track</div>
-                        @if (album.Total_Track > album.Submitted_Track)
-                        {
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToAlbum","Solo",new { albumId = album.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
-                        }
-                        else
-                        {
-                            <div class="serial"><p>Album is full</p></div>
-                        }
-                        @if (album.Submitted_Track > 0)
-                        {
-                            <div class="serial"><p>Album properties can't be edited</p></div>
-                        }
-                        else
-                        {
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
-                        }
-                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
-                    </div>
+                                <div class="table-row">
+                                    <div class="serial"></div>
+                                    <div class="country">@album.Album_Name</div>
+                                    <div class="serial">@album.Total_Track</div>
+                                    <div class="serial">@album.Submitted_Track</div>
+                                    @if (album.Total_Track > album.Submitted_Track)
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToAlbum","Solo",new { albumId = album.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><p>Album is full</p></div>
+                                    }
+                                    @if (album.Submitted_Track > 0)
+                                    {
+                                        <div class="serial"><p>Album properties can't be edited</p></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                    }
+                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                </div>
                             }
                         }
                     </div>
@@ -204,25 +224,6 @@
         </div>
     </div>
 
-    <!--Error Display section from another action/controller-->
-    @if (TempData["ErrorMsg"] != null)
-    {
-        <div class="section-top-border">
-            <div class="row">
-                <h2> @TempData["ErrorMsg"] </h2>
-            </div>
-        </div>
-    }
-
-    <!--Error Display section from same controller-->
-    @if (ViewBag.ErrorMsg != null)
-    {
-        <div class="section-top-border">
-            <div class="row">
-                <h2> @ViewBag.ErrorMsg </h2>
-            </div>
-        </div>
-    }
 </div>
 
     @*@if (ViewBag.BankAccountSubmissionStatus == 0)

@@ -65,6 +65,24 @@ namespace ServiceLayer
             }
         }
 
+        public int AddtoSoloTrackMaster(SoloTrackMaster stmObject)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    db.SoloTrackMasters.Add(stmObject);
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    //internal error occured while adding track to album track master table
+                    return 0;
+                }
+            }
+        }
+
         public int UpdateTrack(SingleTrackDetail trackObject)
         {
             using(DatabaseContext db = new DatabaseContext())

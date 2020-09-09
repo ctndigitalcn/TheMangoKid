@@ -270,5 +270,19 @@ namespace ServiceLayer
                 return false;
             }
         }
+
+        public bool IsEpExpired(Guid epId)
+        {
+            logic = new GeneralLogics();
+            EPQueriesCommands EpCQ = new EPQueriesCommands();
+            if (EpCQ.GetEpById(epId).PurchaseRecord.Usage_Exp_Date < logic.CurrentIndianTime())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

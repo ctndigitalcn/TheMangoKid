@@ -94,6 +94,7 @@ namespace ServiceLayer
                         if (purchaseRecord != null)
                         {
                             purchaseRecord.Usage_Date = null;
+                            purchaseRecord.Usage_Exp_Date = null;
                             db.Entry(purchaseRecord).State = EntityState.Modified;
                             db.SaveChanges();
                             return 1;
@@ -170,7 +171,7 @@ namespace ServiceLayer
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return db.ExtendedPlays.Where(ep => ep.PurchaseRecord.Account.Email == accountObject.Email.ToLower()).ToList();
+                return db.ExtendedPlays.Where(ep => ep.PurchaseRecord.Account.Email == accountObject.Email.ToLower()).Include(rec=>rec.PurchaseRecord).ToList();
             }
         }
 
@@ -216,7 +217,7 @@ namespace ServiceLayer
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return db.ExtendedPlays.Find(epId);
+                return db.ExtendedPlays.Where(rec => rec.Id == epId).Include(rec => rec.PurchaseRecord).SingleOrDefault();
             }
         }
         public ExtendedPlay GetEpByPurchaseRecord(PurchaseRecord purchaseRecordObject)

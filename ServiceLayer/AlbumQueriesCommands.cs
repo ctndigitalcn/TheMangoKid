@@ -88,27 +88,28 @@ namespace ServiceLayer
                     Guid? purchaseId = albumObject.PurchaseTrack_RefNo;
 
                     db.Entry(albumObject).State = EntityState.Deleted;
-                        db.SaveChanges();
-                        try
+                    db.SaveChanges();
+                    try
+                    {
+                        var purchaseRecord = db.PurchaseRecords.Find(purchaseId);
+                        if (purchaseRecord != null)
                         {
-                            var purchaseRecord = db.PurchaseRecords.Find(purchaseId);
-                            if (purchaseRecord != null)
-                            {
-                                purchaseRecord.Usage_Date = null;
-                                db.Entry(purchaseRecord).State = EntityState.Modified;
-                                db.SaveChanges();
-                                return 1;
-                            }
-                            else
-                            {
-                                //Error while updating the associated purchase record. User can't create an album with the valid purchase
-                                return 4;
-                            }
+                            purchaseRecord.Usage_Date = null;
+                            purchaseRecord.Usage_Exp_Date = null;
+                            db.Entry(purchaseRecord).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return 1;
                         }
-                        catch
+                        else
                         {
-                            return 3;
+                            //Error while updating the associated purchase record. User can't create an album with the valid purchase
+                            return 4;
                         }
+                    }
+                    catch
+                    {
+                        return 3;
+                    }
                 }
                 catch(Exception ex)
                 {
@@ -220,7 +221,7 @@ namespace ServiceLayer
             }
         }
 
-        public Album GetAlbumById(Guid? albumId)
+        public Album GetAlbumById(Guid albumId)
         {
             using(DatabaseContext db = new DatabaseContext())
             {

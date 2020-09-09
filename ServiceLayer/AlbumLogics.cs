@@ -204,7 +204,7 @@ namespace ServiceLayer
             return AlbumCQ.GetAllAlbumsOf(AuthCQ.GetAccountByEmail(email));
         }
 
-        public Album GetAlbumById(Guid? albumId)
+        public Album GetAlbumById(Guid albumId)
         {
             AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
             return AlbumCQ.GetAlbumById(albumId);
@@ -276,6 +276,20 @@ namespace ServiceLayer
         {
             AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
             return AlbumCQ.GetAlbumTrackObject(albumId, trackId);
+        }
+
+        public bool IsAlbumExpired(Guid albumId)
+        {
+            logic = new GeneralLogics();
+            AlbumQueriesCommands AlbumCQ = new AlbumQueriesCommands();
+            if (AlbumCQ.GetAlbumById(albumId).PurchaseRecord.Usage_Exp_Date < logic.CurrentIndianTime())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

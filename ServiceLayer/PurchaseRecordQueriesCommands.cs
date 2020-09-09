@@ -179,5 +179,29 @@ namespace ServiceLayer
                 return db.PurchaseRecords.Find(id);
             }
         }
+
+        //public bool IsPurchaseAlreadyNotUsed(Guid? id)
+        //{
+        //    using(DatabaseContext db = new DatabaseContext())
+        //    {
+        //        return db.PurchaseRecords.Any(rec => rec.Id == id && rec.Usage_Date == null);
+        //    }
+        //}
+
+        public bool IsPurchaseExpired(Guid id, DateTime currentTime)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                var purchaseObject = db.PurchaseRecords.Where(rec => rec.Id == id).SingleOrDefault();
+                if (purchaseObject != null)
+                {
+                    if (purchaseObject.Usage_Exp_Date < currentTime)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
     }
 }

@@ -52,7 +52,6 @@ namespace ServiceLayer
                 {
                     PresenceOfExplicitContent = 0;
                 }
-                logic = new GeneralLogics();
                 SingleTrackDetail std = new SingleTrackDetail();
 
                 std.Id = logic.CreateUniqueId();
@@ -207,7 +206,6 @@ namespace ServiceLayer
                 {
                     PresenceOfExplicitContent = 0;
                 }
-                logic = new GeneralLogics();
                 SingleTrackDetail std = new SingleTrackDetail();
 
                 std.Id = logic.CreateUniqueId();
@@ -315,6 +313,108 @@ namespace ServiceLayer
             else
             {
                 //No album found with the provided Album Id
+                return 0;
+            }
+        }
+
+        public int CreateNewTrackForSolo(Guid purchaseId, string TrackTitle, string ArtistName, bool ArtistAlreadyInSpotify, string ArtistSpotifyUrl, DateTime ReleaseDate, string Genre, string CopyrightClaimerName, string AuthorName, string ComposerName, string ArrangerName, string ProducerName, bool AlreadyHaveAnISRC, string ISRC_Number, int PriceTier, bool ExplicitContent, bool IsTrackInstrumental, string LyricsLanguage, string TrackZipFileLink, string ArtWork_Link)
+        {
+            byte ArtistSpotifyAppearance = 1;
+            byte PresenceOfISRCnumber = 1;
+            byte PresenceOfExplicitContent = 1;
+            byte InstrumentalTrackPresence = 1;
+
+            if (ArtistAlreadyInSpotify == false)
+            {
+                ArtistSpotifyAppearance = 0;
+            }
+            if (AlreadyHaveAnISRC == false)
+            {
+                PresenceOfISRCnumber = 0;
+            }
+            if (IsTrackInstrumental == false)
+            {
+                InstrumentalTrackPresence = 0;
+            }
+            if (ExplicitContent == false)
+            {
+                PresenceOfExplicitContent = 0;
+            }
+            SingleTrackDetail std = new SingleTrackDetail();
+
+            std.Id = logic.CreateUniqueId();
+            std.TrackTitle = TrackTitle;
+            std.ArtistName = ArtistName;
+            std.ArtistAlreadyInSpotify = ArtistSpotifyAppearance;
+            std.ArtistSpotifyUrl = ArtistSpotifyUrl;
+            std.ReleaseDate = ReleaseDate;
+            std.Genre = Genre;
+            std.CopyrightClaimerName = CopyrightClaimerName;
+            std.AuthorName = AuthorName;
+            std.ComposerName = ComposerName;
+            std.ArrangerName = ArrangerName;
+            std.ProducerName = ProducerName;
+            std.AlreadyHaveAnISRC = PresenceOfISRCnumber;
+            std.ISRC_Number = ISRC_Number;
+            std.PriceTier = PriceTier;
+            std.ExplicitContent = PresenceOfExplicitContent;
+            std.IsTrackInstrumental = InstrumentalTrackPresence;
+            std.LyricsLanguage = LyricsLanguage;
+            std.TrackZipFileLink = TrackZipFileLink;
+            std.ArtworkFileLink = ArtWork_Link.Trim();
+
+            TrackQueriesCommands TrackCQ = new TrackQueriesCommands();
+            //add single track
+            var singleTrackSaveResult = TrackCQ.AddTrack(std);
+
+            if (singleTrackSaveResult == 1)
+            {
+                //Link track with the SoloMaster table. Work on albumtrackMaster table
+                SoloTrackMaster stm = new SoloTrackMaster();
+
+                stm.Id = logic.CreateUniqueId();
+                stm.Track_Id = std.Id;
+                stm.PurchaseTrack_RefNo = purchaseId;
+                stm.Submitted_At = logic.CurrentIndianTime();
+                stm.StoreSubmissionStatus = 0;
+
+                var stmSaveResult = TrackCQ.AddtoSoloTrackMaster(stm);
+
+                if (stmSaveResult == 1)
+                {
+                    PurchaseRecordQueriesCommands PurchaseCQ = new PurchaseRecordQueriesCommands();
+                    PurchaseRecord pr = PurchaseCQ.GetPurchaseRecordById(purchaseId);
+                    if (pr != null)
+                    {
+                        pr.Usage_Exp_Date = logic.CurrentIndianTime().AddHours(24);
+                        var purchaseEditResult = PurchaseCQ.UpdatePurchaseRecord(pr);
+                        if (purchaseEditResult == 1)
+                        {
+                            //purchase expire date set
+                            return 1;
+                        }
+                        else
+                        {
+                            //Error while setting the expire date
+                            return 4;
+                        }
+                    }
+                    else
+                    {
+                        //error while fetching the purchase record of the album
+                        return 3;
+                    }
+
+                }
+                else
+                {
+                    //Error occured while adding soloTrackMaster record
+                    return 2;
+                }
+            }
+            else
+            {
+                //Error occured while saving single track to the database
                 return 0;
             }
         }

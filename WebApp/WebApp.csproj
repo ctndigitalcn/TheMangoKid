@@ -350,6 +350,7 @@
     <Content Include="Views\Solo\EditTrack.cshtml" />
     <Content Include="Views\ExtendedPlay\DisplayEp.cshtml" />
     <Content Include="Views\Solo\AddTrackEp.cshtml" />
+    <Content Include="Views\Solo\AddTrackSolo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
