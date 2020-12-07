@@ -25,7 +25,19 @@ namespace WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "UserProfile");
+                if (User.IsInRole("superadmin"))
+                {
+                    return RedirectToAction("Index", "SuperAdmin");
+                }
+                else if (User.IsInRole("admin"))
+                {
+                    //Change it for Admin
+                    return RedirectToAction("Index", "UserProfile");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "UserProfile");
+                }
             }
             else
             {

@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "superadmin")]
     public class SuperAdminController : Controller
     {
-        // GET: SuperAdmin
+        [HttpGet]
         public ActionResult Index()
         {
             return View();

@@ -351,6 +351,7 @@
     <Content Include="Views\ExtendedPlay\DisplayEp.cshtml" />
     <Content Include="Views\Solo\AddTrackEp.cshtml" />
     <Content Include="Views\Solo\AddTrackSolo.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -362,7 +363,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminProfile\" />
     <Folder Include="Views\Payment\" />
-    <Folder Include="Views\SuperAdmin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

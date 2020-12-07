@@ -165,5 +165,13 @@ namespace ServiceLayer
                 return db.UserDetails.Find(accountObject.Id);
             }
         }
+
+        public bool IsSuperAdmin(string email)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                return db.Accounts.Any(account => account.Email == email.Trim().ToLower() && account.Role.Role_Name == "superadmin");
+            }
+        }
     }
 }

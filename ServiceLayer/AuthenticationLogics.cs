@@ -167,7 +167,11 @@ namespace ServiceLayer
                 return 0;
             }
         }
-
-
+        
+        public bool IsUserAdmin(string email)
+        {
+            AuthQueriesCommands authCQ = new AuthQueriesCommands();
+            return authCQ.IsSuperAdmin(email);
+        }
     }
 }
