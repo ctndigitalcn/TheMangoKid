@@ -31,8 +31,7 @@ namespace WebApp.Controllers
                 }
                 else if (User.IsInRole("admin"))
                 {
-                    //Change it for Admin
-                    return RedirectToAction("Index", "UserProfile");
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
