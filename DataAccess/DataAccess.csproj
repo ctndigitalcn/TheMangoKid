@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="Migrations\202009080749170_InitialMigration.cs" />
     <Compile Include="Migrations\202009080749170_InitialMigration.designer.cs">
       <DependentUpon>202009080749170_InitialMigration.cs</DependentUpon>

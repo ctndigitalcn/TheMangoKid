@@ -65,27 +65,36 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddTrackToSolo(Guid purchaseId)
+        public ActionResult AddTrackToSolo()
         {
             businessLogics = new BusinessLogics();
             string userEmail = Session["LoginEmail"].ToString();
-            if (userEmail != null && businessLogics.IsAccountContainsThisPurchase(userEmail, purchaseId))
+            //Get first unused purchaseId for the user to create solo
+            Guid? purchaseId = businessLogics.GetFirstPurchaseIdForSoloOf(userEmail);
+            if (purchaseId != null)
             {
-                if (!businessLogics.IsPurchaseExpired(purchaseId))
+                if (userEmail != null && businessLogics.IsAccountContainsThisPurchase(userEmail, purchaseId))
                 {
-                    ViewBag.PurchaseId = purchaseId;
-                    ViewBag.Title = "Add Track";
-                    return View("AddTrackSolo");
+                    if (!businessLogics.IsPurchaseExpired(purchaseId))
+                    {
+                        ViewBag.PurchaseId = purchaseId;
+                        ViewBag.Title = "Add Track";
+                        return View("AddTrackSolo");
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Your purchase has expired";
+                    }
+
                 }
                 else
                 {
-                    TempData["ErrorMsg"] = "Your purchase has expired";
+                    TempData["ErrorMsg"] = "You are trying to add an track to an Ep that doesn't belongs to you.";
                 }
-                
             }
             else
             {
-                TempData["ErrorMsg"] = "You are trying to add an track to an Ep that doesn't belongs to you.";
+                TempData["ErrorMsg"] = "You don't have any purchase record left to submit a solo track.";
             }
             return RedirectToAction("Index", "UserProfile");
 
@@ -516,6 +525,12 @@ namespace WebApp.Controllers
 
         [HttpGet]
         public ActionResult RemoveTrackFromAlbum(Guid albumId, Guid trackId)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult SoloTrackDetail(Guid trackId)
         {
             return View();
         }

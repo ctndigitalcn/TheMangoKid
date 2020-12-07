@@ -95,15 +95,24 @@
                                             </ul>
                                         </li>
                                         <!--For Solo-->
-                                        if (ViewBag.SoloCount > 0)
-                                        {
-                                            <li>
-                                                <a href="#">Solo</a>
-                                                <ul class="submenu">
+                                        <li>
+                                            <a href="#">Solo</a>
+                                            <ul class="submenu">
+                                                @if (ViewBag.SoloCount > 0)
+                                                {
                                                     <li>@Html.ActionLink("Create Solo", "AddTrackToSolo", "Solo")</li>
-                                                </ul>
-                                            </li>
-                                        }
+                                                }
+                                                @*@if (ViewBag.Solos != null)
+                                                {
+                                                    foreach (var solo in ViewBag.Solos)
+                                                    {
+                                                        <li>
+                                                            <a href="@Url.Action("SoloTrackDetail","Solo",new { trackId = solo.SingleTrackDetail.Id })">@solo.SingleTrackDetail.TrackTitle</a>
+                                                        </li>
+                                                    }
+                                                }*@
+                                            </ul>
+                                        </li>
 
                                         <li>@Html.ActionLink("Reset Password", "PasswordReset", "Authentication")</li>
                                         <li>@Html.ActionLink("Delete Account", "DeActivateAccount", "Authentication")</li>

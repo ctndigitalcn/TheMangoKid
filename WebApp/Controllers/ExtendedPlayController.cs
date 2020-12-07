@@ -65,8 +65,8 @@ namespace WebApp.Controllers
 
             List<string> inputStrings = new List<string> { epName, totalTrack };
 
-            //string userEmail = Session["LoginEmail"].ToString();
-            string userEmail = "koushik.official1999@gmail.com";
+            string userEmail = Session["LoginEmail"].ToString();
+            //string userEmail = "koushik.official1999@gmail.com";
             if (userEmail != null)
             {
                 if (!logics.ContainsAnyNullorWhiteSpace(inputStrings))

@@ -116,7 +116,7 @@ namespace ServiceLayer
             }
         }
 
-        public bool IsAccountContainsThisPurchase(string email, Guid purchaseId)
+        public bool IsAccountContainsThisPurchase(string email, Guid? purchaseId)
         {
             AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
             var accountObject = AuthCQ.GetAccountByEmail(email);
@@ -132,11 +132,26 @@ namespace ServiceLayer
             }
         }
 
-        public bool IsPurchaseExpired(Guid purchaseId)
+        public bool IsPurchaseExpired(Guid? purchaseId)
         {
             logic = new GeneralLogics();
             PurchaseRecordQueriesCommands prCQ = new PurchaseRecordQueriesCommands();
             return prCQ.IsPurchaseExpired(purchaseId, logic.CurrentIndianTime());
+        }
+
+        public Guid? GetFirstPurchaseIdForSoloOf(string email)
+        {
+            AuthQueriesCommands AuthCQ = new AuthQueriesCommands();
+            var accountObject = AuthCQ.GetAccountByEmail(email);
+            if (accountObject != null)
+            {
+                PurchaseRecordQueriesCommands prCQ = new PurchaseRecordQueriesCommands();
+                return prCQ.GetUnUsedSoloPurchaseRecordOf(accountObject).First().Id;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

@@ -105,30 +105,30 @@ namespace ServiceLayer
                            albumObject = AlbumCQ.GetAlbumById(albumId);
                            if (albumObject != null)
                            {
-                               if (albumObject.Submitted_Track == 1)
-                               {
-                                   PurchaseRecord pr = PurchaseCQ.GetPurchaseRecordById(albumObject.PurchaseTrack_RefNo);
-                                   if (pr != null)
-                                   {
-                                        pr.Usage_Exp_Date = logic.CurrentIndianTime().AddHours(24);
-                                        var purchaseEditResult = PurchaseCQ.UpdatePurchaseRecord(pr);
-                                        if (purchaseEditResult == 1)
-                                        {
-                                             //purchase expire date set
-                                             return 1;
-                                        }
-                                        else
-                                        {
-                                            //Error while setting the expire date
-                                            return 11;
-                                        }
-                                   }
-                                   else
-                                   {
-                                       //error while fetching the purchase record of the album
-                                       return 10;
-                                   }
-                               }
+                               //if (albumObject.Submitted_Track == 1)
+                               //{
+                                    //PurchaseRecord pr = PurchaseCQ.GetPurchaseRecordById(albumObject.PurchaseTrack_RefNo);
+                                    //if (pr != null)
+                                    //{
+                                    //     pr.Usage_Exp_Date = logic.CurrentIndianTime().AddHours(24);
+                                    //     var purchaseEditResult = PurchaseCQ.UpdatePurchaseRecord(pr);
+                                    //     if (purchaseEditResult == 1)
+                                    //     {
+                                    //          //purchase expire date set
+                                    //          return 1;
+                                    //     }
+                                    //     else
+                                    //     {
+                                    //         //Error while setting the expire date
+                                    //         return 11;
+                                    //     }
+                                    //}
+                                    //else
+                                    //{
+                                    //    //error while fetching the purchase record of the album
+                                    //    return 10;
+                                    //}
+                               //}
                                return 1;
                            }
                            else
@@ -341,7 +341,7 @@ namespace ServiceLayer
                 PresenceOfExplicitContent = 0;
             }
             SingleTrackDetail std = new SingleTrackDetail();
-
+            GeneralLogics logic = new GeneralLogics();
             std.Id = logic.CreateUniqueId();
             std.TrackTitle = TrackTitle;
             std.ArtistName = ArtistName;
@@ -386,6 +386,7 @@ namespace ServiceLayer
                     PurchaseRecord pr = PurchaseCQ.GetPurchaseRecordById(purchaseId);
                     if (pr != null)
                     {
+                        pr.Usage_Date = logic.CurrentIndianTime();
                         pr.Usage_Exp_Date = logic.CurrentIndianTime().AddHours(24);
                         var purchaseEditResult = PurchaseCQ.UpdatePurchaseRecord(pr);
                         if (purchaseEditResult == 1)

@@ -96,7 +96,7 @@ namespace ServiceLayer
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                return db.PurchaseRecords.Where(rec => rec.Account == accountObject).ToList();
+                return db.PurchaseRecords.Where(rec => rec.Account_Id == accountObject.Id).ToList();
             }
         }
 
@@ -188,7 +188,7 @@ namespace ServiceLayer
         //    }
         //}
 
-        public bool IsPurchaseExpired(Guid id, DateTime currentTime)
+        public bool IsPurchaseExpired(Guid? id, DateTime currentTime)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
