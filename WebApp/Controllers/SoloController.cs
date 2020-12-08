@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class SoloController : Controller
     {
         GeneralLogics logic;
@@ -530,9 +531,113 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult SoloTrackDetail(Guid trackId)
+        public ActionResult ShowSoloTrackDetail(Guid trackId)
         {
-            return View();
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail != null)
+            {
+                businessLogics = new BusinessLogics();
+                if (businessLogics.IsAccountContainsThisSolo(userEmail, trackId)||User.IsInRole("superadmin")|| User.IsInRole("admin"))
+                {
+                    ViewBag.Title = "Solo Details";
+
+                    var soloObject = businessLogics.GetTrackById(trackId);
+                    if (soloObject != null)
+                    {
+                        ViewBag.TrackDetail = soloObject;
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMsg = "No track found with the Id provided";
+                    }
+                    return View("ShowTrackDetail");
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "You are trying to view a track detail that does not belongs to you";
+                    return RedirectToAction("Index", "UserProfile");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ShowEpTrackDetail(Guid epId, Guid trackId)
+        {
+            string userEmail = Session["LoginEmail"].ToString();
+            if (userEmail != null)
+            {
+                businessLogics = new BusinessLogics();
+                var singlesOfThisEp = businessLogics.GetTrackDetailsOfEp(epId);
+                if ((businessLogics.IsAccountContainsThisEp(userEmail, epId) &&
+                    singlesOfThisEp.Any(solo=>solo.Id==trackId)) || 
+                    User.IsInRole("superadmin") || 
+                    User.IsInRole("admin"))
+                {
+                    ViewBag.TrackDetail = singlesOfThisEp.Where(track=>track.Id==trackId).SingleOrDefault();
+                    ViewBag.Category = "Extended Play";
+                    ViewBag.EpDetail = businessLogics.GetEpById(epId);
+                    return View("ShowTrackDetail");
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Something suspecious occured";
+                    return RedirectToAction("Index", "UserProfile");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ShowAlbumTrackDetail(Guid albumId, Guid trackId)
+        {
+            if (Session["LoginEmail"] != null)
+            {
+                string userEmail = Session["LoginEmail"].ToString();
+                businessLogics = new BusinessLogics();
+                var singlesOfThisAlbum = businessLogics.GetTrackDetailsOfAlbum(albumId);
+                if ((businessLogics.IsAccountContainsThisAlbum(userEmail, albumId) &&
+                    singlesOfThisAlbum.Any(solo => solo.Id == trackId)) ||
+                    User.IsInRole("superadmin") ||
+                    User.IsInRole("admin"))
+                {
+                    ViewBag.TrackDetail = singlesOfThisAlbum.Where(track => track.Id == trackId).SingleOrDefault();
+                    ViewBag.Category = "Album";
+                    ViewBag.AlbumDetail = businessLogics.GetAlbumById(albumId);
+                    return View("ShowTrackDetail");
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Something suspecious occured";
+                    return RedirectToAction("Index", "UserProfile");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "UserProfile");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="superadmin,admin")]
+        public ActionResult AssignISRCnumber(Guid trackId, string trackISRCnumber)
+        {
+            businessLogics = new BusinessLogics();
+            if (businessLogics.UpdateISRCNumberOfTrack(trackId, trackISRCnumber) == 1)
+            {
+                TempData["Msg"] = "Successfully ISRC number assigned for the track";
+            }
+            else
+            {
+                TempData["ErrorMsg"] = "Failed to assign ISRC number for the track. Error occured.";
+            }
+            return RedirectToAction("ShowSoloTrackDetail","Solo", new { trackId = trackId });
         }
     }
 }

@@ -87,7 +87,7 @@
                             <div class="serial">Submitted</div>
                             <div class="serial">Add Track</div>
                             <div class="serial">Edit</div>
-                            <div class="serial">Delete</div>
+                            @*<div class="serial">Delete</div>*@
                         </div>
                         @if (ViewBag.Albums != null)
                         {
@@ -108,13 +108,13 @@
                                     }
                                     @if (album.Submitted_Track > 0)
                                     {
-                                        <div class="serial"><p>Album properties can't be edited</p></div>
+                                        <div class="serial"><p>Album can't be edited</p></div>
                                     }
                                     else
                                     {
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyAlbum","Album",new { albumId = album.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
                                     }
-                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                    @*<div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>*@
                                 </div>
                             }
                         }
@@ -137,7 +137,7 @@
                             <div class="country">Submitted</div>
                             <div class="serial">Add Track</div>
                             <div class="serial">Edit</div>
-                            <div class="serial">Delete</div>
+                            @*<div class="serial">Delete</div>*@
                         </div>
                         @if (ViewBag.Eps != null)
                         {
@@ -158,13 +158,13 @@
                                     }
                                     @if (ep.Submitted_Track > 0)
                                     {
-                                        <div class="serial"><p>Ep properties can't be edited</p></div>
+                                        <div class="serial"><p>Ep can't be edited</p></div>
                                     }
                                     else
                                     {
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditOnlyEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
                                     }
-                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                    @*<div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteEp","ExtendedPlay",new { epId = ep.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>*@
                                 </div>
                             }
                         }
@@ -182,10 +182,10 @@
                     <div class="progress-table">
                         <div class="table-head">
                             <div class="serial"></div>
-                            <div class="country">Single's Name</div>
+                            <div class="country">Solo Title</div>
                             <div class="serial">Release</div>
                             <div class="serial">Status</div>
-                            <div class="serial">Edit</div>
+                            <div class="serial">View</div>
                             <div class="serial">Delete</div>
                         </div>
                         @if (ViewBag.Solos != null)
@@ -195,7 +195,7 @@
                     <div class="table-row">
                         <div class="serial"></div>
                         <div class="country">@solo.SingleTrackDetail.TrackTitle</div>
-                        <div class="serial">@solo.SingleTrackDetail.ReleaseDate</div>
+                        <div class="serial">@solo.SingleTrackDetail.ReleaseDate.ToString().Substring(0, 10)</div>
                         @if (solo.StoreSubmissionStatus == 0)
                         {
                             <div class="serial"><p>Pending</p></div>
@@ -205,14 +205,19 @@
                             <div class="serial"><p>Released</p></div>
                         }
 
-                        @if (solo.StoreSubmissionStatus == 0)
+                        @if (solo.StoreSubmissionStatus == 0 && solo.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
                         {
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackDetailsFromSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                        }
+                        else if (solo.StoreSubmissionStatus == 0 && solo.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
+                        {
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><p>Processed for stores</p></div>
                         }
                         else
                         {
-                            <div class="serial"><p>Submitted to the stores</p></div>
+                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><p>Submitted to the stores</p></div>
                         }
                     </div>

@@ -30,7 +30,7 @@
                             <div class="country">Track Name</div>
                             <div class="serial">Release Date</div>
                             <div class="serial">Status</div>
-                            <div class="serial">Edit</div>
+                            <div class="serial">View</div>
                             <div class="serial">Delete</div>
                         </div>
                         @if (ViewBag.details.Count > 0)
@@ -41,17 +41,23 @@
                                     <div class="serial"></div>
                                     <div class="country">@item.SingleTrackDetail.TrackTitle</div>
                                     <div class="serial">@item.SingleTrackDetail.ReleaseDate.ToString().Substring(0, 10)</div>
-                                    @if (item.StoreSubmissionStatus == 0)
+                                    @if (item.StoreSubmissionStatus == 0 && item.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
                                     {
                                         <div class="serial">Pending</div>
-                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForEp","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackForEp","Solo",new { epId = ViewBag.Ep.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
                                     }
                                     @if (item.StoreSubmissionStatus == 1)
                                     {
                                         <div class="serial">Submitted</div>
-                                        <div class="serial"><p>You can't edit this track</p></div>
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                                         <div class="serial"><p>You can't delete this track</p></div>
+                                    }
+                                    @if (item.StoreSubmissionStatus == 0 && item.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
+                                    {
+                                        <div class="serial">Pending</div>
+                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                                        <div class="serial"><p>Processed for stores</p></div>
                                     }
                                 </div>
                             }

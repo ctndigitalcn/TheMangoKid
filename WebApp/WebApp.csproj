@@ -352,7 +352,7 @@
     <Content Include="Views\Solo\AddTrackEp.cshtml" />
     <Content Include="Views\Solo\AddTrackSolo.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
-    <Content Include="Views\Solo\TrackDetail.cshtml" />
+    <Content Include="Views\Solo\ShowTrackDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

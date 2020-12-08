@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class ExtendedPlayController : Controller
     {
         BusinessLogics businessLogics;

@@ -558,5 +558,57 @@ namespace ServiceLayer
 
             return soloCQ.GetAllSolosOf(AuthCQ.GetAccountByEmail(email));
         }
+        public bool IsAccountContainsThisSolo(string email, Guid soloId)
+        {
+            SoloQueriesCommands soloCQ = new SoloQueriesCommands();
+            AuthQueriesCommands authCQ = new AuthQueriesCommands();
+            var account = authCQ.GetAccountByEmail(email.ToLower());
+            if (account == null)
+            {
+                return false;
+            }
+            var solos = soloCQ.GetAllSolosOf(account);
+            if (solos.Count > 0)
+            {
+                if (solos.Any(rec => rec.SingleTrackDetail.Id == soloId))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int UpdateISRCNumberOfTrack(Guid trackId, string trackISRCnumber)
+        {
+            var trackDetail = GetTrackById(trackId);
+            if (trackDetail != null)
+            {
+                trackDetail.ISRC_Number = trackISRCnumber;
+                TrackQueriesCommands trackCQ = new TrackQueriesCommands();
+                int updateTrackResult = trackCQ.UpdateTrack(trackDetail);
+                if (updateTrackResult == 1)
+                {
+                    //Successfully ISRC number assigned
+                    return 1;
+                }
+                else
+                {
+                    //Failed to assign ISRC number for the track
+                    return 0;
+                }
+            }
+            else
+            {
+                //Track doesn't exist
+                return 0;
+            }
+        }
     }
 }

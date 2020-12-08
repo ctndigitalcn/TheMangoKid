@@ -1,0 +1,136 @@
+﻿<div class="container">
+    <!--Show Album/Ep Details if available-->
+    @if (ViewBag.Category != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <blockquote class="generic-blockquote">
+                    <strong>This track belongs from an @ViewBag.Category .</strong>
+                    @if (ViewBag.EpDetail != null)
+                    {
+                        <h4><strong>Playlist Name: &nbsp;</strong>@ViewBag.EpDetail.Ep_Name</h4>
+                    }
+                    @if (ViewBag.AlbumDetail != null)
+                    {
+                        <h4><strong>Album Name: &nbsp;</strong>@ViewBag.AlbumDetail.Album_Name</h4>
+                    }
+                </blockquote>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-3 col-md-4">
+            @if (TempData["Msg"] != null)
+            {
+                <div class="mt-30 text-center">
+                    <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                </div>
+            }
+            <div class="row"><h3><strong>Track Name: </strong></h3></div>
+            <div class="row"><h3><strong>Artist Name: </strong></h3></div>
+            <div class="row"><h3><strong>Spotify Link: </strong></h3></div>
+            <div class="row"><h3><strong>Release Date: </strong></h3></div>
+            <div class="row"><h3><strong>Genre: </strong></h3></div>
+            <div class="row"><h3><strong>Copyright Claimer: </strong></h3></div>
+            <div class="row"><h3><strong>Author Name: </strong></h3></div>
+            <div class="row"><h3><strong>Composer Name: </strong></h3></div>
+            <div class="row"><h3><strong>Arranger Name: </strong></h3></div>
+            <div class="row"><h3><strong>Producer Name: </strong></h3></div>
+            <div class="row"><h3><strong>ISRC number: </strong></h3></div>
+            <div class="row"><h3><strong>Price of the track: </strong></h3></div>
+            <div class="row"><h3><strong>Presence of explicit content: </strong></h3></div>
+            <div class="row"><h3><strong>Is this track instrumental: </strong></h3></div>
+            <div class="row"><h3><strong>Lyrics language: </strong></h3></div>
+            <div class="row"><h3><strong>Downloadable link for track: </strong></h3></div>
+            <div class="row"><h3><strong>Downloadable link for artwork: </strong></h3></div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="row"> <h3>@ViewBag.TrackDetail.TrackTitle</h3> </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.ArtistName</h3>  </div>
+            @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ArtistSpotifyUrl))
+            {
+                <div class="row"> <h3>N/A</h3>  </div>
+            }
+            else
+            {
+                <div class="row"> <h3>@ViewBag.TrackDetail.ArtistSpotifyUrl</h3>  </div>
+            }
+            <div class="row"> <h3>@ViewBag.TrackDetail.ReleaseDate.ToString().Substring(0, 10)</h3> </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.Genre</h3>  </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.CopyrightClaimerName</h3>  </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.AuthorName</h3>  </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.ComposerName</h3>  </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.ArrangerName</h3>  </div>
+            <div class="row"> <h3>@ViewBag.TrackDetail.ProducerName</h3>  </div>
+            @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number))
+            {
+                <div class="row"> <h3>Not Available</h3>  </div>
+            }
+            else
+            {
+                <div class="row"> <h3>@ViewBag.TrackDetail.ISRC_Number</h3>  </div>
+            }
+            <div class="row"> <h3>@ViewBag.TrackDetail.PriceTier</h3>  </div>
+
+            @if (ViewBag.TrackDetail.ExplicitContent == 0)
+            {
+                <div class="row"> <h3>No</h3>  </div>
+            }
+            else
+            {
+                <div class="row"> <h3>Yes</h3>  </div>
+            }
+
+            @if (ViewBag.TrackDetail.IsTrackInstrumental == 0)
+            {
+                <div class="row"> <h3>No</h3> </div>
+
+                <div class="row"> <h3>@ViewBag.TrackDetail.LyricsLanguage</h3> </div>
+            }
+            else
+            {
+                <div class="row"> <h3>Yes</h3> </div>
+                <div class="row"> <h3>N/A</h3> </div>
+            }
+
+            <div class="row"> <h3><a href="@ViewBag.TrackDetail.TrackZipFileLink"> @ViewBag.TrackDetail.TrackZipFileLink </a></h3>  </div>
+            <div class="row"> <h3><a href="@ViewBag.TrackDetail.ArtworkFileLink"> @ViewBag.TrackDetail.ArtworkFileLink </a></h3>  </div>
+            <br />
+            <br />
+
+            @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")))
+            {
+                <form action="~/Solo/AssignISRCnumber" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="trackId" value="@ViewBag.TrackDetail.Id">
+                    <div class="mt-10">
+                        <input type="text" name="trackISRCnumber" placeholder="ISRC Number"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'ISRC Number'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-20 text-center">
+                        <button type="submit" class="genric-btn primary circle arrow">Save<span class="lnr lnr-arrow-right"></span></button>
+                    </div>
+                </form>
+            }
+            @if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")))
+            {
+
+            }
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <div class="mt-30 text-center">
+                    <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
+                </div>
+            }
+            @if (TempData["ErrorMsg"] != null)
+            {
+                <div class="mt-30 text-center">
+                    <h4 class="mb-20 text-center" style="color:red;">@TempData["ErrorMsg"]</h4>
+                </div>
+            }
+        </div>
+        <div class="col-lg-3 col-md-2"></div>
+    </div>
+</div>
