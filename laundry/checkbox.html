@@ -1,0 +1,43 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title> 
+			DOM Input defaultChecked disabled Property 
+		</title> 
+	</head> 
+	
+	<body style="text-align:center;"> 
+	
+		<h1 style="color:green;"> 
+			GeeksforGeeks 
+		</h1> 
+		
+		<h2>DOM Input Checkbox defaultChecked Property</h2> 
+		
+		<form id="myGeeks"> 
+		
+			<!-- Below input elements have attribute 
+				checked -->
+			<input type="checkbox" name="check" id="GFG"
+					value="1" Checked>Checked by default<br> 
+					
+			<input type="checkbox" name="check" value="2"> 
+					Not checked by default<br> 
+		</form><br> 
+		
+		<button onclick="myGeeks()"> 
+			Submit 
+		</button> 
+		
+		<p id="sudo" style="color:green;font-size:25px;"></p> 
+		
+		<!-- Script to return the Input Checkbox 
+			defaultChecked Property -->
+		<script> 
+			function myGeeks() { 
+				var g = document.getElementById("GFG").defaultChecked; 
+				document.getElementById("sudo").innerHTML = g; 
+			} 
+		</script> 
+	</body> 
+</html>							 

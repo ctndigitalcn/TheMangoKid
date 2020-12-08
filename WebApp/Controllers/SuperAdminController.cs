@@ -14,5 +14,17 @@ namespace WebApp.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ManageUsers()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ManageSupport()
+        {
+            return View();
+        }
     }
 }

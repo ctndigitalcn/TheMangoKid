@@ -192,30 +192,30 @@
                         {
                             foreach (var solo in ViewBag.Solos)
                             {
-                                <div class="table-row">
-                                    <div class="serial"></div>
-                                    <div class="country">@solo.SingleTrackDetail.TrackTitle</div>
-                                    <div class="serial">@solo.SingleTrackDetail.ReleaseDate</div>
-                                    @if (solo.StoreSubmissionStatus == 0)
-                                    {
-                                        <div class="serial"><p>Pending</p></div>
-                                    }
-                                    else
-                                    {
-                                        <div class="serial"><p>Released</p></div>
-                                    }
+                    <div class="table-row">
+                        <div class="serial"></div>
+                        <div class="country">@solo.SingleTrackDetail.TrackTitle</div>
+                        <div class="serial">@solo.SingleTrackDetail.ReleaseDate</div>
+                        @if (solo.StoreSubmissionStatus == 0)
+                        {
+                            <div class="serial"><p>Pending</p></div>
+                        }
+                        else
+                        {
+                            <div class="serial"><p>Released</p></div>
+                        }
 
-                                    @if (solo.StoreSubmissionStatus == 0)
-                                    {
-                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
-                                        <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackDetailsFromSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
-                                    }
-                                    else
-                                    {
-                                        <div class="serial"><p>Submitted to the stores</p></div>
-                                        <div class="serial"><p>Submitted to the stores</p></div>
-                                    }
-                                </div>
+                        @if (solo.StoreSubmissionStatus == 0)
+                        {
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackDetailsFromSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                        }
+                        else
+                        {
+                            <div class="serial"><p>Submitted to the stores</p></div>
+                            <div class="serial"><p>Submitted to the stores</p></div>
+                        }
+                    </div>
                             }
                         }
                     </div>
@@ -225,18 +225,4 @@
     </div>
 
 </div>
-
-    @*@if (ViewBag.BankAccountSubmissionStatus == 0)
-    {
-        <a href="@Url.Action("AddBankDetails","Bank")" style="color:blueviolet">Add Bank account</a>
-        <br />
-    }
-    else if (ViewBag.BankAccountSubmissionStatus == 1)
-    {
-        <p>Bank account already exists</p>
-    }
-    else
-    {
-        <p>Error occured</p>
-    }*@
 
