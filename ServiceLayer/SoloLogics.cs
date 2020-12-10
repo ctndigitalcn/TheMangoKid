@@ -88,7 +88,8 @@ namespace ServiceLayer
                    atm.Album_Id = albumId;
                    atm.Track_Id = std.Id;
                    atm.Submitted_At = logic.CurrentIndianTime();
-                   atm.StoreSubmissionStatus = 0;
+                    //Status = pending
+                   atm.StoreSubmissionStatus = 2;
 
                    var atmSaveResult = TrackCQ.AddtoAlbumTrackMaster(atm);
 
@@ -242,7 +243,8 @@ namespace ServiceLayer
                     etm.Ep_Id = epId;
                     etm.Track_Id = std.Id;
                     etm.Submitted_At = logic.CurrentIndianTime();
-                    etm.StoreSubmissionStatus = 0;
+                    //Status = pending
+                    etm.StoreSubmissionStatus = 2;
 
                     var etmSaveResult = TrackCQ.AddtoEpTrackMaster(etm);
 
@@ -376,7 +378,8 @@ namespace ServiceLayer
                 stm.Track_Id = std.Id;
                 stm.PurchaseTrack_RefNo = purchaseId;
                 stm.Submitted_At = logic.CurrentIndianTime();
-                stm.StoreSubmissionStatus = 0;
+                //Status = pending
+                stm.StoreSubmissionStatus = 2;
 
                 var stmSaveResult = TrackCQ.AddtoSoloTrackMaster(stm);
 
@@ -609,6 +612,12 @@ namespace ServiceLayer
                 //Track doesn't exist
                 return 0;
             }
+        }
+
+        public List<SoloTrackMaster> GetAllSolosWithTracks()
+        {
+            SoloQueriesCommands soloCQ = new SoloQueriesCommands();
+            return soloCQ.GetAllSolosWithTrackDetail();
         }
     }
 }

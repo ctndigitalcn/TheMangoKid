@@ -98,7 +98,7 @@
                         Album_Id = c.Guid(),
                         Track_Id = c.Guid(),
                         Submitted_At = c.DateTime(),
-                        StoreSubmissionStatus = c.Byte(),
+                        StoreSubmissionStatus = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.SingleTrackDetail", t => t.Track_Id, cascadeDelete: true)
@@ -141,7 +141,7 @@
                         Ep_Id = c.Guid(),
                         Track_Id = c.Guid(),
                         Submitted_At = c.DateTime(),
-                        StoreSubmissionStatus = c.Byte(),
+                        StoreSubmissionStatus = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.ExtendedPlay", t => t.Ep_Id, cascadeDelete: true)
@@ -172,7 +172,7 @@
                         Track_Id = c.Guid(),
                         PurchaseTrack_RefNo = c.Guid(),
                         Submitted_At = c.DateTime(),
-                        StoreSubmissionStatus = c.Byte(),
+                        StoreSubmissionStatus = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.SingleTrackDetail", t => t.Track_Id, cascadeDelete: true)

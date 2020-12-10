@@ -55,8 +55,6 @@ namespace DataAccess
                 context.UserDetails.Add(ud);
                 context.SaveChanges();
             }
-
-            //
         }
     }
 }

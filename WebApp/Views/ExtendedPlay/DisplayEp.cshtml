@@ -41,7 +41,7 @@
                                     <div class="serial"></div>
                                     <div class="country">@item.SingleTrackDetail.TrackTitle</div>
                                     <div class="serial">@item.SingleTrackDetail.ReleaseDate.ToString().Substring(0, 10)</div>
-                                    @if (item.StoreSubmissionStatus == 0 && item.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
+                                    @if (item.StoreSubmissionStatus == 2 && item.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
                                     {
                                         <div class="serial">Pending</div>
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
@@ -53,7 +53,7 @@
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                                         <div class="serial"><p>You can't delete this track</p></div>
                                     }
-                                    @if (item.StoreSubmissionStatus == 0 && item.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
+                                    @if (item.StoreSubmissionStatus == 2 && item.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
                                     {
                                         <div class="serial">Pending</div>
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowEpTrackDetail","Solo",new { epId = ViewBag.Ep.Id,trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>

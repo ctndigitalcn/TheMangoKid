@@ -16,7 +16,8 @@ namespace DomainModel
 
         public DateTime? Submitted_At { get; set; }
 
-        public byte? StoreSubmissionStatus { get; set; }
+        // 0 = rejected; 1 = submitted, 2 = pending
+        public int? StoreSubmissionStatus { get; set; }
 
         public virtual ExtendedPlay ExtendedPlay { get; set; }
 

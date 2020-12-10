@@ -18,6 +18,14 @@ namespace ServiceLayer
                 return db.SoloTrackMasters.Where(rec => rec.PurchaseRecord.Account_Id == account.Id && rec.PurchaseRecord.Purchased_Category.Equals("Solo", StringComparison.CurrentCultureIgnoreCase)).Include(rec => rec.SingleTrackDetail).ToList();
             }
         }
+
+        public List<SoloTrackMaster> GetAllSolosWithTrackDetail()
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.SoloTrackMasters.Include(rec => rec.SingleTrackDetail).ToList();
+            }
+        }
     }
 
 }

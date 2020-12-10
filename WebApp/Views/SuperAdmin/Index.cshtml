@@ -40,21 +40,21 @@
                     <div class="progress-table">
                         <div class="table-head">
                             <div class="serial"></div>
-                            <div class="country">Album Names</div>
-                            <div class="serial">Total</div>
-                            <div class="serial">Submitted</div>
-                            <div class="serial">View Tracks</div>
+                            <div class="country">Track Name</div>
+                            <div class="country">Artist Name</div>
+                            <div class="country">Album Name</div>
+                            <div class="serial">View</div>
                         </div>
-                        @if (ViewBag.Albums != null)
+                        @if (ViewBag.PendingAlbumsWithTrackDetail != null)
                         {
-                            foreach (var album in ViewBag.Albums)
+                            foreach (var album in ViewBag.PendingAlbumsWithTrackDetail)
                             {
                                 <div class="table-row">
                                     <div class="serial"></div>
-                                    <div class="country">@album.Album_Name</div>
-                                    <div class="serial">@album.Total_Track</div>
-                                    <div class="serial">@album.Submitted_Track</div>
-                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteAlbum","Album",new { albumId = album.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
+                                    <div class="country">@album.SingleTrackDetail.TrackTitle</div>
+                                    <div class="country">@album.SingleTrackDetail.ArtistName</div>
+                                    <div class="country">@album.Album.Album_Name</div>
+                                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new { albumId = album.Album.Id, trackId=album.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                                 </div>
                             }
                         }

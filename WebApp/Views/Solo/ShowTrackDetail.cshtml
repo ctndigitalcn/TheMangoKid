@@ -114,7 +114,7 @@
                     </div>
                 </form>
             }
-            @if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")))
+            @if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")) && (ViewBag.StoreStatus==0||ViewBag.StoreStatus==2))
             {
 
             }

@@ -84,9 +84,9 @@
                             <div class="serial"></div>
                             <div class="country">Album Names</div>
                             <div class="serial">Total</div>
-                            <div class="serial">Submitted</div>
+                            <div class="serial">Added</div>
                             <div class="serial">Add Track</div>
-                            <div class="serial">Edit</div>
+                            <div class="serial">Edit Detail</div>
                             @*<div class="serial">Delete</div>*@
                         </div>
                         @if (ViewBag.Albums != null)
@@ -133,10 +133,10 @@
                         <div class="table-head">
                             <div class="serial"></div>
                             <div class="country">EP Names</div>
-                            <div class="country">Total </div>
-                            <div class="country">Submitted</div>
+                            <div class="serial">Total </div>
+                            <div class="serial">Added</div>
                             <div class="serial">Add Track</div>
-                            <div class="serial">Edit</div>
+                            <div class="serial">Edit Detail</div>
                             @*<div class="serial">Delete</div>*@
                         </div>
                         @if (ViewBag.Eps != null)
@@ -146,8 +146,8 @@
                                 <div class="table-row">
                                     <div class="serial"></div>
                                     <div class="country">@ep.Ep_Name</div>
-                                    <div class="country">@ep.Total_Track</div>
-                                    <div class="country">@ep.Submitted_Track</div>
+                                    <div class="serial">@ep.Total_Track</div>
+                                    <div class="serial">@ep.Submitted_Track</div>
                                     @if (ep.Total_Track > ep.Submitted_Track)
                                     {
                                         <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("AddTrackToEp","Solo",new { epId = ep.Id })"><i class="fa fa-plus fa-3x" aria-hidden="true"></i></a></div>
@@ -196,29 +196,38 @@
                         <div class="serial"></div>
                         <div class="country">@solo.SingleTrackDetail.TrackTitle</div>
                         <div class="serial">@solo.SingleTrackDetail.ReleaseDate.ToString().Substring(0, 10)</div>
-                        @if (solo.StoreSubmissionStatus == 0)
+                        @if (solo.StoreSubmissionStatus == 2)
                         {
                             <div class="serial"><p>Pending</p></div>
                         }
-                        else
+                        else if (solo.StoreSubmissionStatus == 1)
                         {
                             <div class="serial"><p>Released</p></div>
                         }
+                        else
+                        {
+                            <div class="serial"><p>Rejected</p></div>
+                        }
 
-                        @if (solo.StoreSubmissionStatus == 0 && solo.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
+                        @if (solo.StoreSubmissionStatus == 2 && solo.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
                         {
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackDetailsFromSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
                         }
-                        else if (solo.StoreSubmissionStatus == 0 && solo.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
+                        else if (solo.StoreSubmissionStatus == 2 && solo.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
                         {
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><p>Processed for stores</p></div>
                         }
+                        else if (solo.StoreSubmissionStatus == 1)
+                        {
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><p>Submitted to the stores</p></div>
+                        }
                         else
                         {
-                    <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("EditTrackDetailsForSolo","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
-                            <div class="serial"><p>Submitted to the stores</p></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowSoloTrackDetail","Solo",new { trackId = @solo.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><p>Rejected</p></div>
                         }
                     </div>
                             }

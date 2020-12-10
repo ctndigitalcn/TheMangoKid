@@ -284,5 +284,11 @@ namespace ServiceLayer
                 return false;
             }
         }
+
+        public List<EpTrackMaster> GetAllEpsWithTracks()
+        {
+            EPQueriesCommands epCQ = new EPQueriesCommands();
+            return epCQ.GetAllEpsWithTrackDetail();
+        }
     }
 }

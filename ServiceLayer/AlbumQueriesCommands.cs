@@ -271,5 +271,13 @@ namespace ServiceLayer
                 }
             }
         }
+
+        public List<AlbumTrackMaster> GetAllAlbumsWithTrackDetail()
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                return db.AlbumTrackMasters.Include(rec => rec.SingleTrackDetail).Include(rec=>rec.Album).ToList();
+            }
+        }
     }
 }

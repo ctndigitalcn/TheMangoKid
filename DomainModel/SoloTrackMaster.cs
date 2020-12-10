@@ -16,7 +16,8 @@ namespace DomainModel
 
         public DateTime? Submitted_At { get; set; }
 
-        public byte? StoreSubmissionStatus { get; set; }
+        //1 = successfully submitted 0 = rejected 2 = pending
+        public int? StoreSubmissionStatus { get; set; }
 
         public virtual PurchaseRecord PurchaseRecord { get; set; }
 

@@ -263,5 +263,13 @@ namespace ServiceLayer
                 return db.EpTrackMasters.Where(rec => rec.Ep_Id == epId).Include(rec => rec.SingleTrackDetail).ToList();
             }
         }
+
+        public List<EpTrackMaster> GetAllEpsWithTrackDetail()
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return db.EpTrackMasters.Include(rec => rec.SingleTrackDetail).Include(rec=>rec.ExtendedPlay).ToList();
+            }
+        }
     }
 }
