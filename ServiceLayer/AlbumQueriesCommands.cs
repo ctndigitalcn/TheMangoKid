@@ -279,5 +279,25 @@ namespace ServiceLayer
                 return db.AlbumTrackMasters.Include(rec => rec.SingleTrackDetail).Include(rec=>rec.Album).ToList();
             }
         }
+
+        public int UpdateStoreSubmissionStatus(Guid albumId, Guid trackId, int statusCode)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    var data = db.AlbumTrackMasters.Where(rec => rec.Album_Id == albumId && rec.Track_Id == trackId).SingleOrDefault();
+                    data.StoreSubmissionStatus = statusCode;
+                    db.Entry(data).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    //Failed to update the status
+                    return 0;
+                }
+            }
+        }
     }
 }

@@ -531,7 +531,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult ShowSoloTrackDetail(Guid trackId)
+        public ActionResult ShowSoloTrackDetail(Guid trackId, int? StoreSubmissionStatus)
         {
             string userEmail = Session["LoginEmail"].ToString();
             if (userEmail != null)
@@ -545,6 +545,7 @@ namespace WebApp.Controllers
                     if (soloObject != null)
                     {
                         ViewBag.TrackDetail = soloObject;
+                        ViewBag.StoreSubmissionStatus = StoreSubmissionStatus;
                     }
                     else
                     {
@@ -565,7 +566,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult ShowEpTrackDetail(Guid epId, Guid trackId)
+        public ActionResult ShowEpTrackDetail(Guid epId, Guid trackId, int? StoreSubmissionStatus)
         {
             string userEmail = Session["LoginEmail"].ToString();
             if (userEmail != null)
@@ -580,6 +581,7 @@ namespace WebApp.Controllers
                     ViewBag.TrackDetail = singlesOfThisEp.Where(track=>track.Id==trackId).SingleOrDefault();
                     ViewBag.Category = "Extended Play";
                     ViewBag.EpDetail = businessLogics.GetEpById(epId);
+                    ViewBag.StoreSubmissionStatus = StoreSubmissionStatus;
                     return View("ShowTrackDetail");
                 }
                 else
@@ -595,7 +597,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult ShowAlbumTrackDetail(Guid albumId, Guid trackId)
+        public ActionResult ShowAlbumTrackDetail(Guid albumId, Guid trackId, int? StoreSubmissionStatus)
         {
             if (Session["LoginEmail"] != null)
             {
@@ -610,6 +612,7 @@ namespace WebApp.Controllers
                     ViewBag.TrackDetail = singlesOfThisAlbum.Where(track => track.Id == trackId).SingleOrDefault();
                     ViewBag.Category = "Album";
                     ViewBag.AlbumDetail = businessLogics.GetAlbumById(albumId);
+                    ViewBag.StoreSubmissionStatus = StoreSubmissionStatus;
                     return View("ShowTrackDetail");
                 }
                 else
@@ -637,7 +640,74 @@ namespace WebApp.Controllers
             {
                 TempData["ErrorMsg"] = "Failed to assign ISRC number for the track. Error occured.";
             }
-            return RedirectToAction("ShowSoloTrackDetail","Solo", new { trackId = trackId });
+
+            if (User.IsInRole("superadmin"))
+            {
+                return RedirectToAction("Index", "SuperAdmin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="superadmin,admin")]
+        public ActionResult UpdateStatusAlbumTrack(Guid albumId, Guid trackId, int storeSubmissionStatus)
+        {
+            businessLogics = new BusinessLogics();
+            if (businessLogics.UpdateStoreSubmissionStatusForAlbumTrack(albumId, trackId, storeSubmissionStatus) != 1)
+            {
+                TempData["ErrorMsg"] = "Status update failed. Try again.";
+            }
+
+            if (User.IsInRole("superadmin"))
+            {
+                return RedirectToAction("Index", "SuperAdmin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "superadmin,admin")]
+        public ActionResult UpdateStatusEpTrack(Guid epId, Guid trackId, int storeSubmissionStatus)
+        {
+            businessLogics = new BusinessLogics();
+            if (businessLogics.UpdateStoreSubmissionStatusForEpTrack(epId, trackId, storeSubmissionStatus) != 1)
+            {
+                TempData["ErrorMsg"] = "Status update failed. Try again.";
+            }
+            if (User.IsInRole("superadmin"))
+            {
+                return RedirectToAction("Index", "SuperAdmin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "superadmin,admin")]
+        public ActionResult UpdateStatusSoloTrack(Guid trackId, int storeSubmissionStatus)
+        {
+            businessLogics = new BusinessLogics();
+            if (businessLogics.UpdateStoreSubmissionStatusForSoloTrack(trackId, storeSubmissionStatus) != 1)
+            {
+                TempData["ErrorMsg"] = "Status update failed. Try again.";
+            }
+            if (User.IsInRole("superadmin"))
+            {
+                return RedirectToAction("Index", "SuperAdmin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
+            }
         }
     }
 }

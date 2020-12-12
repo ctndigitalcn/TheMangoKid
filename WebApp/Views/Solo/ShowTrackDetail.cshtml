@@ -19,86 +19,70 @@
         </div>
     }
     <div class="row">
-        <div class="col-lg-3 col-md-2"></div>
-        <div class="col-lg-3 col-md-4">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8">
             @if (TempData["Msg"] != null)
             {
                 <div class="mt-30 text-center">
                     <h4 class="mb-20 text-center" style="color:red;">@ViewBag.ErrorMsg</h4>
                 </div>
             }
-            <div class="row"><h3><strong>Track Name: </strong></h3></div>
-            <div class="row"><h3><strong>Artist Name: </strong></h3></div>
-            <div class="row"><h3><strong>Spotify Link: </strong></h3></div>
-            <div class="row"><h3><strong>Release Date: </strong></h3></div>
-            <div class="row"><h3><strong>Genre: </strong></h3></div>
-            <div class="row"><h3><strong>Copyright Claimer: </strong></h3></div>
-            <div class="row"><h3><strong>Author Name: </strong></h3></div>
-            <div class="row"><h3><strong>Composer Name: </strong></h3></div>
-            <div class="row"><h3><strong>Arranger Name: </strong></h3></div>
-            <div class="row"><h3><strong>Producer Name: </strong></h3></div>
-            <div class="row"><h3><strong>ISRC number: </strong></h3></div>
-            <div class="row"><h3><strong>Price of the track: </strong></h3></div>
-            <div class="row"><h3><strong>Presence of explicit content: </strong></h3></div>
-            <div class="row"><h3><strong>Is this track instrumental: </strong></h3></div>
-            <div class="row"><h3><strong>Lyrics language: </strong></h3></div>
-            <div class="row"><h3><strong>Downloadable link for track: </strong></h3></div>
-            <div class="row"><h3><strong>Downloadable link for artwork: </strong></h3></div>
-        </div>
-        <div class="col-lg-3 col-md-4">
-            <div class="row"> <h3>@ViewBag.TrackDetail.TrackTitle</h3> </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.ArtistName</h3>  </div>
+            <div class="row"><h3><strong>Track Name: &nbsp;</strong>@ViewBag.TrackDetail.TrackTitle</h3></div>
+
+            <div class="row"><h3><strong>Artist Name: &nbsp;</strong>@ViewBag.TrackDetail.ArtistName</h3></div>
+
             @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ArtistSpotifyUrl))
             {
-                <div class="row"> <h3>N/A</h3>  </div>
+                <div class="row"> <h3><strong>Spotify Link: &nbsp;</strong> N/A </h3>  </div>
             }
             else
             {
-                <div class="row"> <h3>@ViewBag.TrackDetail.ArtistSpotifyUrl</h3>  </div>
+                <div class="row"> <h3><strong>Spotify Link: &nbsp;</strong>@ViewBag.TrackDetail.ArtistSpotifyUrl</h3>  </div>
             }
-            <div class="row"> <h3>@ViewBag.TrackDetail.ReleaseDate.ToString().Substring(0, 10)</h3> </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.Genre</h3>  </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.CopyrightClaimerName</h3>  </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.AuthorName</h3>  </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.ComposerName</h3>  </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.ArrangerName</h3>  </div>
-            <div class="row"> <h3>@ViewBag.TrackDetail.ProducerName</h3>  </div>
+            <div class="row"><h3><strong>Release Date: &nbsp;</strong>@ViewBag.TrackDetail.ReleaseDate.ToString().Substring(0, 10)</h3></div>
+            <div class="row"><h3><strong>Genre: &nbsp;</strong>@ViewBag.TrackDetail.Genre</h3></div>
+            <div class="row"><h3><strong>Copyright Claimer: &nbsp;</strong>@ViewBag.TrackDetail.CopyrightClaimerName</h3></div>
+            <div class="row"><h3><strong>Author Name: &nbsp;</strong>@ViewBag.TrackDetail.AuthorName</h3></div>
+            <div class="row"><h3><strong>Composer Name: &nbsp;</strong>@ViewBag.TrackDetail.ComposerName</h3></div>
+            <div class="row"><h3><strong>Arranger Name: &nbsp;</strong>@ViewBag.TrackDetail.ArrangerName</h3></div>
+            <div class="row"><h3><strong>Producer Name: &nbsp;</strong>@ViewBag.TrackDetail.ProducerName</h3></div>
+
             @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number))
             {
-                <div class="row"> <h3>Not Available</h3>  </div>
+                <div class="row"> <h3><strong>ISRC number: &nbsp;</strong>Not Available</h3>  </div>
             }
             else
             {
-                <div class="row"> <h3>@ViewBag.TrackDetail.ISRC_Number</h3>  </div>
+                <div class="row"> <h3><strong>ISRC number: &nbsp;</strong>@ViewBag.TrackDetail.ISRC_Number</h3>  </div>
             }
-            <div class="row"> <h3>@ViewBag.TrackDetail.PriceTier</h3>  </div>
+
+            <div class="row"><h3><strong>Price of the track: &nbsp;</strong>@ViewBag.TrackDetail.PriceTier</h3></div>
 
             @if (ViewBag.TrackDetail.ExplicitContent == 0)
             {
-                <div class="row"> <h3>No</h3>  </div>
+                <div class="row"> <h3><strong>Presence of explicit content: &nbsp;</strong>No</h3>  </div>
             }
             else
             {
-                <div class="row"> <h3>Yes</h3>  </div>
+                <div class="row"> <h3><strong>Presence of explicit content: &nbsp;</strong>Yes</h3>  </div>
             }
 
             @if (ViewBag.TrackDetail.IsTrackInstrumental == 0)
             {
-                <div class="row"> <h3>No</h3> </div>
+                <div class="row"> <h3><strong>Is this track instrumental: &nbsp;</strong>No</h3> </div>
 
-                <div class="row"> <h3>@ViewBag.TrackDetail.LyricsLanguage</h3> </div>
+                <div class="row"> <h3><strong>Is this track instrumental: &nbsp;</strong>@ViewBag.TrackDetail.LyricsLanguage</h3> </div>
             }
             else
             {
-                <div class="row"> <h3>Yes</h3> </div>
-                <div class="row"> <h3>N/A</h3> </div>
+                <div class="row"> <h3><strong>Is this track instrumental: &nbsp;</strong>Yes</h3> </div>
+                <div class="row"> <h3><strong>Lyrics language: &nbsp;</strong>N/A</h3> </div>
             }
 
-            <div class="row"> <h3><a href="@ViewBag.TrackDetail.TrackZipFileLink"> @ViewBag.TrackDetail.TrackZipFileLink </a></h3>  </div>
-            <div class="row"> <h3><a href="@ViewBag.TrackDetail.ArtworkFileLink"> @ViewBag.TrackDetail.ArtworkFileLink </a></h3>  </div>
+            <div class="row"><h3><strong>Downloadable link for track: &nbsp;</strong><a href="@ViewBag.TrackDetail.TrackZipFileLink"> @ViewBag.TrackDetail.TrackZipFileLink </a></h3></div>
+            <div class="row"><h3><strong>Downloadable link for artwork: &nbsp;</strong><a href="@ViewBag.TrackDetail.ArtworkFileLink"> @ViewBag.TrackDetail.ArtworkFileLink </a></h3></div>
             <br />
             <br />
-
             @if (String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")))
             {
                 <form action="~/Solo/AssignISRCnumber" method="post">
@@ -114,10 +98,34 @@
                     </div>
                 </form>
             }
-            @if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) && (User.IsInRole("admin") || User.IsInRole("superadmin")) && (ViewBag.StoreStatus==0||ViewBag.StoreStatus==2))
-            {
 
+            @if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) &&
+                ViewBag.AlbumDetail != null &&
+                (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
+                ViewBag.StoreSubmissionStatus == 2)
+            {
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1})"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
             }
+            else if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) &&
+                ViewBag.EpDetail != null &&
+                (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
+                ViewBag.StoreSubmissionStatus != null &&
+                ViewBag.StoreSubmissionStatus == 2)
+            {
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+            }
+            else if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) &&
+                ViewBag.EpDetail == null && ViewBag.AlbumDetail == null &&
+                (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
+                ViewBag.StoreSubmissionStatus != null &&
+                ViewBag.StoreSubmissionStatus == 2)
+            {
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+            }
+
             @if (ViewBag.ErrorMsg != null)
             {
                 <div class="mt-30 text-center">
@@ -131,6 +139,6 @@
                 </div>
             }
         </div>
-        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-2 col-md-2"></div>
     </div>
 </div>

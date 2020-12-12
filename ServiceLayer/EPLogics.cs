@@ -290,5 +290,18 @@ namespace ServiceLayer
             EPQueriesCommands epCQ = new EPQueriesCommands();
             return epCQ.GetAllEpsWithTrackDetail();
         }
+
+        public int UpdateStoreSubmissionStatusForEpTrack(Guid epId, Guid trackId, int statusCode)
+        {
+            EPQueriesCommands epCQ = new EPQueriesCommands();
+            if (epCQ.UpdateStoreSubmissionStatus(epId, trackId, statusCode) == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

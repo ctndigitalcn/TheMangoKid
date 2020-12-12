@@ -271,5 +271,25 @@ namespace ServiceLayer
                 return db.EpTrackMasters.Include(rec => rec.SingleTrackDetail).Include(rec=>rec.ExtendedPlay).ToList();
             }
         }
+
+        public int UpdateStoreSubmissionStatus(Guid epId, Guid trackId, int statusCode)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    var data = db.EpTrackMasters.Where(rec => rec.Ep_Id == epId && rec.Track_Id == trackId).SingleOrDefault();
+                    data.StoreSubmissionStatus = statusCode;
+                    db.Entry(data).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    //Failed to update the status
+                    return 0;
+                }
+            }
+        }
     }
 }

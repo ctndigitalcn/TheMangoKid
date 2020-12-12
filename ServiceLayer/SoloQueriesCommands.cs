@@ -26,6 +26,26 @@ namespace ServiceLayer
                 return db.SoloTrackMasters.Include(rec => rec.SingleTrackDetail).ToList();
             }
         }
+
+        public int UpdateStoreSubmissionStatus(Guid trackId, int statusCode)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    var data = db.SoloTrackMasters.Where(rec => rec.Track_Id == trackId).SingleOrDefault();
+                    data.StoreSubmissionStatus = statusCode;
+                    db.Entry(data).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    //Failed to update the status
+                    return 0;
+                }
+            }
+        }
     }
 
 }

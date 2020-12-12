@@ -619,5 +619,18 @@ namespace ServiceLayer
             SoloQueriesCommands soloCQ = new SoloQueriesCommands();
             return soloCQ.GetAllSolosWithTrackDetail();
         }
+
+        public int UpdateStoreSubmissionStatusForSoloTrack(Guid trackId, int statusCode)
+        {
+            SoloQueriesCommands epCQ = new SoloQueriesCommands();
+            if (epCQ.UpdateStoreSubmissionStatus(trackId, statusCode) == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

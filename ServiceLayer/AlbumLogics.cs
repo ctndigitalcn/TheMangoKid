@@ -297,5 +297,19 @@ namespace ServiceLayer
             AlbumQueriesCommands albumCQ = new AlbumQueriesCommands();
             return albumCQ.GetAllAlbumsWithTrackDetail();
         }
+
+
+        public int UpdateStoreSubmissionStatusForAlbumTrack(Guid albumId, Guid trackId, int statusCode)
+        {
+            AlbumQueriesCommands albumCQ = new AlbumQueriesCommands();
+            if (albumCQ.UpdateStoreSubmissionStatus(albumId, trackId, statusCode) == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

@@ -44,19 +44,19 @@
                         @if (item.StoreSubmissionStatus == 2 && item.SingleTrackDetail.ReleaseDate > DateTime.Now.AddHours(24))
                         {
                             <div class="serial">Pending</div>
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {albumId = ViewBag.Album.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("DeleteTrackForAlbum","Solo",new { albumId = ViewBag.Album.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a></div>
                         }
                         @if (item.StoreSubmissionStatus == 1)
                         {
                             <div class="serial">Submitted</div>
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {albumId = ViewBag.Album.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><p>You can't delete this track</p></div>
                         }
                         @if (item.StoreSubmissionStatus == 2 && item.SingleTrackDetail.ReleaseDate < DateTime.Now.AddHours(24))
                         {
                             <div class="serial">Pending</div>
-                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
+                            <div class="serial"><a class="genric-btn default circle arrow" href="@Url.Action("ShowAlbumTrackDetail","Solo",new {albumId = ViewBag.Album.Id, trackId = item.SingleTrackDetail.Id })"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a></div>
                             <div class="serial"><p>Processed for stores</p></div>
                         }
                     </div>
