@@ -104,8 +104,10 @@
                 (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
                 ViewBag.StoreSubmissionStatus == 2)
             {
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1})"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                <div class="mt-20 text-center">
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1})"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusAlbumTrack","Solo",new {albumId = ViewBag.AlbumDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                </div>
             }
             else if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) &&
                 ViewBag.EpDetail != null &&
@@ -113,17 +115,23 @@
                 ViewBag.StoreSubmissionStatus != null &&
                 ViewBag.StoreSubmissionStatus == 2)
             {
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                <div class="mt-20 text-center">
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusEpTrack","Solo",new {epId = ViewBag.EpDetail.Id, trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                </div>
+
             }
             else if (!String.IsNullOrWhiteSpace(ViewBag.TrackDetail.ISRC_Number) &&
-                ViewBag.EpDetail == null && ViewBag.AlbumDetail == null &&
-                (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
-                ViewBag.StoreSubmissionStatus != null &&
-                ViewBag.StoreSubmissionStatus == 2)
+            ViewBag.EpDetail == null && ViewBag.AlbumDetail == null &&
+            (User.IsInRole("admin") || User.IsInRole("superadmin")) &&
+            ViewBag.StoreSubmissionStatus != null &&
+            ViewBag.StoreSubmissionStatus == 2)
             {
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
-                <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                <div class="mt-20 text-center">
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 1 })"><i class="fa fa-check fa-3x" aria-hidden="true"></i></a>
+                    <a class="genric-btn default circle arrow" href="@Url.Action("UpdateStatusSoloTrack","Solo",new {trackId = ViewBag.TrackDetail.Id, storeSubmissionStatus = 0 })"><i class="fa fa-ban fa-3x" aria-hidden="true"></i></a>
+                </div>
+
             }
 
             @if (ViewBag.ErrorMsg != null)
@@ -139,6 +147,6 @@
                 </div>
             }
         </div>
-        <div class="col-lg-2 col-md-2"></div>
-    </div>
+                <div class="col-lg-2 col-md-2"></div>
+            </div>
 </div>
